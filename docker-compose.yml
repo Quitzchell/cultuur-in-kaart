@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:8000"

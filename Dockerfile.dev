@@ -1,0 +1,46 @@
+# Use a PHP base image
+FROM php:8.3-fpm-alpine3.19 AS base
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Install dependencies
+RUN apk add --no-cache curl
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Move composer.phar to /usr/bin/composer
+RUN mv /usr/local/bin/composer /usr/bin/
+
+# Use a separate stage for the application
+FROM php:8.3-fpm-alpine3.19
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy necessary files from the composer stage including composer
+COPY --from=base /usr/bin/composer /usr/bin/
+
+# Install Node.js, npm, and Git
+RUN apk add --no-cache  \
+    nodejs \
+    npm \
+    git \
+    icu-dev \
+    libintl-dev \
+    libzip-dev
+
+# Install required PHP extensions
+RUN docker-php-ext-install  \
+    pdo \
+    pdo_mysql \
+    mysqli \
+    intl \
+    zip \
+    bcmath
+
+# Copy the rest of the application files
+COPY --from=base /var/www/html .
+
+EXPOSE 8080
