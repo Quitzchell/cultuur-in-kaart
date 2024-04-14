@@ -25,6 +25,11 @@ class Activity extends Model
     }
 
     public function project(): HasOne
+    public function partners(): BelongsToMany
+    {
+        return $this->belongsToMany(Partner::class);
+    }
+
     {
         return $this->belongsTo(Project::class);
     }
