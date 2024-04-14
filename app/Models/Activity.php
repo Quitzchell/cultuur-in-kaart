@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -13,7 +14,7 @@ class Activity extends Model
     use HasFactory;
 
     /* Relations */
-    public function tasks(): HasOne
+    public function task(): HasOne
     {
         return $this->hasOne(Task::class);
     }
@@ -25,6 +26,6 @@ class Activity extends Model
 
     public function project(): HasOne
     {
-        return $this->hasOne(Project::class);
+        return $this->belongsTo(Project::class);
     }
 }

@@ -29,7 +29,9 @@ class ActivityResource extends Resource
                 Forms\Components\DatePicker::make('date')
                     ->required(),
                 Forms\Components\Select::make('task')
-                    ->relationship('tasks', 'name'),
+                    ->relationship('task', 'name'),
+                Forms\Components\Select::make('project')
+                    ->relationship('project', 'name'),
                 Forms\Components\Textarea::make('comment')
                     ->columnSpanFull(),
             ]);
