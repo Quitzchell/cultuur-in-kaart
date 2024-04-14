@@ -38,7 +38,7 @@ class ActivityResource extends Resource
                     ->preload()
                     ->searchable(['name']),
                 Forms\Components\Textarea::make('comment')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
             ]);
     }
 

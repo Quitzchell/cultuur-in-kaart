@@ -24,12 +24,12 @@ class Activity extends Model
         return $this->hasMany(ContactPerson::class);
     }
 
-    public function project(): HasOne
     public function partners(): BelongsToMany
     {
         return $this->belongsToMany(Partner::class);
     }
 
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
