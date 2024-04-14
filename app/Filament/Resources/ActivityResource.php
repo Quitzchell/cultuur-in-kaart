@@ -28,11 +28,11 @@ class ActivityResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('date')
                     ->required(),
-                Forms\Components\Select::make('task')
+                Forms\Components\Select::make('task_id')
                     ->relationship('task', 'name'),
-                Forms\Components\Select::make('project')
+                Forms\Components\Select::make('project_id')
                     ->relationship('project', 'name'),
-                Forms\Components\Select::make('partners')
+                Forms\Components\Select::make('partners_id')
                     ->relationship('partners', 'name')
                     ->multiple()
                     ->preload()
