@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('emoji_unicode');
+            $table->string('emoji_unicode')->nullable();
             $table->timestamps();
         });
     }

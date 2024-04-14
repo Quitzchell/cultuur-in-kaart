@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
+            TaskSeeder::class,
         ]);
 
         if (app()->environment() !== 'production') {
