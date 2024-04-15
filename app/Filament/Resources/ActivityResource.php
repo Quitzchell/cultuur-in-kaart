@@ -29,12 +29,20 @@ class ActivityResource extends Resource
                 Forms\Components\DatePicker::make('date')
                     ->required(),
                 Forms\Components\Select::make('task_id')
-                    ->relationship('task', 'name'),
+                    ->relationship('task', 'name')
+                    ->required(),
                 Forms\Components\Select::make('project_id')
-                    ->relationship('project', 'name'),
+                    ->relationship('project', 'name')
+                    ->preload()
+                    ->searchable(['name']),
                 Forms\Components\Select::make('partners_id')
                     ->relationship('partners', 'name')
                     ->multiple()
+                    ->preload()
+                    ->searchable(['name']),
+                Forms\Components\Select::make('contact_person_id')
+                    ->relationship('contactPerson', 'name')
+                    ->nullable()
                     ->preload()
                     ->searchable(['name']),
                 Forms\Components\Textarea::make('comment')

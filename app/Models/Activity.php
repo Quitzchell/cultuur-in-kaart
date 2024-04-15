@@ -19,9 +19,9 @@ class Activity extends Model
         return $this->hasOne(Task::class);
     }
 
-    public function contactPeople(): HasMany
+    public function contactPerson(): BelongsTo
     {
-        return $this->hasMany(ContactPerson::class);
+        return $this->belongsTo(ContactPerson::class);
     }
 
     public function partners(): BelongsToMany
