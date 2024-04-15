@@ -14,14 +14,14 @@ class Activity extends Model
     use HasFactory;
 
     /* Relations */
-    public function task(): BelongsTo
-    {
-        return $this->belongsTo(Task::class);
-    }
-
     public function contactPerson(): BelongsTo
     {
         return $this->belongsTo(ContactPerson::class);
+    }
+
+    public function neighborhood(): BelongsTo
+    {
+        return $this->belongsTo(Neighbourhood::class);
     }
 
     public function partners(): BelongsToMany
@@ -32,5 +32,10 @@ class Activity extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class);
     }
 }
