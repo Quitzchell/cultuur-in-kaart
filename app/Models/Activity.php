@@ -14,9 +14,9 @@ class Activity extends Model
     use HasFactory;
 
     /* Relations */
-    public function task(): HasOne
+    public function task(): BelongsTo
     {
-        return $this->hasOne(Task::class);
+        return $this->belongsTo(Task::class);
     }
 
     public function contactPerson(): BelongsTo
