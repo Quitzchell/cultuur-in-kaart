@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Employee;
 use App\Models\Coordinator;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Database\Factories\EmployeeFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             TaskSeeder::class,
+            NeighbourhoodSeeder::class,
         ]);
 
         if (app()->environment() !== 'production') {
