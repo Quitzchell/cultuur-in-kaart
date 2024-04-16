@@ -19,7 +19,7 @@ class Activity extends Model
         return $this->belongsTo(ContactPerson::class);
     }
 
-    public function neighborhood(): BelongsTo
+    public function neighbourhood(): BelongsTo
     {
         return $this->belongsTo(Neighbourhood::class);
     }
