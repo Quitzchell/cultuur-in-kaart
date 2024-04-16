@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ContactPerson;
+use App\Models\Neighbourhood;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +22,7 @@ return new class extends Migration {
             $table->foreignIdFor(Task::class)->nullable();
             $table->foreignIdFor(ContactPerson::class)->nullable();
             $table->foreignIdFor(Project::class)->nullable();
+            $table->foreignIdFor(Neighbourhood::class)->nullable();
             $table->timestamps();
         });
     }
