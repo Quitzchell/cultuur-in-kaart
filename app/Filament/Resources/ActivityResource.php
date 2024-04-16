@@ -24,33 +24,51 @@ class ActivityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('date')
-                    ->required(),
-                Forms\Components\Select::make('task_id')
-                    ->relationship('task', 'name')
-                    ->required(),
-                Forms\Components\Select::make('project_id')
-                    ->relationship('project', 'name')
-                    ->preload()
-                    ->searchable(['name']),
-                Forms\Components\Select::make('partners_id')
-                    ->relationship('partners', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable(['name']),
-                Forms\Components\Select::make('contact_person_id')
-                    ->relationship('contactPerson', 'name')
-                    ->preload()
-                    ->searchable(['name']),
-                Forms\Components\Select::make('neighbourhood_id')
-                    ->relationship('neighbourhood', 'name')
-                    ->preload()
-                    ->searchable(['name']),
-                Forms\Components\Textarea::make('comment')
-                    ->columnSpanFull()
+                Forms\Components\Section::make('Algemeen')->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Naam')
+                        ->required()
+                        ->maxLength(255)
+                        ->columnSpanFull(),
+                    Forms\Components\DatePicker::make('date')
+                        ->label('Datum')
+                        ->required(),
+                    Forms\Components\Select::make('task_id')
+                        ->label('Taak')
+                        ->relationship('task', 'name')
+                        ->required(),
+                ])->columns(),
+
+                Forms\Components\Section::make('Project Information')->schema([
+                    Forms\Components\Select::make('project_id')
+                        ->label('Project')
+                        ->relationship('project', 'name')
+                        ->preload()
+                        ->searchable(['name']),
+                    Forms\Components\Select::make('partners_id')
+                        ->label('Partner')
+                        ->relationship('partners', 'name')
+                        ->multiple()
+                        ->preload()
+                        ->searchable(['name']),
+                    Forms\Components\Select::make('contact_person_id')
+                        ->label('Contact Persoon')
+                        ->relationship('contactPerson', 'name')
+                        ->preload()
+                        ->searchable(['name']),
+
+                    Forms\Components\Select::make('neighbourhood_id')
+                        ->label('Wijk')
+                        ->relationship('neighbourhood', 'name')
+                        ->preload()
+                        ->searchable(['name']),
+                ])->columns(),
+
+                Forms\Components\Section::make('Opmerkingen')->schema([
+                    Forms\Components\Textarea::make('comment')
+                        ->label('')
+                        ->columnSpanFull()
+                ])
             ]);
     }
 
