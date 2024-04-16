@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -42,7 +43,10 @@ class ActivityResource extends Resource
                     ->searchable(['name']),
                 Forms\Components\Select::make('contact_person_id')
                     ->relationship('contactPerson', 'name')
-                    ->nullable()
+                    ->preload()
+                    ->searchable(['name']),
+                Forms\Components\Select::make('neighbourhood_id')
+                    ->relationship('neighbourhood', 'name')
                     ->preload()
                     ->searchable(['name']),
                 Forms\Components\Textarea::make('comment')
