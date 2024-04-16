@@ -58,23 +58,31 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('date')
-                    ->date()
+                    ->label('Datum')
+                    ->date('d-m-Y')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Activiteit')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('project.name')
+                    ->label('Project'),
+                Tables\Columns\TextColumn::make('task.name')
+                    ->label('Taak'),
+                Tables\Columns\TextColumn::make('neighbourhood.name')
+                    ->label('Wijk'),
             ])
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('project.name')
+                    ->relationship('project', 'name')
+                    ->multiple()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('neighbourhood.name')
+                    ->label('Wijk')
+                    ->relationship('neighbourhood', 'name')
+                    ->multiple()
+                    ->preload()
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
