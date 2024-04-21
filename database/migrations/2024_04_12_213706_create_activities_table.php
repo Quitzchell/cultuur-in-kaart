@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->foreignIdFor(Task::class)->nullable();
             $table->foreignIdFor(ContactPerson::class)->nullable();
             $table->foreignIdFor(Project::class)->nullable();
-            $table->foreignIdFor(Neighbourhood::class)->nullable();
             $table->timestamps();
         });
     }
