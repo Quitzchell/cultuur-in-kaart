@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\ProjectActivityResource\RelationManagers\ActivitiesRelationManager;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
@@ -33,6 +34,17 @@ class ProjectResource extends Resource
                     ->numeric(),
                 Forms\Components\DatePicker::make('start_date'),
                 Forms\Components\DatePicker::make('end_date'),
+                Forms\Components\Select::make('primary_coordinator_id')
+                    ->relationship('primaryCoordinator', 'name')
+                    ->label('Primaire Coördinator')
+                    ->required()
+                    ->preload()
+                    ->searchable(['name']),
+                Forms\Components\Select::make('coordinator_id')
+                    ->relationship('coordinators', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->label('Coördinatoren')
             ]);
     }
 
@@ -68,7 +80,7 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ActivitiesRelationManager::class
         ];
     }
 
