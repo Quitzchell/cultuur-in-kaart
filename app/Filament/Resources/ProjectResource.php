@@ -82,7 +82,7 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ActivitiesRelationManager::class
+            ProjectActivitiesRelationManager::class
         ];
     }
 
