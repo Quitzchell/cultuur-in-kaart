@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Coordinator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('project_number');
+            $table->foreignIdFor(Coordinator::class, 'primary_coordinator_id')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->float('budget_spend')->nullable();
