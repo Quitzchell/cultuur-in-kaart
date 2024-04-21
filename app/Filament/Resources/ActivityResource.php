@@ -138,11 +138,8 @@ class ActivityResource extends Resource
                     ->label('Wijken'),
             ])
             ->filters([
-                SelectFilter::make('project.name')
-                    ->relationship('project', 'name')
-                    ->multiple()
-                    ->preload(),
-            ], layout: FiltersLayout::AboveContentCollapsible)
+                //
+            ])
             ->actions([
                 ViewAction::make()
                     ->label(''),
