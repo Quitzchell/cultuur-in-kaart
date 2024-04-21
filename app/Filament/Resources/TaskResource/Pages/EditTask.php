@@ -13,7 +13,16 @@ class EditTask extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            $this->getCancelFormAction()
+                ->label('Terug'),
             Actions\DeleteAction::make(),
+            $this->getSaveFormAction()
+                ->label('Opslaan'),
         ];
+    }
+
+    protected function getFormActions(): array
+    {
+        return [];
     }
 }
