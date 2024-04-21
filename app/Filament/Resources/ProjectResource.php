@@ -2,17 +2,14 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProjectActivityResource\RelationManagers\ActivitiesRelationManager;
 use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Filament\Resources\ProjectResource\RelationManagers\ProjectActivitiesRelationManager;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProjectResource extends Resource
 {
@@ -46,6 +43,10 @@ class ProjectResource extends Resource
                     ->required()
                     ->preload()
                     ->searchable(['name']),
+                Forms\Components\TextInput::make('budget_spend')
+                    ->label('Besteed budget')
+                    ->prefix('€')
+                    ->numeric()
             ]);
     }
 
