@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\ProjectActivityResource\RelationManagers;
+namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ActivitiesRelationManager extends RelationManager
+class ProjectActivitiesRelationManager extends RelationManager
 {
     protected static string $relationship = 'activities';
 
@@ -35,7 +32,8 @@ class ActivitiesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('task.name')
                     ->label('Taak'),
                 Tables\Columns\TextColumn::make('partners.name')
-                    ->label('Partner(s)'),
+                    ->label('Partner(s)')
+                    ->default('-'),
             ])
             ->filters([
                 //
