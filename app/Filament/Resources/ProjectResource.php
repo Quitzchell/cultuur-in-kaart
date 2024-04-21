@@ -24,18 +24,24 @@ class ProjectResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Naam')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('project_number')
+                    ->label('Projectnummer')
                     ->required()
                     ->numeric(),
-                Forms\Components\DatePicker::make('start_date'),
-                Forms\Components\DatePicker::make('end_date'),
+                Forms\Components\DatePicker::make('start_date')
+                    ->label('Startdatum')
+                    ->required(),
+                Forms\Components\DatePicker::make('end_date')
+                    ->label('Einddatum'),
                 Forms\Components\Select::make('coordinator_id')
                     ->relationship('coordinators', 'name')
+                    ->label('Coördinatoren')
+                    ->required()
                     ->multiple()
-                    ->preload()
-                    ->label('Coördinatoren'),
+                    ->preload(),
                 // todo: make selectable related on selected coordinators
                 Forms\Components\Select::make('primary_coordinator_id')
                     ->relationship('primaryCoordinator', 'name')
@@ -46,6 +52,7 @@ class ProjectResource extends Resource
                 Forms\Components\TextInput::make('budget_spend')
                     ->label('Besteed budget')
                     ->prefix('€')
+                    ->rules('decimal:0,2')
                     ->numeric()
             ]);
     }
