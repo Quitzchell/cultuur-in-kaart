@@ -20,13 +20,13 @@ class EditCoordinator extends EditRecord
                 ->label('Terug'),
             Actions\DeleteAction::make()
                 ->hidden(Auth::user()->getKey() === $this->getRecord()->getKey()),
-            $this->getSaveFormAction()
-                ->label('Opslaan'),
         ];
     }
 
     protected function getFormActions(): array
     {
-        return [];
+        return [
+            $this->getSaveFormAction()
+        ];
     }
 }

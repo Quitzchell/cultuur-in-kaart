@@ -18,13 +18,14 @@ class EditActivity extends EditRecord
             $this->getCancelFormAction()
                 ->label('Terug'),
             Actions\DeleteAction::make(),
-            $this->getSaveFormAction()
-                ->label('Opslaan'),
+
         ];
     }
 
     protected function getFormActions(): array
     {
-        return [];
+        return [
+            $this->getSaveFormAction()
+        ];
     }
 }
