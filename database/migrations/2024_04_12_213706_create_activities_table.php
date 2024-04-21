@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\ContactPerson;
-use App\Models\Neighbourhood;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Migrations\Migration;
