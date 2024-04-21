@@ -10,6 +10,8 @@ class EditPartner extends EditRecord
 {
     protected static string $resource = PartnerResource::class;
 
+    protected static ?string $title = 'Partner bewerken';
+
     protected function getHeaderActions(): array
     {
         return [

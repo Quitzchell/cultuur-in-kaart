@@ -4,9 +4,23 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
+use App\Infolists\Components\RelationshipTable;
 use App\Models\Activity;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section as InfoSection;
+use Filament\Infolists\Components\TextEntry as InfoTextEntry;
+use Filament\Forms\Components\Section as FormSection;
+use Filament\Forms\Components\TextInput as FormTextInput;
+use Filament\Forms\Components\Textarea as FormTextArea;
+use Filament\Forms\Components\Select as FormSelect;
+use Filament\Forms\Components\DatePicker as DatePicker;
+use Filament\Infolists\Components\ViewEntry;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
@@ -20,52 +34,53 @@ class ActivityResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Activiteiten';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Algemeen')->schema([
-                    Forms\Components\TextInput::make('name')
+                FormSection::make('Algemeen')->schema([
+                    FormTextInput::make('name')
                         ->label('Naam')
                         ->required()
                         ->maxLength(255)
                         ->columnSpanFull(),
-                    Forms\Components\DatePicker::make('date')
+                    DatePicker::make('date')
                         ->label('Datum')
                         ->required(),
-                    Forms\Components\Select::make('task_id')
+                    FormSelect::make('task_id')
                         ->label('Taak')
                         ->relationship('task', 'name')
                         ->required(),
                 ])->columns(),
 
-                Forms\Components\Section::make('Project Information')->schema([
-                    Forms\Components\Select::make('project_id')
+                FormSection::make('Project Information')->schema([
+                    FormSelect::make('project_id')
                         ->label('Project')
                         ->relationship('project', 'name')
                         ->preload()
                         ->searchable(['name']),
-                    Forms\Components\Select::make('partners_id')
+                    FormSelect::make('partners_id')
                         ->label('Partner')
                         ->relationship('partners', 'name')
                         ->multiple()
                         ->preload()
                         ->searchable(['name']),
-                    Forms\Components\Select::make('contact_person_id')
+                    FormSelect::make('contact_person_id')
                         ->label('Contact Persoon')
                         ->relationship('contactPerson', 'name')
                         ->preload()
                         ->searchable(['name']),
 
-                    Forms\Components\Select::make('neighbourhood_id')
+                    FormSelect::make('neighbourhood_id')
                         ->label('Wijk')
                         ->relationship('neighbourhood', 'name')
                         ->preload()
                         ->searchable(['name']),
                 ])->columns(),
 
-                Forms\Components\Section::make('Opmerkingen')->schema([
-                    Forms\Components\Textarea::make('comment')
+                FormSection::make('Opmerkingen')->schema([
+                    FormTextArea::make('comment')
                         ->label('')
                         ->columnSpanFull()
                 ])
@@ -76,33 +91,34 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('date')
                     ->label('Datum')
                     ->date('d-m-Y')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Activiteit')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('project.name')
+                TextColumn::make('project.name')
                     ->label('Project'),
-                Tables\Columns\TextColumn::make('task.name')
+                TextColumn::make('task.name')
                     ->label('Taak'),
-                Tables\Columns\TextColumn::make('neighbourhood.name')
+                TextColumn::make('neighbourhood.name')
                     ->label('Wijk'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('project.name')
+                SelectFilter::make('project.name')
                     ->relationship('project', 'name')
                     ->multiple()
                     ->preload(),
-                Tables\Filters\SelectFilter::make('neighbourhood.name')
+                SelectFilter::make('neighbourhood.name')
                     ->label('Wijk')
                     ->relationship('neighbourhood', 'name')
                     ->multiple()
                     ->preload()
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ViewAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -114,8 +130,36 @@ class ActivityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ActivityRelationManager::class
         ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns()
+            ->schema([
+                InfoSection::make('')
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoTextEntry::make('name')
+                            ->label('Naam'),
+                        InfoTextEntry::make('date')
+                            ->label('Datum'),
+                        InfoTextEntry::make('project.name')
+                            ->label('Project'),
+                        InfoTextEntry::make('neighbourhood.name')
+                            ->label('Wijk'),
+                        InfoTextEntry::make('task.name')
+                            ->label('Taak'),
+                    ]),
+                InfoSection::make('')
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoTextEntry::make('comment')
+                            ->label('Opmerking')
+                    ]),
+            ]);
     }
 
     public static function getPages(): array
@@ -123,6 +167,7 @@ class ActivityResource extends Resource
         return [
             'index' => Pages\ListActivities::route('/'),
             'create' => Pages\CreateActivity::route('/create'),
+            'view' => Pages\ViewActivities::route('/{record}'),
             'edit' => Pages\EditActivity::route('/{record}/edit'),
         ];
     }

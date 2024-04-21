@@ -10,6 +10,8 @@ class EditNeighbourhood extends EditRecord
 {
     protected static string $resource = NeighbourhoodResource::class;
 
+    protected static ?string $title = 'Wijk bewerken';
+
     protected function getHeaderActions(): array
     {
         return [

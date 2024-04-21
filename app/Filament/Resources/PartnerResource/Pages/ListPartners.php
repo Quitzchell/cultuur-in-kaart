@@ -10,6 +10,8 @@ class ListPartners extends ListRecords
 {
     protected static string $resource = PartnerResource::class;
 
+    protected static ?string $title = 'Partneroverzicht';
+
     protected function getHeaderActions(): array
     {
         return [

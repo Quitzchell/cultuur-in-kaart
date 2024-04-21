@@ -9,4 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateActivity extends CreateRecord
 {
     protected static string $resource = ActivityResource::class;
+
+    protected static ?string $title = 'Activiteit aanmaken';
 }

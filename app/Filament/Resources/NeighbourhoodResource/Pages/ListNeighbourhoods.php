@@ -10,6 +10,8 @@ class ListNeighbourhoods extends ListRecords
 {
     protected static string $resource = NeighbourhoodResource::class;
 
+    protected static ?string $title = 'Wijkenoverzicht';
+
     protected function getHeaderActions(): array
     {
         return [

@@ -9,4 +9,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateContactPerson extends CreateRecord
 {
     protected static string $resource = ContactPersonResource::class;
+
+    protected static ?string $title = 'Contactpersoon aanmaken';
+
 }

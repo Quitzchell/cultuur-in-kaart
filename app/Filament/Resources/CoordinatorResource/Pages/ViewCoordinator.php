@@ -9,4 +9,13 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewCoordinator extends ViewRecord
 {
     protected static string $resource = CoordinatorResource::class;
+
+    protected static ?string $title = 'Coördinator bekijken';
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\EditAction::make()
+        ];
+    }
 }

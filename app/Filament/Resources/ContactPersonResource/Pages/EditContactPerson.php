@@ -10,6 +10,8 @@ class EditContactPerson extends EditRecord
 {
     protected static string $resource = ContactPersonResource::class;
 
+    protected static ?string $title = 'Contactpersoon bewerken';
+
     protected function getHeaderActions(): array
     {
         return [

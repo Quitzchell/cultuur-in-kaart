@@ -11,6 +11,8 @@ class EditCoordinator extends EditRecord
 {
     protected static string $resource = CoordinatorResource::class;
 
+    protected static ?string $title = 'Coördinator bewerken';
+
     protected function getHeaderActions(): array
     {
         return [
