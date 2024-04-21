@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('project_number');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->float('spend_budget')->nullable();
+            $table->float('budget_spend')->nullable();
             $table->timestamps();
         });
     }
