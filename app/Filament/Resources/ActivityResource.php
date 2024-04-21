@@ -144,8 +144,10 @@ class ActivityResource extends Resource
                     ->preload(),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->label(''),
+                EditAction::make()
+                    ->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
