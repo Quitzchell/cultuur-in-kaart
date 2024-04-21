@@ -15,4 +15,9 @@ class ContactPerson extends Model
     {
         return $this->hasMany(Activity::class);
     }
+
+    public function partners(): HasMany
+    {
+        return $this->hasMany(Partner::class);
+    }
 }

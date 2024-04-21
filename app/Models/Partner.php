@@ -15,4 +15,9 @@ class Partner extends Model
     {
         return $this->belongsToMany(Activity::class);
     }
+
+    public function contactPeople(): BelongsToMany
+    {
+        return $this->belongsToMany(ContactPerson::class);
+    }
 }
