@@ -33,7 +33,7 @@ class ProjectResource extends Resource
                     ->numeric(),
                 Forms\Components\DatePicker::make('start_date'),
                 Forms\Components\DatePicker::make('end_date'),
-                Forms\Components\TextInput::make('spend_budget')
+                Forms\Components\TextInput::make('budget_spend')
                     ->prefix('€')
                     ->numeric(),
             ]);
