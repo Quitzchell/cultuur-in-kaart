@@ -16,8 +16,17 @@ class EditCoordinator extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            $this->getCancelFormAction()
+                ->label('Terug'),
             Actions\DeleteAction::make()
                 ->hidden(Auth::user()->getKey() === $this->getRecord()->getKey()),
+            $this->getSaveFormAction()
+                ->label('Opslaan'),
         ];
+    }
+
+    protected function getFormActions(): array
+    {
+        return [];
     }
 }

@@ -15,9 +15,11 @@ class EditActivity extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            $this->getSaveFormAction(),
+            $this->getCancelFormAction()
+                ->label('Terug'),
             Actions\DeleteAction::make(),
-            $this->getCancelFormAction(),
+            $this->getSaveFormAction()
+                ->label('Opslaan'),
         ];
     }
 

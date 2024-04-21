@@ -15,7 +15,8 @@ class ListActivities extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Activiteit toevoegen'),
+            Actions\CreateAction::make()
+                ->label('Activiteit toevoegen'),
         ];
     }
 }

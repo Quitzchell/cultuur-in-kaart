@@ -18,6 +18,7 @@ class ListCoordinator extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('Coördinator toevoegen')
                 ->hidden(Auth::user()->role !== Role::Administrator->name),
         ];
     }
