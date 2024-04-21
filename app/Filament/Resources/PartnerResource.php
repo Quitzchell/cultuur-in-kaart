@@ -19,6 +19,8 @@ class PartnerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Partners';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,7 +39,10 @@ class PartnerResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('house_number')
                     ->required()
-                    ->maxLength(255),
+                    ->numeric()
+                    ->maxLength(10),
+                Forms\Components\TextInput::make('house_number_addition')
+                    ->maxLength(10)
             ]);
     }
 
