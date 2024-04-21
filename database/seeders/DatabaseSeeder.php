@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Coordinator;
+use App\Models\Neighbourhood;
 use App\Models\Partner;
 use App\Models\Project;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,9 @@ class DatabaseSeeder extends Seeder
                         $contactPerson = $contactPeople->random();
                         $activity->contactPerson()->associate($contactPerson);
                         $activity->save();
+
+                        $neighbourhood = Neighbourhood::all()->random();
+                        $activity->neighbourhoods()->attach($neighbourhood);
                     })
                 );
             });

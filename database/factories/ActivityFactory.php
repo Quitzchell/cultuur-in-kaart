@@ -23,7 +23,6 @@ class ActivityFactory extends Factory
             'date' => $this->faker->date(),
             'comment' => $this->faker->text(120),
             'task_id' => $this->faker->numberBetween(1, 4),
-            'neighbourhood_id' => $this->faker->numberBetween(1, 9),
         ];
     }
 }
