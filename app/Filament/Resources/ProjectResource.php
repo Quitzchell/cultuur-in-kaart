@@ -34,17 +34,18 @@ class ProjectResource extends Resource
                     ->numeric(),
                 Forms\Components\DatePicker::make('start_date'),
                 Forms\Components\DatePicker::make('end_date'),
+                Forms\Components\Select::make('coordinator_id')
+                    ->relationship('coordinators', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->label('Coördinatoren'),
+                // todo: make selectable related on selected coordinators
                 Forms\Components\Select::make('primary_coordinator_id')
                     ->relationship('primaryCoordinator', 'name')
                     ->label('Primaire Coördinator')
                     ->required()
                     ->preload()
                     ->searchable(['name']),
-                Forms\Components\Select::make('coordinator_id')
-                    ->relationship('coordinators', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->label('Coördinatoren')
             ]);
     }
 
