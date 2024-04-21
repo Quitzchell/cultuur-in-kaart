@@ -177,7 +177,7 @@ class ActivityResource extends Resource
                             ->label('Datum'),
                         InfoTextEntry::make('project.name')
                             ->label('Project'),
-                        InfoTextEntry::make('neighbourhood.name')
+                        InfoTextEntry::make('neighbourhoods.name')
                             ->label('Wijk'),
                         InfoTextEntry::make('task.name')
                             ->label('Taak'),
