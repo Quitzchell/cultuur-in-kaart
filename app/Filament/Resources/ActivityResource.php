@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
-use App\Infolists\Components\RelationshipTable;
 use App\Models\Activity;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -35,55 +34,88 @@ class ActivityResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Activiteiten';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                FormSection::make('Algemeen')->schema([
-                    FormTextInput::make('name')
-                        ->label('Naam')
-                        ->required()
-                        ->maxLength(255)
-                        ->columnSpanFull(),
-                    DatePicker::make('date')
-                        ->label('Datum')
-                        ->required(),
-                    FormSelect::make('task_id')
-                        ->label('Taak')
-                        ->relationship('task', 'name')
-                        ->required(),
-                ])->columns(),
+                FormSection::make('Algemeen')
+                    ->columns()
+                    ->schema([
+                        FormTextInput::make('name')
+                            ->label('Naam')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        FormSelect::make('project_id')
+                            ->relationship('project', 'name')
+                            ->label('Project')
+                            ->required()
+                            ->preload()
+                            ->searchable(['name'])
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('project_number')
+                                    ->required()
+                                    ->numeric(),
+                                Forms\Components\DatePicker::make('start_date'),
+                                Forms\Components\DatePicker::make('end_date'),
+                                Forms\Components\TextInput::make('budget_spend')
+                                    ->prefix('€')
+                                    ->numeric(),
+                            ])
+                            ->columnSpanFull(),
 
-                FormSection::make('Project Information')->schema([
-                    FormSelect::make('project_id')
-                        ->label('Project')
-                        ->relationship('project', 'name')
-                        ->preload()
-                        ->searchable(['name']),
-                    FormSelect::make('partners_id')
-                        ->label('Partner')
-                        ->relationship('partners', 'name')
-                        ->multiple()
-                        ->preload()
-                        ->searchable(['name']),
-                    FormSelect::make('contact_person_id')
-                        ->label('Contact Persoon')
-                        ->relationship('contactPerson', 'name')
-                        ->preload()
-                        ->searchable(['name']),
+                        FormSelect::make('task_id')
+                            ->relationship('task', 'name')
+                            ->label('Taak')
+                            ->required(),
 
-                    FormSelect::make('neighbourhood_id')
-                        ->label('Wijk')
-                        ->relationship('neighbourhood', 'name')
-                        ->preload()
-                        ->searchable(['name']),
-                ])->columns(),
+                        DatePicker::make('date')
+                            ->label('Datum')
+                            ->required(),
+
+                        FormSelect::make('neighbourhood_id')
+                            ->relationship('neighbourhoods', 'name')
+                            ->label('Wijken')
+                            ->required()
+                            ->multiple()
+                            ->preload()
+                            ->searchable(['name'])
+                            ->columnSpanFull(),
+                    ]),
+
+                FormSection::make('Betrokkenen')
+                    ->columns()
+                    ->schema([
+                        FormSelect::make('partners_id')
+                            ->relationship('partners', 'name')
+                            ->label('Partners')
+                            ->required()
+                            ->multiple()
+                            ->preload()
+                            ->searchable(['name'])
+                            ->live(),
+
+                        FormSelect::make('contact_person_id')
+                            ->label('Contact Persoon')
+                            ->relationship('contactPerson', 'name', function (callable $get, Builder $query) {
+                                if ($get('partners_id')) {
+                                    $query->withWhereHas('partners', function ($record) use ($get) {
+                                        $record->where('partner_id', $get('partners_id'));
+                                    })->pluck('name');
+                                }
+                            })
+                            ->required()
+                            ->preload(),
+                    ]),
 
                 FormSection::make('Opmerkingen')->schema([
                     FormTextArea::make('comment')
                         ->label('')
-                        ->columnSpanFull()
-                ])
+                ]),
             ]);
     }
 
@@ -102,19 +134,14 @@ class ActivityResource extends Resource
                     ->label('Project'),
                 TextColumn::make('task.name')
                     ->label('Taak'),
-                TextColumn::make('neighbourhood.name')
-                    ->label('Wijk'),
+                TextColumn::make('neighbourhoods.name')
+                    ->label('Wijken'),
             ])
             ->filters([
                 SelectFilter::make('project.name')
                     ->relationship('project', 'name')
                     ->multiple()
                     ->preload(),
-                SelectFilter::make('neighbourhood.name')
-                    ->label('Wijk')
-                    ->relationship('neighbourhood', 'name')
-                    ->multiple()
-                    ->preload()
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
                 ViewAction::make(),
