@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,9 +18,9 @@ class Activity extends Model
         return $this->belongsTo(ContactPerson::class);
     }
 
-    public function neighbourhood(): BelongsTo
+    public function neighbourhoods(): BelongsToMany
     {
-        return $this->belongsTo(Neighbourhood::class);
+        return $this->belongsToMany(Neighbourhood::class);
     }
 
     public function partners(): BelongsToMany
