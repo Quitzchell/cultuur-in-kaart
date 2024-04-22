@@ -61,17 +61,20 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                return $query->with(['neighbourhoods.neighbourhood']);
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('project_number')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
                     ->date()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('neighbourhoods.neighbourhood.name')
+                    ->default('-')
             ])
             ->filters([
                 //
