@@ -15,4 +15,9 @@ class Neighbourhood extends Model
     {
         return $this->belongsToMany(Activity::class);
     }
+
+    public function coordinators(): BelongsToMany
+    {
+        return $this->belongsToMany(Coordinator::class);
+    }
 }

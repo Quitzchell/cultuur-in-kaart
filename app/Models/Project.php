@@ -42,4 +42,16 @@ class Project extends Model
             ->leftJoin('activities', 'activity_partner.activity_id', '=', 'activities.id')
             ->where('activities.project_id', $this->getKey());
     }
+
+    public function neighbourhoods(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ActivityNeighbourhoods::class,
+            'activities',
+            'project_id',
+            'id',
+            'id',
+            'activity_id',
+        );
+    }
 }
