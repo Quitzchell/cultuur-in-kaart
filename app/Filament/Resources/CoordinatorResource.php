@@ -55,15 +55,21 @@ class CoordinatorResource extends Resource
                             ->name('Telefoonnummer')
                             ->tel()
                     ]),
+                Section::make('Wijken')
+                    ->schema([
+                        CheckboxList::make('neighbourhood_id')
+                            ->label('')
+                            ->relationship('neighbourhoods', 'name', fn($query) => $query->whereNot('name', 'Alle wijken'))
+                            ->columns()
+                    ])->columnSpan(1),
                 Section::make('Werkdagen')
                     ->schema([
                         CheckboxList::make('workdays')
                             ->name('')
                             ->columns()
-                            ->columnSpanFull()
                             ->options(Workday::toArray())
-                    ])
-            ]);
+                    ])->columnSpan(1)
+            ])->columns();
     }
 
     public static function table(Table $table): Table
