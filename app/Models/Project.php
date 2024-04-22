@@ -36,11 +36,16 @@ class Project extends Model
         return $this->belongsToMany(Coordinator::class);
     }
 
-    public function partners(): belongsToMany
+    public function partners(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'activity_partner', 'partner_id', 'activity_id')
-            ->leftJoin('activities', 'activity_partner.activity_id', '=', 'activities.id')
-            ->where('activities.project_id', $this->getKey());
+        return $this->belongsToMany(
+            ActivityPartner::class,
+            'activities',
+            'project_id',
+            'id',
+            'id',
+            'activity_id',
+        );
     }
 
     public function neighbourhoods(): BelongsToMany
