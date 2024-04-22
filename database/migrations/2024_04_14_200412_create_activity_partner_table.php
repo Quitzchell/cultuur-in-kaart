@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Activity;
+use App\Models\Partner;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('activity_partner', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('activity_id');
-            $table->unsignedBigInteger('partner_id');
+            $table->foreignIdFor(Activity::class);
+            $table->foreignIdFor(Partner::class);
             $table->foreign('activity_id')->references('id')->on('activities')->cascadeOnDelete();
             $table->foreign('partner_id')->references('id')->on('partners')->cascadeOnDelete();
         });
