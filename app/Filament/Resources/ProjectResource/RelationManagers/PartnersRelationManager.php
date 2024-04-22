@@ -29,7 +29,8 @@ class PartnersRelationManager extends RelationManager
             })
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('partner.name'),
+                Tables\Columns\TextColumn::make('partner.name')
+                    ->label('Naam'),
             ])
             ->filters([
                 //
