@@ -41,7 +41,7 @@ class Coordinator extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Project::class);
     }
 
-    public function neighborhoods(): BelongsToMany
+    public function neighbourhoods(): BelongsToMany
     {
         return $this->belongsToMany(Neighbourhood::class);
     }
