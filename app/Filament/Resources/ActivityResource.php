@@ -99,19 +99,31 @@ class ActivityResource extends Resource
                             ->multiple()
                             ->preload()
                             ->searchable(['name'])
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('zip')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('city')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('street')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('house_number')
+                                    ->required()
+                                    ->numeric()
+                                    ->maxLength(10),
+                                Forms\Components\TextInput::make('house_number_addition')
+                                    ->maxLength(10),
+                                Forms\Components\Select::make('contact_person_id')
+                                    ->label('Contactpersoon')
+                                    ->relationship('contactPerson', 'name')
+                                    ->preload()
+                            ])
                             ->columnSpanFull(),
-
-//                        FormSelect::make('contact_person_id')
-//                            ->label('Contact Persoon')
-//                            ->relationship('contactPerson', 'name', function (callable $get, Builder $query) {
-//                                if ($get('partners_id')) {
-//                                    $query->withWhereHas('partners', function ($record) use ($get) {
-//                                        $record->where('partner_id', $get('partners_id'));
-//                                    })->pluck('name');
-//                                }
-//                            })
-//                            ->required()
-//                            ->preload(),
                     ]),
 
                 FormSection::make('Opmerkingen')->schema([
@@ -188,7 +200,6 @@ class ActivityResource extends Resource
                             ->label('Opmerking'),
                         InfoTextEntry::make('partners.name')
                             ->label('Partners'),
-
                     ]),
             ]);
     }

@@ -46,6 +46,7 @@ class PartnerResource extends Resource
                 Forms\Components\TextInput::make('house_number_addition')
                     ->maxLength(10),
                 Forms\Components\Select::make('contact_person_id')
+                    ->label('Contactpersoon')
                     ->relationship('contactPerson', 'name')
                     ->preload()
             ]);
@@ -65,14 +66,6 @@ class PartnerResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('house_number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
