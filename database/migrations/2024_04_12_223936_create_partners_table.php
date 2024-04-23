@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\ContactPerson;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,7 +19,14 @@ return new class extends Migration
             $table->string('street');
             $table->integer('house_number');
             $table->string('house_number_addition');
+            $table->foreignIdFor(ContactPerson::class)
+                ->nullable();
             $table->timestamps();
+
+            $table->foreign('contact_person_id')
+                ->references('id')
+                ->on('contact_people')
+                ->cascadeOnDelete();
         });
     }
 
