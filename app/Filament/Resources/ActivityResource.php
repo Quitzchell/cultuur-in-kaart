@@ -97,19 +97,19 @@ class ActivityResource extends Resource
                             ->multiple()
                             ->preload()
                             ->searchable(['name'])
-                            ->live(),
+                            ->columnSpanFull(),
 
-                        FormSelect::make('contact_person_id')
-                            ->label('Contact Persoon')
-                            ->relationship('contactPerson', 'name', function (callable $get, Builder $query) {
-                                if ($get('partners_id')) {
-                                    $query->withWhereHas('partners', function ($record) use ($get) {
-                                        $record->where('partner_id', $get('partners_id'));
-                                    })->pluck('name');
-                                }
-                            })
-                            ->required()
-                            ->preload(),
+//                        FormSelect::make('contact_person_id')
+//                            ->label('Contact Persoon')
+//                            ->relationship('contactPerson', 'name', function (callable $get, Builder $query) {
+//                                if ($get('partners_id')) {
+//                                    $query->withWhereHas('partners', function ($record) use ($get) {
+//                                        $record->where('partner_id', $get('partners_id'));
+//                                    })->pluck('name');
+//                                }
+//                            })
+//                            ->required()
+//                            ->preload(),
                     ]),
 
                 FormSection::make('Opmerkingen')->schema([
@@ -183,7 +183,10 @@ class ActivityResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         InfoTextEntry::make('comment')
-                            ->label('Opmerking')
+                            ->label('Opmerking'),
+                        InfoTextEntry::make('partners.name')
+                            ->label('Partners'),
+
                     ]),
             ]);
     }

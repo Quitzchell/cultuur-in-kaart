@@ -42,7 +42,10 @@ class PartnerResource extends Resource
                     ->numeric()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('house_number_addition')
-                    ->maxLength(10)
+                    ->maxLength(10),
+                Forms\Components\Select::make('contact_person_id')
+                    ->relationship('contactPerson', 'name')
+                    ->preload()
             ]);
     }
 
