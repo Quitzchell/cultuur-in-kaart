@@ -21,6 +21,8 @@ class PartnerResource extends Resource
 
     protected static ?string $navigationLabel = 'Partners';
 
+    protected static ?string $navigationGroup = 'Contacten';
+
     public static function form(Form $form): Form
     {
         return $form

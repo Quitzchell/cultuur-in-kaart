@@ -35,6 +35,8 @@ class ActivityResource extends Resource
 
     protected static ?string $navigationLabel = 'Activiteiten';
 
+    protected static ?string $navigationGroup = 'Projecten';
+
     public static function form(Form $form): Form
     {
         return $form

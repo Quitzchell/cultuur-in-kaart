@@ -19,7 +19,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CoordinatorResource extends Resource
 {
@@ -28,6 +27,8 @@ class CoordinatorResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Coördinatoren';
+
+    protected static ?string $navigationGroup = 'Contacten';
 
     public static function form(Form $form): Form
     {

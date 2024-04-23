@@ -21,6 +21,8 @@ class TaskResource extends Resource
 
     protected static ?string $navigationLabel = 'Taken';
 
+    protected static ?string $navigationGroup = 'Opties';
+
     public static function form(Form $form): Form
     {
         return $form
