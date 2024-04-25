@@ -28,7 +28,7 @@ RUN apk add --no-cache  \
     npm \
     git \
     icu-dev \
-    libintl-dev \
+    libintl \
     libzip-dev
 
 # Install required PHP extensions
