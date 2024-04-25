@@ -80,13 +80,12 @@ class ActivityResource extends Resource
                             ->label('Datum')
                             ->required(),
 
-                        FormSelect::make('neighbourhood_id')
+                        Forms\Components\CheckboxList::make('neighbourhood_id')
+                            ->bulkToggleable()
                             ->relationship('neighbourhoods', 'name')
                             ->label('Wijken')
                             ->required()
-                            ->multiple()
-                            ->preload()
-                            ->searchable(['name'])
+                            ->columns(3)
                             ->columnSpanFull(),
                     ]),
 
