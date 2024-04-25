@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('city');
             $table->string('street');
             $table->integer('house_number');
-            $table->string('house_number_addition');
+            $table->string('house_number_addition')->nullable();
             $table->foreignIdFor(ContactPerson::class)
                 ->nullable();
             $table->timestamps();
