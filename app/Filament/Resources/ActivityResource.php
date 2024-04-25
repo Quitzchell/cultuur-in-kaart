@@ -7,6 +7,7 @@ use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry as InfoTextEntry;
 use Filament\Forms\Components\Section as FormSection;
@@ -95,6 +96,7 @@ class ActivityResource extends Resource
                         FormSelect::make('partners_id')
                             ->relationship('partners', 'name')
                             ->label('Partners')
+                            ->live()
                             ->required()
                             ->multiple()
                             ->preload()
@@ -122,8 +124,17 @@ class ActivityResource extends Resource
                                     ->label('Contactpersoon')
                                     ->relationship('contactPerson', 'name')
                                     ->preload()
-                            ])
-                            ->columnSpanFull(),
+                            ]),
+                        FormSelect::make('contact_person_id')
+                            ->label('Contactpersoon')
+                            ->relationship(
+                                'contactPerson',
+                                'name',
+                                function (Builder $query, Get $get) {
+                                    return $query->whereIn('id', $get('partners_id'));
+                                })
+                            ->disabled(fn(Get $get) => empty($get('partners_id')))
+
                     ]),
 
                 FormSection::make('Opmerkingen')->schema([
