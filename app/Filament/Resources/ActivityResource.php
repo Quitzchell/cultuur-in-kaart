@@ -159,7 +159,9 @@ class ActivityResource extends Resource
                 TextColumn::make('task.name')
                     ->label('Taak'),
                 TextColumn::make('neighbourhoods.name')
-                    ->label('Wijken'),
+                    ->label('Wijken')
+                    ->default('-')
+                    ->limit(40),
             ])
             ->filters([
                 //
