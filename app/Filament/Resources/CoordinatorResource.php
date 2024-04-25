@@ -105,19 +105,26 @@ class CoordinatorResource extends Resource
     {
         return $infolist
             ->schema([
-                \Filament\Infolists\Components\Section::make('Werknemer')
+                \Filament\Infolists\Components\Section::make('')
                     ->schema([
-                        TextEntry::make('name'),
-                        TextEntry::make('email'),
+                        TextEntry::make('name')
+                            ->label('Naam'),
+                        TextEntry::make('email')
+                            ->label('Email'),
                         TextEntry::make('phone')
+                            ->label('Telefoonnummer'),
                     ])->columnSpan(1),
-                \Filament\Infolists\Components\Section::make('Wijken')
+                \Filament\Infolists\Components\Section::make('')
                     ->schema([
-
-                    ])->columnSpan(2)
+                        TextEntry::make('neighbourhoods.name')
+                            ->label('Wijken'),
+                        TextEntry::make('workdays')
+                            ->label('Werkdagen')
+                            ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state))),
+                    ])->columnSpan(1)
 
             ])
-            ->columns(3);
+            ->columns();
     }
 
     public static function getPages(): array
