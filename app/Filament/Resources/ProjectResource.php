@@ -8,9 +8,11 @@ use App\Filament\Resources\ProjectResource\RelationManagers\PartnersRelationMana
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectResource extends Resource
 {
@@ -44,14 +46,19 @@ class ProjectResource extends Resource
                     ->label('Coördinatoren')
                     ->required()
                     ->multiple()
-                    ->preload(),
-                // todo: make selectable related on selected coordinators
-                Forms\Components\Select::make('primary_coordinator_id')
-                    ->relationship('primaryCoordinator', 'name')
-                    ->label('Primaire Coördinator')
-                    ->required()
                     ->preload()
-                    ->searchable(['name']),
+                    ->live(),
+                Forms\Components\Select::make('primary_coordinator_id')
+                    ->relationship(
+                        'primaryCoordinator',
+                        'name',
+                        function (Builder $query, Get $get) {
+                            return $query->whereIn('id', $get('coordinator_id'));
+                        }
+                    )
+                    ->disabled(fn(Get $get) => empty($get('coordinator_id')))
+                    ->label('Primaire Coördinator')
+                    ->required(),
                 Forms\Components\TextInput::make('budget_spend')
                     ->label('Besteed budget')
                     ->prefix('€')
