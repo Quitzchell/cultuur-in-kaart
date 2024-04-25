@@ -84,6 +84,7 @@ class ProjectResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('neighbourhoods.neighbourhood.name')
                     ->default('-')
+                    ->limit(40),
             ])
             ->filters([
                 //
