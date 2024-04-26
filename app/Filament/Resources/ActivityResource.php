@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -197,7 +198,12 @@ class ActivityResource extends Resource
                         InfoTextEntry::make('name')
                             ->label('Naam'),
                         InfoTextEntry::make('date')
-                            ->label('Datum'),
+                            ->label('Datum')
+                            ->formatStateUsing(function ($state, $component) {
+                                return ucfirst(Carbon::parse($state)
+                                    ->setTimezone($component->getTimezone())
+                                    ->translatedFormat('l j F Y'));
+                            }),
                         InfoTextEntry::make('project.name')
                             ->label('Project'),
                         InfoTextEntry::make('neighbourhoods.name')
