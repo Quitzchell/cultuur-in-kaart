@@ -48,7 +48,7 @@ class PartnerResource extends Resource
                 Forms\Components\Select::make('contact_person_id')
                     ->label('Contactpersoon')
                     ->relationship('contactPerson', 'name')
-                    ->preload()
+                    ->searchable(['name'])
             ]);
     }
 
