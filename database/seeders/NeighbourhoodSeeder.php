@@ -14,7 +14,6 @@ class NeighbourhoodSeeder extends Seeder
     public function run(): void
     {
         $neighbourhoods = [
-            ['name' => 'Alle Wijken'],
             ['name' => 'Nieuw-Krispijn'],
             ['name' => 'Noodflank/Lijnbaan'],
             ['name' => 'Crabbehof'],
