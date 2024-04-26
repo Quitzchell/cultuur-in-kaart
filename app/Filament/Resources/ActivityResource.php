@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry as InfoTextEntry;
 use Filament\Forms\Components\Section as FormSection;
@@ -214,6 +215,12 @@ class ActivityResource extends Resource
                 InfoSection::make('')
                     ->columnSpan(1)
                     ->schema([
+                        Group::make()->columns()->schema([
+                            InfoTextEntry::make('partners.name')
+                                ->label('Partners'),
+                            InfoTextEntry::make('contactPerson.name')
+                                ->label('Contactpersoon'),
+                        ]),
                         InfoTextEntry::make('comment')
                             ->label('Opmerking'),
                         InfoTextEntry::make('partners.name')
