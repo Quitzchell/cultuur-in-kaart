@@ -25,10 +25,8 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ActivityResource extends Resource
 {
@@ -223,8 +221,6 @@ class ActivityResource extends Resource
                         ]),
                         InfoTextEntry::make('comment')
                             ->label('Opmerking'),
-                        InfoTextEntry::make('partners.name')
-                            ->label('Partners'),
                     ]),
             ]);
     }
