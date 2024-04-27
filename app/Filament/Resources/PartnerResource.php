@@ -7,6 +7,10 @@ use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Section as InfoSection;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -75,6 +79,8 @@ class PartnerResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                    ->label(''),
                 Tables\Actions\EditAction::make()
                     ->label(''),
             ]);
@@ -87,11 +93,42 @@ class PartnerResource extends Resource
         ];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns(['default' => 1, 'lg' => 2])
+            ->schema([
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('street')
+                                    ->label('Adres')
+                                    ->inlineLabel()
+                                    ->formatStateUsing(function (string $state, ?Partner $record) {
+                                        return implode(' ', [$state, implode('', [$record->house_number, ucfirst($record?->house_number_addition)])]);
+                                    }),
+                                TextEntry::make('zip')
+                                    ->label('Postcode')
+                                    ->inlineLabel(),
+                                TextEntry::make('city')
+                                    ->label('Stad')
+                                    ->inlineLabel(),
+                                TextEntry::make('Neighbourhood.name')
+                                    ->label('Wijk')
+                                    ->inlineLabel(),
+                            ])
+                    ])
+            ]);
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListPartners::route('/'),
             'create' => Pages\CreatePartner::route('/create'),
+            'view' => Pages\ViewPartner::route('/{record}'),
             'edit' => Pages\EditPartner::route('/{record}/edit'),
         ];
     }
