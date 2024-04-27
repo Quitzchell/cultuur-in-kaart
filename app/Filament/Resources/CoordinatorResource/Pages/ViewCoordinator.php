@@ -5,12 +5,16 @@ namespace App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\CoordinatorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewCoordinator extends ViewRecord
 {
     protected static string $resource = CoordinatorResource::class;
 
-    protected static ?string $title = 'Coördinator bekijken';
+    public function getTitle(): string|Htmlable
+    {
+        return __($this->record->name);
+    }
 
     protected function getHeaderActions(): array
     {
