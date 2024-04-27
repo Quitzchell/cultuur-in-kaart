@@ -6,11 +6,16 @@ use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers\ActivitiesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\PartnersRelationManager;
 use App\Models\Project;
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -28,27 +33,27 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label('Naam')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('project_number')
+                TextInput::make('project_number')
                     ->label('Projectnummer')
                     ->required()
                     ->numeric(),
-                Forms\Components\DatePicker::make('start_date')
+                DatePicker::make('start_date')
                     ->label('Startdatum')
                     ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                DatePicker::make('end_date')
                     ->label('Einddatum'),
-                Forms\Components\Select::make('coordinator_id')
+                Select::make('coordinator_id')
                     ->relationship('coordinators', 'name')
                     ->label('Coördinatoren')
                     ->required()
                     ->multiple()
                     ->preload()
                     ->live(),
-                Forms\Components\Select::make('primary_coordinator_id')
+                Select::make('primary_coordinator_id')
                     ->relationship(
                         'primaryCoordinator',
                         'name',
@@ -59,7 +64,7 @@ class ProjectResource extends Resource
                     ->disabled(fn(Get $get) => empty($get('coordinator_id')))
                     ->label('Primaire Coördinator')
                     ->required(),
-                Forms\Components\TextInput::make('budget_spend')
+                TextInput::make('budget_spend')
                     ->label('Besteed budget')
                     ->prefix('€')
                     ->rules('decimal:0,2')
@@ -74,15 +79,15 @@ class ProjectResource extends Resource
                 return $query->with(['neighbourhoods.neighbourhood']);
             })
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date('d-m-Y')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('end_date')
+                TextColumn::make('end_date')
                     ->date('d-m-Y')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('neighbourhoods.neighbourhood.name')
+                TextColumn::make('neighbourhoods.neighbourhood.name')
                     ->default('-')
                     ->limit(40),
             ])
@@ -90,7 +95,9 @@ class ProjectResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                ViewAction::make()
+                    ->label(''),
+                EditAction::make()
                     ->label(''),
             ])
             ->bulkActions([
@@ -113,6 +120,7 @@ class ProjectResource extends Resource
         return [
             'index' => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
+            'view' => Pages\ListProjects::route('/{record}'),
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }
