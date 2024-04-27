@@ -11,7 +11,6 @@ class ViewActivities extends ViewRecord
 {
     protected static string $resource = ActivityResource::class;
 
-
     public function getTitle(): string|Htmlable
     {
         return __($this->record->name);
