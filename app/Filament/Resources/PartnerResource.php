@@ -19,7 +19,7 @@ class PartnerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Partners';
+    protected static ?string $navigationLabel = 'Samenwerkingspartners';
 
     protected static ?string $navigationGroup = 'Contacten';
 
@@ -73,11 +73,6 @@ class PartnerResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label(''),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
