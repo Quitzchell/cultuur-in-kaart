@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ContactPerson;
+use App\Models\Neighbourhood;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,11 +17,11 @@ return new class extends Migration {
             $table->string('name');
             $table->string('zip');
             $table->string('city');
+            $table->foreignIdFor(Neighbourhood::class)->nullable();
             $table->string('street');
             $table->integer('house_number');
             $table->string('house_number_addition')->nullable();
-            $table->foreignIdFor(ContactPerson::class)
-                ->nullable();
+            $table->foreignIdFor(ContactPerson::class)->nullable();
             $table->timestamps();
 
             $table->foreign('contact_person_id')

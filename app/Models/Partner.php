@@ -26,4 +26,9 @@ class Partner extends Model
     {
         return $this->belongsTo(ContactPerson::class);
     }
+
+    public function neighbourhood(): BelongsTo
+    {
+        return $this->belongsTo(Neighbourhood::class);
+    }
 }

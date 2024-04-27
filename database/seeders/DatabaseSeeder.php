@@ -43,6 +43,10 @@ class DatabaseSeeder extends Seeder
             Partner::factory(10)->recycle($contactPeople)->create()->each(function (Partner $partner) use ($contactPeople) {
                 $contactPerson = $contactPeople->random();
                 $partner->contactPeople()->attach($contactPerson);
+
+                $neighbourhood = Neighbourhood::all()->random();
+                $partner->neighbourhood()->associate($neighbourhood);
+                $partner->save();
             });
         }
     }

@@ -36,6 +36,10 @@ class PartnerResource extends Resource
                 Forms\Components\TextInput::make('city')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('neighbourhood_id')
+                    ->label('Wijk')
+                    ->relationship('neighbourhood', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('street')
                     ->required()
                     ->maxLength(255),
