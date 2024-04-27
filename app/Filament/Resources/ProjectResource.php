@@ -5,14 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers\ActivitiesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\PartnersRelationManager;
+use App\Models\Activity;
 use App\Models\Project;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Section as InfoSection;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -47,23 +50,19 @@ class ProjectResource extends Resource
                 DatePicker::make('end_date')
                     ->label('Einddatum'),
                 Select::make('coordinator_id')
-                    ->relationship('coordinators', 'name')
-                    ->label('Coördinatoren')
-                    ->required()
-                    ->multiple()
-                    ->preload()
-                    ->live(),
-                Select::make('primary_coordinator_id')
-                    ->relationship(
-                        'primaryCoordinator',
-                        'name',
-                        function (Builder $query, Get $get) {
-                            return $query->whereIn('id', $get('coordinator_id'));
-                        }
-                    )
-                    ->disabled(fn(Get $get) => empty($get('coordinator_id')))
                     ->label('Primaire Coördinator')
-                    ->required(),
+                    ->relationship(
+                        'coordinator',
+                        'name',
+                        function (Builder $query, ?Project $record) {
+                            $coordinatorsIds = $record?->activities()->with('coordinators')->get()
+                                ->flatMap(fn(Activity $activity) => $activity->coordinators->pluck('id'));
+                            return $query->whereKey($coordinatorsIds?->unique());
+                        }
+                    )->disabled(function (?Project $record) {
+                        return empty($record?->activities()->with('coordinators')->get()
+                            ->flatMap(fn(Activity $activity) => $activity->coordinators));
+                    }),
                 TextInput::make('budget_spend')
                     ->label('Besteed budget')
                     ->prefix('€')
@@ -75,20 +74,25 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(function ($query) {
-                return $query->with(['neighbourhoods.neighbourhood']);
-            })
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('start_date')
                     ->date('d-m-Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('end_date')
                     ->date('d-m-Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('neighbourhoods.neighbourhood.name')
+                    ->searchable()
                     ->default('-')
+                    ->formatStateUsing(function ($state) {
+                        $uniqueNeighbourhoods = array_unique(explode(',', $state));
+                        sort($uniqueNeighbourhoods);
+                        return implode(', ', $uniqueNeighbourhoods);
+                    })
                     ->limit(40),
             ])
             ->filters([
@@ -99,11 +103,6 @@ class ProjectResource extends Resource
                     ->label(''),
                 EditAction::make()
                     ->label(''),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
@@ -115,12 +114,56 @@ class ProjectResource extends Resource
         ];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns(['default' => 1, 'lg' => 2])
+            ->schema([
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->columns()
+                            ->schema([
+                                TextEntry::make('start_date')
+                                    ->label('Startdatum')
+                                    ->date('d-m-Y'),
+                                TextEntry::make('end_date')
+                                    ->label('Einddatum')
+                                    ->date('d-m-Y'),
+                            ]),
+
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('coordinator.name')
+                                    ->label('Primaire Coördinator')
+                                    ->inlineLabel(),
+                                TextEntry::make('coordinators.coordinator.name')
+                                    ->label('Coördinatoren')
+                                    ->inlineLabel(),
+                            ]),
+                    ]),
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('activities.partners.name')
+                                    ->label('Partners'),
+                                TextEntry::make('neighbourhoods.neighbourhood.name')
+                                    ->label('Wijken')
+                                    ->distinctList()
+                            ])
+                    ]),
+            ]);
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
-            'view' => Pages\ListProjects::route('/{record}'),
+            'view' => Pages\ViewProjects::route('/{record}'),
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }

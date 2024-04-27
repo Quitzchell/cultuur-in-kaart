@@ -16,9 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Grid;
-use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\Section as InfoSection;
-use Filament\Infolists\Components\Split;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -58,6 +56,7 @@ class ActivityResource extends Resource
                             ->label('Project')
                             ->required()
                             ->preload()
+                            ->live()
                             ->searchable(['name'])
                             ->createOptionForm([
                                 TextInput::make('name')
@@ -95,6 +94,14 @@ class ActivityResource extends Resource
                 Section::make('Betrokkenen')
                     ->columns()
                     ->schema([
+                        Select::make('coordinator_id')
+                            ->label('Coördinatoren')
+                            ->relationship('coordinators', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->required()
+                            ->columnSpanFull(),
+
                         Select::make('partners_id')
                             ->relationship('partners', 'name')
                             ->label('Partners')
@@ -135,10 +142,8 @@ class ActivityResource extends Resource
                                 function (Builder $query, Get $get) {
                                     return $query->whereIn('id', $get('partners_id'));
                                 })
-                            ->disabled(fn(Get $get) => empty($get('partners_id')))
-
+                            ->disabled(fn(Get $get) => empty($get('partners_id'))),
                     ]),
-
                 Section::make('Opmerkingen')->schema([
                     Textarea::make('comment')
                         ->label('')
@@ -219,45 +224,54 @@ class ActivityResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
+            ->columns(['default' => 1, 'lg' => 2])
             ->schema([
-                Split::make([
-                    InfoSection::make('')
-                        ->schema([
-                            TextEntry::make('name')
-                                ->label('Naam'),
-                            TextEntry::make('date')
-                                ->label('Datum')
-                                ->formatStateUsing(function ($state, $component) {
-                                    return ucfirst(Carbon::parse($state)
-                                        ->setTimezone($component->getTimezone())
-                                        ->translatedFormat('l j F Y'));
-                                }),
-                            TextEntry::make('project.name')
-                                ->label('Project'),
-                            TextEntry::make('neighbourhoods.name')
-                                ->label('Wijk'),
-                            TextEntry::make('task.name')
-                                ->label('Taak'),
-                        ]),
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('date')
+                                    ->label('Datum')
+                                    ->inlineLabel()
+                                    ->formatStateUsing(function ($state, $component) {
+                                        return ucfirst(Carbon::parse($state)
+                                            ->setTimezone($component->getTimezone())
+                                            ->translatedFormat('l j F Y'));
+                                    }),
+                                TextEntry::make('project.name')
+                                    ->label('Projectnaam')
+                                    ->inlineLabel(),
+                                TextEntry::make('task.name')
+                                    ->label('Taak')
+                                    ->inlineLabel(),
+                                TextEntry::make('neighbourhoods.name')
+                                    ->label('Wijk')
+                                    ->inlineLabel(),
+                                TextEntry::make('Coordinators.name')
+                                    ->label('Coördinatoren')
+                                    ->inlineLabel(),
+                            ])
+                    ]),
 
-                    Grid::make(1)
-                        ->schema([
-                            InfoSection::make('')
-                                ->schema([
-                                    Group::make()->columns()->schema([
-                                        TextEntry::make('partners.name')
-                                            ->label('Partners'),
-                                        TextEntry::make('contactPerson.name')
-                                            ->label('Contactpersoon'),
-                                    ]),
-                                ]),
-                            InfoSection::make('')
-                                ->schema([
-                                    TextEntry::make('comment')
-                                        ->label('Opmerking'),
-                                ]),
-                        ]),
-                ])->columnSpanFull()
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('partners.name')
+                                    ->label('Partners')
+                                    ->inlineLabel(),
+                                TextEntry::make('contactPerson.name')
+                                    ->label('Contactpersoon')
+                                    ->inlineLabel(),
+                            ]),
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('comment')
+                                    ->label('Opmerking'),
+                            ]),
+                    ]),
             ]);
     }
 
