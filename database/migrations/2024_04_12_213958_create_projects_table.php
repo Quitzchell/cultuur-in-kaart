@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('project_number');
-            $table->foreignIdFor(Coordinator::class, 'primary_coordinator_id')->nullable();
+            $table->foreignIdFor(Coordinator::class)->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->float('budget_spend')->nullable();

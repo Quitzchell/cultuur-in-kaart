@@ -6,7 +6,6 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -31,14 +30,14 @@ class Coordinator extends Authenticatable implements FilamentUser
 
     /* Relations */
 
-    public function project(): HasOne
+    public function activity(): HasOne
     {
-        return $this->hasOne(Project::class);
+        return $this->hasOne(Activity::class);
     }
 
-    public function projects(): BelongsToMany
+    public function activities(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Activity::class);
     }
 
     public function neighbourhoods(): BelongsToMany

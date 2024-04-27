@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('coordinator_project', function (Blueprint $table) {
+        Schema::create('activity_coordinator', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('activity_id');
             $table->unsignedBigInteger('coordinator_id');
-            $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();
+            $table->foreign('activity_id')->references('id')->on('activities')->cascadeOnDelete();
             $table->foreign('coordinator_id')->references('id')->on('coordinators')->cascadeOnDelete();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('coordinator_project');
+        Schema::dropIfExists('activity_coordinator');
     }
 };
