@@ -101,15 +101,16 @@ class PartnerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Naam')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('zip')
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Adres')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('city')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('street')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('house_number')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('neighbourhoods.name')
+                    ->label('Wijken')
+                    ->searchable()
+                    ->default('-')
+                    ->limit(40),
             ])
             ->filters([
                 //
