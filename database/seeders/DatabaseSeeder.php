@@ -24,7 +24,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (app()->environment() !== 'production') {
-            Coordinator::factory(3)->create();
+            Coordinator::factory(3)->create()->each(function (Coordinator $coordinator) {
+                $neighbourhoods = Neighbourhood::all()->random(3);
+                foreach ($neighbourhoods as $neighbourhood) {
+                    $coordinator->neighbourhoods()->attach($neighbourhood);
+                }
+            });
+
             Project::factory(10)->create()->each(function (Project $project) {
                 $contactPeople = ContactPerson::factory(5)->create();
                 $project->activities()->saveMany(
@@ -33,7 +39,7 @@ class DatabaseSeeder extends Seeder
                         $activity->contactPerson()->associate($contactPerson);
                         $activity->save();
 
-                        $neighbourhood = Neighbourhood::all()->random();
+                        $neighbourhood = Neighbourhood::all()->random(3);
                         $activity->neighbourhoods()->attach($neighbourhood);
                     })
                 );
@@ -41,11 +47,13 @@ class DatabaseSeeder extends Seeder
 
             $contactPeople = ContactPerson::all();
             Partner::factory(10)->recycle($contactPeople)->create()->each(function (Partner $partner) use ($contactPeople) {
-                $contactPerson = $contactPeople->random();
-                $partner->contactPeople()->attach($contactPerson);
+                $contactPeople = $contactPeople->random(3);
+                foreach ($contactPeople as $contactPerson) {
+                    $partner->contactPeople()->attach($contactPerson);
+                }
 
-                $neighbourhood = Neighbourhood::all()->random();
-                $partner->neighbourhood()->associate($neighbourhood);
+                $neighbourhoods = Neighbourhood::all()->random();
+                $partner->neighbourhood()->associate($neighbourhoods);
                 $partner->save();
             });
         }
