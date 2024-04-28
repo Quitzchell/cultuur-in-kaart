@@ -38,6 +38,11 @@ class ContactPersonResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Textarea::make('comment')
                     ->columnSpanFull(),
+                Forms\Components\Select::make('partners')
+                    ->relationship('partners', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable('name')
             ]);
     }
 
