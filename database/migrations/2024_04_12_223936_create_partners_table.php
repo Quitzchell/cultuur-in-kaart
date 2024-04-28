@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('street');
             $table->integer('house_number');
             $table->string('house_number_addition')->nullable();
+            $table->string('address')->virtualAs("CONCAT(street, ' ', house_number, '', COALESCE(house_number_addition, ''))");
             $table->foreignIdFor(ContactPerson::class)->nullable();
             $table->timestamps();
 
