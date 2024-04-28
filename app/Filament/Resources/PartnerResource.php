@@ -6,6 +6,7 @@ use App\Filament\Resources\PartnerResource\Pages;
 use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Grid;
@@ -48,7 +49,11 @@ class PartnerResource extends Resource
                             ->maxLength(10)
                             ->columnSpan(['default' => 1, 'lg' => 1]),
                         Forms\Components\TextInput::make('house_number_addition')
-                            ->maxLength(10),
+                            ->maxLength(10)
+                            ->live(true)
+                            ->afterStateUpdated(function (TextInput $component, ?string $state) {
+                                isset($state) && $component->state(strtoupper($state));
+                            }),
                         Forms\Components\TextInput::make('zip')
                             ->required()
                             ->maxLength(255)
