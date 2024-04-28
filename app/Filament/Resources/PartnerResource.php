@@ -7,6 +7,7 @@ use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry;
@@ -15,7 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PartnerResource extends Resource
 {
@@ -31,32 +31,63 @@ class PartnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('zip')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('city')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('neighbourhood_id')
-                    ->label('Wijk')
-                    ->relationship('neighbourhood', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('street')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('house_number')
-                    ->required()
-                    ->numeric()
-                    ->maxLength(10),
-                Forms\Components\TextInput::make('house_number_addition')
-                    ->maxLength(10),
-                Forms\Components\Select::make('contact_person_id')
-                    ->label('Contactpersoon')
-                    ->relationship('contactPerson', 'name')
-                    ->searchable(['name'])
+                Forms\Components\Section::make('Algemeen')
+                    ->columns(['default' => 1, 'lg' => 4])
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(['default' => 2, 'lg' => 4]),
+                        Forms\Components\TextInput::make('street')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(['default' => 2, 'lg' => 2]),
+                        Forms\Components\TextInput::make('house_number')
+                            ->required()
+                            ->numeric()
+                            ->maxLength(10)
+                            ->columnSpan(['default' => 1, 'lg' => 1]),
+                        Forms\Components\TextInput::make('house_number_addition')
+                            ->maxLength(10),
+                        Forms\Components\TextInput::make('zip')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(['default' => 1, 'lg' => 1]),
+                        Forms\Components\TextInput::make('city')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(['default' => 1, 'lg' => 1]),
+                        Forms\Components\Select::make('neighbourhood_id')
+                            ->label('Wijk')
+                            ->relationship('neighbourhood', 'name')
+                            ->required()
+                            ->columnSpan(2),
+                    ]),
+
+                Forms\Components\Section::make('Contactpersonen')
+                    ->columns(['default' => 1, 'lg' => 2])
+                    ->schema([
+                        Forms\Components\Select::make('contactPeople')
+                            ->label('Contactpersonen')
+                            ->relationship('contactPeople', 'name')
+                            ->live()
+                            ->nullable()
+                            ->preload()
+                            ->multiple()
+                            ->searchable(['name']),
+                        Forms\Components\Select::make('contact_person_id')
+                            ->label('Primair contactpersoon')
+                            ->relationship(
+                                'contactPerson',
+                                'name',
+                                function (Builder $query, Get $get) {
+                                    return $query->whereIn('id', $get('contactPeople'));
+                                })
+                            ->disabled(fn(Get $get) => empty($get('contactPeople')))
+                            ->nullable()
+                            ->preload()
+                            ->searchable(['name']),
+                    ])
             ]);
     }
 
