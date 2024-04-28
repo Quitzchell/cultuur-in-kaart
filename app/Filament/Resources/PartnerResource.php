@@ -142,14 +142,27 @@ class PartnerResource extends Resource
                                     }),
                                 TextEntry::make('zip')
                                     ->label('Postcode')
-                                    ->inlineLabel(),
-                                TextEntry::make('city')
-                                    ->label('Stad')
-                                    ->inlineLabel(),
+                                    ->inlineLabel()->formatStateUsing(function (string $state, ?Partner $record) {
+                                        return "{$state} {$record->city}";
+                                    }),
                                 TextEntry::make('Neighbourhood.name')
                                     ->label('Wijk')
                                     ->inlineLabel(),
                             ])
+                    ]),
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')->schema([
+                            TextEntry::make('contactPeople.name')
+                                ->label('contactpersonen')
+                                ->inlineLabel()
+                                ->default('-'),
+                            TextEntry::make('contactPerson.name')
+                                ->label('Primair contactpersoon')
+                                ->inlineLabel()
+                                ->default('-'),
+                        ])
                     ])
             ]);
     }
