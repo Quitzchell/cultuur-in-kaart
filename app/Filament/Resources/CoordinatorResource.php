@@ -102,21 +102,25 @@ class CoordinatorResource extends Resource
                 \Filament\Infolists\Components\Section::make('')
                     ->schema([
                         TextEntry::make('email')
-                            ->label('Email'),
+                            ->label('Email')
+                            ->inlineLabel(),
                         TextEntry::make('phone')
-                            ->label('Telefoonnummer'),
+                            ->label('Telefoonnummer')
+                            ->inlineLabel(),
+                        TextEntry::make('workdays')
+                            ->label('Werkdagen')
+                            ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state)))
+                            ->inlineLabel()
+                            ->default('-'),
                     ])->columnSpan(1),
                 \Filament\Infolists\Components\Section::make('')
                     ->schema([
                         TextEntry::make('neighbourhoods.name')
-                            ->label('Wijken'),
-                        TextEntry::make('workdays')
-                            ->label('Werkdagen')
-                            ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state))),
+                            ->label('Wijken')
+                            ->inlineLabel()
+                            ->default('-'),
                     ])->columnSpan(1)
-
-            ])
-            ->columns();
+            ])->columns();
     }
 
     public static function getPages(): array
