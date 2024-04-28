@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Enums\Coordinator\Role;
 use App\Enums\Workday\Workday;
+use App\Filament\Resources\CoordinatorResource\RelationManagers\ActivityRelationManager;
+use App\Filament\Resources\CoordinatorResource\RelationManagers\ProjectRelationManager;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\Coordinator;
 use Filament\Forms\Components\CheckboxList;
@@ -90,7 +92,8 @@ class CoordinatorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ActivityRelationManager::make(),
+            ProjectRelationManager::make()
         ];
     }
 
