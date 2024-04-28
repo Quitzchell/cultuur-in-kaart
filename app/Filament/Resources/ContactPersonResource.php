@@ -7,11 +7,13 @@ use App\Filament\Resources\ContactPersonResource\RelationManagers;
 use App\Models\ContactPerson;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContactPersonResource extends Resource
 {
@@ -27,22 +29,27 @@ class ContactPersonResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('comment')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('partners')
-                    ->relationship('partners', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable('name')
+                Forms\Components\Section::make('Algemeen')
+                    ->columns()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->tel()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('partners')
+                            ->label('Samenwerkingspartner')
+                            ->relationship('partners', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable('name'),
+                        Forms\Components\Textarea::make('comment')
+                            ->columnSpanFull(),
+                    ])
             ]);
     }
 
@@ -51,39 +58,62 @@ class ContactPersonResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Naam')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Telefoonnummer'),
+                TextColumn::make('partners.name')
+                    ->label('Samenwerkingspartner')
+                    ->default('-')
+                    ->limit(40),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                Tables\Actions\ViewAction::make()
                     ->label(''),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\EditAction::make()
+                    ->label('')
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ActivityRelationManager::make(),
+            RelationManagers\ProjectRelationManager::make()
         ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns(['default' => 1, 'lg' => 2])
+            ->schema([
+                Section::make()
+                    ->schema([
+                        TextEntry::make('name')
+                            ->label('Naam')
+                            ->inlineLabel(),
+                        TextEntry::make('email')
+                            ->inlineLabel(),
+                        TextEntry::make('phone')
+                            ->label('Telefoonnummer')
+                            ->inlineLabel(),
+                        TextEntry::make('partners.name')
+                            ->label('Samenwerkingspartner')
+                            ->inlineLabel(),
+                    ])->columnSpan(1),
+
+                Section::make()
+                    ->schema([
+                        TextEntry::make('comment')
+                            ->label('Opmerkingen')
+                            ->inlineLabel(),
+                    ])->columnSpan(1)
+            ]);
     }
 
     public static function getPages(): array
@@ -91,6 +121,7 @@ class ContactPersonResource extends Resource
         return [
             'index' => Pages\ListContactPeople::route('/'),
             'create' => Pages\CreateContactPerson::route('/create'),
+            'view' => Pages\ViewContactPerson::route('/{record}'),
             'edit' => Pages\EditContactPerson::route('/{record}/edit'),
         ];
     }
