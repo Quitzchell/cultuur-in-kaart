@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Enums\Coordinator\Role;
 use App\Enums\Workday\Workday;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Coordinator;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
@@ -86,11 +85,6 @@ class CoordinatorResource extends Resource
                     ->label(''),
                 Tables\Actions\EditAction::make()
                     ->label(''),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
@@ -107,8 +101,6 @@ class CoordinatorResource extends Resource
             ->schema([
                 \Filament\Infolists\Components\Section::make('')
                     ->schema([
-                        TextEntry::make('name')
-                            ->label('Naam'),
                         TextEntry::make('email')
                             ->label('Email'),
                         TextEntry::make('phone')
