@@ -108,7 +108,6 @@ class PartnerResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
-                    ->searchable()
                     ->default('-')
                     ->limit(40),
             ])
