@@ -39,8 +39,6 @@ class ProjectRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->label(''),
-                Tables\Actions\ViewAction::make()
                     ->label('')
                     ->url(fn($record): string => ProjectResource::getUrl('view', ['record' => $record])),
             ]);
