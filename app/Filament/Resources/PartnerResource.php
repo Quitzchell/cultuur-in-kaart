@@ -126,7 +126,8 @@ class PartnerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ActivitiesRelationManager::make(),
+            RelationManagers\ProjectsRelationManager::make()
         ];
     }
 
