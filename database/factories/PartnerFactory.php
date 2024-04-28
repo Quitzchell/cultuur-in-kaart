@@ -22,7 +22,7 @@ class PartnerFactory extends Factory
             'city' => $this->faker->city(),
             'street' => $this->faker->streetName(),
             'house_number' => $this->faker->numberBetween(1, 100),
-            'house_number_addition' => $this->faker->randomLetter(),
+            'house_number_addition' => strtoupper($this->faker->randomLetter()),
         ];
     }
 }
