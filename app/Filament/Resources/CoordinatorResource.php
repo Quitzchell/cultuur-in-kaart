@@ -6,7 +6,6 @@ use App\Enums\Coordinator\Role;
 use App\Enums\Workday\Workday;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\Coordinator;
-use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
