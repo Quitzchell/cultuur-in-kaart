@@ -28,7 +28,7 @@ class CoordinatorResource extends Resource
 
     protected static ?string $navigationLabel = 'Coördinatoren';
 
-    protected static ?string $navigationGroup = 'Contacten';
+    protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
     {

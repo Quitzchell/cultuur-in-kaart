@@ -21,7 +21,7 @@ class NeighbourhoodResource extends Resource
 
     protected static ?string $navigationLabel = 'Wijken';
 
-    protected static ?string $navigationGroup = 'Opties';
+    protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
     {

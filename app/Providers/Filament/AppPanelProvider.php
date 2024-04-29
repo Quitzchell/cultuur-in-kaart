@@ -47,14 +47,11 @@ class AppPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Contacten'),
                 NavigationGroup::make()
-                    ->label('Coördinatoren'),
-                NavigationGroup::make()
-                    ->label('Opties'),
+                    ->label('Overig'),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
