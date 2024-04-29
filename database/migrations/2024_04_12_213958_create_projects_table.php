@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedInteger('project_number');
-            $table->foreignIdFor(Coordinator::class)->nullable();
+            $table->string('project_number');
+            $table->foreignIdFor(Coordinator::class, 'primairy_coordinator_id')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->float('budget_spend')->nullable();

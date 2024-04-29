@@ -4,9 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
+use App\Filament\Resources\PartnerResource\Modals\PartnerModalForm;
+use App\Filament\Resources\ProjectResource\Modals\ProjectModalForm;
 use App\Models\Activity;
+use App\Models\Project;
 use Carbon\Carbon;
-
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
@@ -15,17 +17,17 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -59,19 +61,6 @@ class ActivityResource extends Resource
                             ->preload()
                             ->live()
                             ->searchable(['name'])
-                            ->createOptionForm([
-                                TextInput::make('name')
-                                    ->required()
-                                    ->maxLength(255),
-                                TextInput::make('project_number')
-                                    ->required()
-                                    ->numeric(),
-                                DatePicker::make('start_date'),
-                                DatePicker::make('end_date'),
-                                TextInput::make('budget_spend')
-                                    ->prefix('€')
-                                    ->numeric(),
-                            ])
                             ->columnSpanFull(),
 
                         Select::make('task_id')
@@ -97,7 +86,13 @@ class ActivityResource extends Resource
                     ->schema([
                         Select::make('coordinator_id')
                             ->label('Coördinatoren')
-                            ->relationship('coordinators', 'name')
+                            ->relationship('coordinators', 'name',
+                                function (Builder $query, Get $get) {
+                                    $project = Project::find($get('project_id'));
+                                    $coordinators = $project?->coordinators()->pluck('coordinators.id');
+                                    return $query->whereKey($coordinators?->unique());
+                                })
+                            ->required()
                             ->multiple()
                             ->preload()
                             ->required()
@@ -111,31 +106,7 @@ class ActivityResource extends Resource
                             ->required()
                             ->multiple()
                             ->preload()
-                            ->searchable(['name'])
-                            ->createOptionForm([
-                                TextInput::make('name')
-                                    ->required()
-                                    ->maxLength(255),
-                                TextInput::make('zip')
-                                    ->required()
-                                    ->maxLength(255),
-                                TextInput::make('city')
-                                    ->required()
-                                    ->maxLength(255),
-                                TextInput::make('street')
-                                    ->required()
-                                    ->maxLength(255),
-                                TextInput::make('house_number')
-                                    ->required()
-                                    ->numeric()
-                                    ->maxLength(10),
-                                TextInput::make('house_number_addition')
-                                    ->maxLength(10),
-                                Select::make('contact_person_id')
-                                    ->label('Contactpersoon')
-                                    ->relationship('contactPerson', 'name')
-                                    ->preload()
-                            ]),
+                            ->searchable(['name']),
                         Select::make('contact_person_id')
                             ->label('Contactpersoon')
                             ->relationship(

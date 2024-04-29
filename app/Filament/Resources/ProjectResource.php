@@ -3,14 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers\ActivitiesRelationManager;
-use App\Filament\Resources\ProjectResource\RelationManagers\PartnersRelationManager;
-use App\Models\Activity;
+use App\Filament\Resources\ProjectResource\RelationManagers\ActivityRelationManager;
+use App\Filament\Resources\ProjectResource\RelationManagers\PartnerRelationManager;
+use App\Models\Coordinator;
 use App\Models\Project;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry;
@@ -20,7 +22,6 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProjectResource extends Resource
 {
@@ -36,38 +37,50 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Naam')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('project_number')
-                    ->label('Projectnummer')
-                    ->required()
-                    ->numeric(),
-                DatePicker::make('start_date')
-                    ->label('Startdatum')
-                    ->required(),
-                DatePicker::make('end_date')
-                    ->label('Einddatum'),
-                Select::make('coordinator_id')
-                    ->label('Primaire Coördinator')
-                    ->relationship(
-                        'coordinator',
-                        'name',
-                        function (Builder $query, ?Project $record) {
-                            $coordinatorsIds = $record?->activities()->with('coordinators')->get()
-                                ->flatMap(fn(Activity $activity) => $activity->coordinators->pluck('id'));
-                            return $query->whereKey($coordinatorsIds?->unique());
-                        }
-                    )->disabled(function (?Project $record) {
-                        return empty($record?->activities()->with('coordinators')->get()
-                            ->flatMap(fn(Activity $activity) => $activity->coordinators));
-                    }),
-                TextInput::make('budget_spend')
-                    ->label('Besteed budget')
-                    ->prefix('€')
-                    ->rules('decimal:0,2')
-                    ->numeric()
+                Section::make('Algemeen')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Naam')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('project_number')
+                            ->alphaNum()
+                            ->label('Projectnummer')
+                            ->required(),
+                    ]),
+
+                Section::make('Data')
+                    ->schema([
+                        DatePicker::make('start_date')
+                            ->label('Startdatum')
+                            ->required(),
+                        DatePicker::make('end_date')
+                            ->label('Einddatum'),
+                    ])->columns(),
+
+
+                Section::make('Coördinatoren')
+                    ->schema([
+                        Select::make('coordinator_id')
+                            ->label('Coördinatoren')
+                            ->relationship('coordinator', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->required()
+                            ->live(),
+                        Select::make('primary_coordinator_id')
+                            ->label('Primaire Coördinator')
+                            ->relationship('coordinator', 'name', fn(Get $get) => Coordinator::where('id', $get('coordinator_id')))
+                            ->disabled(fn(Get $get) => empty($get('coordinator_id'))),
+                    ]),
+                Section::make('Overig')
+                    ->schema([
+                        TextInput::make('budget_spend')
+                            ->label('Besteed budget')
+                            ->prefix('€')
+                            ->rules('decimal:0,2')
+                            ->numeric()
+                    ])
             ]);
     }
 
@@ -77,6 +90,16 @@ class ProjectResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+                TextColumn::make('neighbourhoods.neighbourhood.name')
+                    ->label('Wijken')
+                    ->searchable()
+                    ->default('-')
+                    ->limit(40)
+                    ->formatStateUsing(function ($state) {
+                        $uniqueNeighbourhoods = array_unique(explode(',', $state));
+                        sort($uniqueNeighbourhoods);
+                        return implode(', ', $uniqueNeighbourhoods);
+                    }),
                 TextColumn::make('start_date')
                     ->date('d-m-Y')
                     ->sortable()
@@ -85,15 +108,6 @@ class ProjectResource extends Resource
                     ->date('d-m-Y')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('neighbourhoods.neighbourhood.name')
-                    ->searchable()
-                    ->default('-')
-                    ->formatStateUsing(function ($state) {
-                        $uniqueNeighbourhoods = array_unique(explode(',', $state));
-                        sort($uniqueNeighbourhoods);
-                        return implode(', ', $uniqueNeighbourhoods);
-                    })
-                    ->limit(40),
             ])
             ->filters([
                 //

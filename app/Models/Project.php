@@ -33,14 +33,7 @@ class Project extends Model
 
     public function coordinators(): BelongsToMany
     {
-        return $this->belongsToMany(
-            ActivityCoordinator::class,
-            'activities',
-            'project_id',
-            'id',
-            'id',
-            'activity_id'
-        );
+        return $this->belongsToMany(Coordinator::class);
     }
 
     public function partners(): BelongsToMany

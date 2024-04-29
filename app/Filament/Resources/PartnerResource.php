@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\ContactPersonResource\Modals\ContactPersonModalForm;
 use App\Filament\Resources\PartnerResource\Pages;
 use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
@@ -89,7 +90,6 @@ class PartnerResource extends Resource
                                 function (Builder $query, Get $get) {
                                     return $query->whereIn('id', $get('contactPeople'));
                                 })
-                            ->disabled(fn(Get $get) => empty($get('contactPeople')))
                             ->nullable()
                             ->preload()
                             ->searchable(['name']),
