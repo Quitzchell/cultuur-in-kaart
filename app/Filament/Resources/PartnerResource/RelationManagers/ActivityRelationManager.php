@@ -21,20 +21,24 @@ class ActivityRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('date')
+                    ->label('Datum')
                     ->date('d-m-Y'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('task.name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Activiteitnaam'),
+                Tables\Columns\TextColumn::make('task.name')
+                    ->label('Taak'),
                 Tables\Columns\TextColumn::make('neighbourhoods.name')
+                    ->label('Wijken')
                     ->default('-')
                     ->limit(40),
                 Tables\Columns\TextColumn::make('partners.name')
-                    ->default('-')
+                    ->label('Andere samenwerkingspartners')
                     ->limit(40)
                     ->formatStateUsing(function (string $state, ?Activity $record) {
-                        return implode(', ', array_filter(
-                            explode(', ', $state),
-                            fn($partnerName) => $partnerName !== Partner::find($record->partner_id)->name
-                        ));
+                        $filteredArray = array_filter(explode(', ', $state), function ($partnerName) use ($record) {
+                            return $partnerName !== Partner::find($record->partner_id)->name;
+                        });
+                        return !empty($filteredArray) ? implode(', ', $filteredArray) : '-';
                     }),
             ])
             ->filters([

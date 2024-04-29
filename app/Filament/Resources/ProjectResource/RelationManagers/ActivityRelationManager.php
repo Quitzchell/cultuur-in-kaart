@@ -40,7 +40,9 @@ class ActivitiesRelationManager extends RelationManager
             ])
             ->headerActions([])
             ->actions([
-                //
+                Tables\Actions\ViewAction::make()
+                    ->label('')
+                    ->url(fn($record): string => ActivityResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }

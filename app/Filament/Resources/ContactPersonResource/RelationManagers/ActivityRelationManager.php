@@ -18,13 +18,18 @@ class ActivityRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('date')
+                    ->label('Datum')
                     ->date('d-m-Y'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('task.name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Activiteitnaam'),
+                Tables\Columns\TextColumn::make('task.name')
+                    ->label('Taak'),
                 Tables\Columns\TextColumn::make('neighbourhoods.name')
+                    ->label('Wijken')
                     ->default('-')
                     ->limit(40),
                 Tables\Columns\TextColumn::make('partners.name')
+                    ->label('Samenwerkingspartners')
                     ->default('-')
                     ->limit(40),
             ])

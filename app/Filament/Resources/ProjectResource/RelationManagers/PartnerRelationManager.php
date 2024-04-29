@@ -31,6 +31,9 @@ class PartnersRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('partner.name')
                     ->label('Naam'),
+                Tables\Columns\TextColumn::make('neighbourhood.name')
+                    ->label('Wijk'),
+                Tables\Columns\TextColumn::make('coordinator.name')
             ])
             ->filters([
                 //
@@ -39,7 +42,9 @@ class PartnersRelationManager extends RelationManager
                 //
             ])
             ->actions([
-                //
+                Tables\Actions\ViewAction::make()
+                    ->label('')
+                    ->url(fn($record): string => PartnerResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }
