@@ -22,6 +22,11 @@ class EditActivity extends EditRecord
         ];
     }
 
+    public function getRelationManagers(): array
+    {
+        return [];
+    }
+
     protected function getFormActions(): array
     {
         return [
