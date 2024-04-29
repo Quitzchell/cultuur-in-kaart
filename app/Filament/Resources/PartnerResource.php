@@ -37,29 +37,35 @@ class PartnerResource extends Resource
                     ->columns(['default' => 1, 'lg' => 4])
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label('Naam')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(['default' => 2, 'lg' => 4]),
                         Forms\Components\TextInput::make('street')
+                            ->label('Straat')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(['default' => 2, 'lg' => 2]),
                         Forms\Components\TextInput::make('house_number')
+                            ->label('Huisnummer')
                             ->required()
                             ->numeric()
                             ->maxLength(10)
                             ->columnSpan(['default' => 1, 'lg' => 1]),
                         Forms\Components\TextInput::make('house_number_addition')
+                            ->label('Huisnummertoevoeging')
                             ->maxLength(10)
                             ->live(true)
                             ->afterStateUpdated(function (TextInput $component, ?string $state) {
                                 isset($state) && $component->state(strtoupper($state));
                             }),
                         Forms\Components\TextInput::make('zip')
+                            ->label('Postcode')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(['default' => 1, 'lg' => 1]),
                         Forms\Components\TextInput::make('city')
+                            ->label('Stad')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(['default' => 1, 'lg' => 1]),

@@ -111,6 +111,7 @@ class ContactPersonResource extends Resource
                     ->schema([
                         TextEntry::make('comment')
                             ->label('Opmerkingen')
+                            ->default('-')
                             ->inlineLabel(),
                     ])->columnSpan(1)
             ]);

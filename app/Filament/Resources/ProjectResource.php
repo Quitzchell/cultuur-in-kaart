@@ -89,6 +89,7 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Naam')
                     ->searchable(),
                 TextColumn::make('neighbourhoods.neighbourhood.name')
                     ->label('Wijken')
@@ -101,10 +102,12 @@ class ProjectResource extends Resource
                         return implode(', ', $uniqueNeighbourhoods);
                     }),
                 TextColumn::make('start_date')
+                    ->label('Startdatum')
                     ->date('d-m-Y')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('end_date')
+                    ->label('Einddatum')
                     ->date('d-m-Y')
                     ->sortable()
                     ->searchable(),
@@ -151,9 +154,11 @@ class ProjectResource extends Resource
                             ->schema([
                                 TextEntry::make('coordinator.name')
                                     ->label('Primaire Coördinator')
+                                    ->default('-')
                                     ->inlineLabel(),
                                 TextEntry::make('coordinators.coordinator.name')
                                     ->label('Coördinatoren')
+                                    ->default('-')
                                     ->inlineLabel(),
                             ]),
                     ]),

@@ -36,6 +36,7 @@ class NeighbourhoodResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Naam')
             ])
             ->filters([
                 //

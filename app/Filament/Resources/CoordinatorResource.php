@@ -52,6 +52,10 @@ class CoordinatorResource extends Resource
                             ->required()
                             ->email()
                             ->maxLength(255),
+                        TextInput::make('password')
+                            ->label('Wachtwoord')
+                            ->hiddenOn('edit')
+                            ->required(),
                         TextInput::make('phone')
                             ->name('Telefoonnummer')
                             ->tel()
