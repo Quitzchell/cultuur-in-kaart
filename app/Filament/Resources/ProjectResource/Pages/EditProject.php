@@ -15,7 +15,6 @@ class EditProject extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            $this->getCancelFormAction()->label('Terug'),
             Actions\DeleteAction::make(),
         ];
     }
@@ -28,7 +27,8 @@ class EditProject extends EditRecord
     protected function getFormActions(): array
     {
         return [
-            $this->getSaveFormAction()
+            $this->getCancelFormAction()->label('Terug'),
+            $this->getSaveFormAction(),
         ];
     }
 }
