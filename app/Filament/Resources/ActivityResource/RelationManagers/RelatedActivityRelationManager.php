@@ -4,30 +4,18 @@ namespace App\Filament\Resources\ActivityResource\RelationManagers;
 
 use App\Filament\Resources\ActivityResource;
 use App\Models\Activity;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class RelatedActivityRelationManager extends RelationManager
 {
     protected static string $relationship = 'relatedActivities';
 
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
     public function table(Table $table): Table
     {
         return $table
-            ->query(function (Builder $query) {
+            ->query(function () {
                 return Activity::query()
                     ->where('project_id', $this->ownerRecord->project_id)
                     ->WhereNot('id', $this->ownerRecord->getKey());
