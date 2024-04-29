@@ -11,14 +11,6 @@ class ActivityRelationManager extends RelationManager
 {
     protected static string $relationship = 'activities';
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
     public function table(Table $table): Table
     {
         return $table

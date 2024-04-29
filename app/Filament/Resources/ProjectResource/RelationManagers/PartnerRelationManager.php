@@ -2,8 +2,7 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use App\Filament\Resources\PartnerResource;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -12,14 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 class PartnerRelationManager extends RelationManager
 {
     protected static string $relationship = 'partners';
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
 
     public function table(Table $table): Table
     {
