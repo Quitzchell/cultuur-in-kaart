@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             NeighbourhoodSeeder::class,
         ]);
 
-        if (app()->environment() !== 'production') {
+        if (app()->environment() !== 'production' && app()->environment() !== 'test') {
             Coordinator::factory(3)->create()->each(function (Coordinator $coordinator) {
                 $neighbourhoods = Neighbourhood::all()->random(3);
                 foreach ($neighbourhoods as $neighbourhood) {
