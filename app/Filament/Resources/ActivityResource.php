@@ -53,7 +53,8 @@ class ActivityResource extends Resource
                             ->columnSpanFull(),
                         Select::make('project_id')
                             ->relationship('project', 'name')
-                            ->label('Project')
+                            ->createOptionForm(ProjectModalForm::getForm())
+                            ->label('Projectnaam')
                             ->required()
                             ->preload()
                             ->live()
@@ -104,6 +105,7 @@ class ActivityResource extends Resource
 
                         Select::make('partners_id')
                             ->relationship('partners', 'name')
+                            ->createOptionForm(PartnerModalForm::getForm())
                             ->label('Partners')
                             ->live()
                             ->required()

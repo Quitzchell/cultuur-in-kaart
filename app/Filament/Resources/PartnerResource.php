@@ -73,6 +73,7 @@ class PartnerResource extends Resource
                     ->columns(['default' => 1, 'lg' => 2])
                     ->schema([
                         Forms\Components\Select::make('contactPeople')
+                            ->createOptionForm(ContactPersonModalForm::getForm())
                             ->label('Contactpersonen')
                             ->relationship('contactPeople', 'name')
                             ->live()
