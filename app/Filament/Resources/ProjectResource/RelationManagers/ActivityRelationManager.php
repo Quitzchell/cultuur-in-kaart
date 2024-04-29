@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
-use Filament\Forms\Form;
+use App\Filament\Resources\ActivityResource;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class ActivitiesRelationManager extends RelationManager
+class ActivityRelationManager extends RelationManager
 {
     protected static string $relationship = 'activities';
 

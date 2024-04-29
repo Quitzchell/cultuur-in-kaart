@@ -9,7 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class PartnersRelationManager extends RelationManager
+class PartnerRelationManager extends RelationManager
 {
     protected static string $relationship = 'partners';
 
