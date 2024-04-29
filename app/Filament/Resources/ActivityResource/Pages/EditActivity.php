@@ -15,8 +15,6 @@ class EditActivity extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            $this->getCancelFormAction()
-                ->label('Terug'),
             Actions\DeleteAction::make(),
 
         ];
@@ -30,6 +28,7 @@ class EditActivity extends EditRecord
     protected function getFormActions(): array
     {
         return [
+            $this->getCancelFormAction()->label('Terug'),
             $this->getSaveFormAction()
         ];
     }
