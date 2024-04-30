@@ -49,6 +49,8 @@ class TaskResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
             ]);
     }
 
