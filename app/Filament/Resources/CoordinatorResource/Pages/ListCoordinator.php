@@ -12,7 +12,7 @@ class ListCoordinator extends ListRecords
 {
     protected static string $resource = CoordinatorResource::class;
 
-    protected static ?string $title = 'Coördinatoroverzicht';
+    protected static ?string $title = 'Overzicht coördinatoren';
 
     protected function getHeaderActions(): array
     {

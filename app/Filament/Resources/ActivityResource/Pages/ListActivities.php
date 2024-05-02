@@ -10,7 +10,7 @@ class ListActivities extends ListRecords
 {
     protected static string $resource = ActivityResource::class;
 
-    protected static ?string $title = 'Activiteitenoverzicht';
+    protected static ?string $title = 'Overzicht activiteiten';
 
     protected function getHeaderActions(): array
     {
