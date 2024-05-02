@@ -27,7 +27,9 @@ class NeighbourhoodResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\TextInput::make('name')
+                ]),
             ]);
     }
 
