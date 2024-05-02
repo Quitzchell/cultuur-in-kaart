@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Coordinator;
+use App\Models\Discipline;
 use App\Models\Neighbourhood;
 use App\Models\Partner;
 use App\Models\Project;
@@ -21,9 +22,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             TaskSeeder::class,
             NeighbourhoodSeeder::class,
+            DisciplineSeeder::class,
         ]);
 
-        if (app()->environment() !== 'production' && app()->environment() !== 'test') {
+        if (app()->environment() !== 'production') {
             Coordinator::factory(3)->create()->each(function (Coordinator $coordinator) {
                 $neighbourhoods = Neighbourhood::all()->random(3);
                 foreach ($neighbourhoods as $neighbourhood) {
@@ -41,6 +43,9 @@ class DatabaseSeeder extends Seeder
 
                         $neighbourhood = Neighbourhood::all()->random(3);
                         $activity->neighbourhoods()->attach($neighbourhood);
+
+                        $disciplines = Discipline::all()->random(3);
+                        $activity->disciplines()->attach($disciplines);
                     })
                 );
             });

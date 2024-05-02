@@ -23,6 +23,11 @@ class Activity extends Model
         return $this->belongsToMany(Coordinator::class);
     }
 
+    public function disciplines(): BelongsToMany
+    {
+        return $this->belongsToMany(Discipline::class);
+    }
+
     public function neighbourhoods(): BelongsToMany
     {
         return $this->belongsToMany(Neighbourhood::class);
@@ -38,13 +43,13 @@ class Activity extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function task(): BelongsTo
-    {
-        return $this->belongsTo(Task::class);
-    }
-
     public function relatedActivities(): HasMany
     {
         return $this->hasMany(self::class, 'project_id');
+    }
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class);
     }
 }
