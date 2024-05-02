@@ -10,6 +10,8 @@ class Discipline extends Model
 {
     use HasFactory;
 
+    protected $table = 'disciplines';
+
     /* Relations */
     public function activities(): BelongsToMany
     {
