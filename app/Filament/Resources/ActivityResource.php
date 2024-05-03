@@ -142,8 +142,8 @@ class ActivityResource extends Resource
                     ->label('Taak'),
                 TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
+                    ->placeholder('-')
                     ->searchable()
-                    ->default('-')
                     ->limit(40),
             ])
             ->filters([
