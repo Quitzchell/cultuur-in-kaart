@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\CoordinatorResource\Pages;
 
 use App\Filament\Resources\CoordinatorResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateCoordinator extends CreateRecord
