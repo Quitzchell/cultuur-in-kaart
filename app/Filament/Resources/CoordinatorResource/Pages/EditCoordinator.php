@@ -29,4 +29,9 @@ class EditCoordinator extends EditRecord
             $this->getSaveFormAction()
         ];
     }
+
+    public function getRelationManagers(): array
+    {
+        return [];
+    }
 }

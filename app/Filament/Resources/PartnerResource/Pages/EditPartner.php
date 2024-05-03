@@ -27,4 +27,9 @@ class EditPartner extends EditRecord
             $this->getSaveFormAction()
         ];
     }
+
+    public function getRelationManagers(): array
+    {
+        return [];
+    }
 }

@@ -20,16 +20,16 @@ class EditActivity extends EditRecord
         ];
     }
 
-    public function getRelationManagers(): array
-    {
-        return [];
-    }
-
     protected function getFormActions(): array
     {
         return [
             $this->getCancelFormAction()->label('Terug'),
             $this->getSaveFormAction()
         ];
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [];
     }
 }
