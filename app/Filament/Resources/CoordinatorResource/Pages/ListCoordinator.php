@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\Pages;
+namespace App\Filament\Resources\CoordinatorResource\Pages;
 
 use App\Enums\Coordinator\Role;
 use App\Filament\Resources\CoordinatorResource;

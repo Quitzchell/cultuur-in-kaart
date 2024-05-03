@@ -6,7 +6,7 @@ use App\Enums\Coordinator\Role;
 use App\Enums\Workday\Workday;
 use App\Filament\Resources\CoordinatorResource\RelationManagers\ActivityRelationManager;
 use App\Filament\Resources\CoordinatorResource\RelationManagers\ProjectRelationManager;
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\CoordinatorResource\Pages;
 use App\Models\Coordinator;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\Pages;
+namespace App\Filament\Resources\CoordinatorResource\Pages;
 
 use App\Filament\Resources\CoordinatorResource;
 use Filament\Actions;
