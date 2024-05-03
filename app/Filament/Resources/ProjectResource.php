@@ -8,6 +8,7 @@ use App\Filament\Resources\ProjectResource\RelationManagers\PartnerRelationManag
 use App\Models\Coordinator;
 use App\Models\Project;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -38,29 +39,18 @@ class ProjectResource extends Resource
         return $form
             ->schema([
                 Section::make('Algemeen')
+                    ->columns()
                     ->schema([
                         TextInput::make('name')
                             ->label('Naam')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->columnSpanFull(),
                         TextInput::make('project_number')
                             ->alphaNum()
                             ->label('Projectnummer')
-                            ->required(),
-                    ]),
-
-                Section::make('Data')
-                    ->schema([
-                        DatePicker::make('start_date')
-                            ->label('Startdatum')
-                            ->required(),
-                        DatePicker::make('end_date')
-                            ->label('Einddatum'),
-                    ])->columns(),
-
-
-                Section::make('Coördinatoren')
-                    ->schema([
+                            ->required()
+                            ->columnSpanFull(),
                         Select::make('coordinator_id')
                             ->label('Coördinatoren')
                             ->relationship('coordinator', 'name')
@@ -73,13 +63,29 @@ class ProjectResource extends Resource
                             ->relationship('coordinator', 'name', fn(Get $get) => Coordinator::where('id', $get('coordinator_id')))
                             ->disabled(fn(Get $get) => empty($get('coordinator_id'))),
                     ]),
-                Section::make('Overig')
+
+                Group::make()
+                    ->columnSpanFull()
+                    ->columns()
                     ->schema([
-                        TextInput::make('budget_spend')
-                            ->label('Besteed budget')
-                            ->prefix('€')
-                            ->rules('decimal:0,2')
-                            ->numeric()
+                        Section::make('Data')
+                            ->columnSpan(1)
+                            ->schema([
+                                DatePicker::make('start_date')
+                                    ->label('Startdatum')
+                                    ->required(),
+                                DatePicker::make('end_date')
+                                    ->label('Einddatum'),
+                            ]),
+                        Section::make('Overig')
+                            ->columnSpan(1)
+                            ->schema([
+                                TextInput::make('budget_spend')
+                                    ->label('Besteed budget')
+                                    ->prefix('€')
+                                    ->rules('decimal:0,2')
+                                    ->numeric()
+                            ])
                     ])
             ]);
     }
