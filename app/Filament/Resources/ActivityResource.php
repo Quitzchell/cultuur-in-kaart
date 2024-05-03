@@ -54,12 +54,12 @@ class ActivityResource extends Resource
                             ->maxLength(255)
                             ->columnSpanFull(),
                         Select::make('project_id')
-                            ->relationship('project', 'name')
                             ->createOptionForm(ProjectModalForm::getForm())
+                            ->relationship('project', 'name')
                             ->label('Projectnaam')
+                            ->live()
                             ->required()
                             ->preload()
-                            ->live()
                             ->searchable(['name'])
                             ->columnSpanFull(),
 
@@ -73,9 +73,9 @@ class ActivityResource extends Resource
                             ->required(),
 
                         CheckboxList::make('neighbourhood_id')
-                            ->bulkToggleable()
                             ->relationship('neighbourhoods', 'name')
                             ->label('Wijken')
+                            ->bulkToggleable()
                             ->required()
                             ->columns(3)
                             ->columnSpanFull(),
@@ -85,21 +85,21 @@ class ActivityResource extends Resource
                     ->columns()
                     ->schema([
                         Select::make('coordinator_id')
-                            ->label('Coördinatoren')
                             ->relationship('coordinators', 'name',
                                 function (Builder $query, Get $get) {
                                     $project = Project::find($get('project_id'));
                                     $coordinators = $project?->coordinators()->pluck('coordinators.id');
                                     return $query->whereKey($coordinators?->unique());
                                 })
+                            ->label('Coördinatoren')
                             ->required()
                             ->multiple()
                             ->preload()
                             ->columnSpanFull(),
 
                         Select::make('partners_id')
-                            ->relationship('partners', 'name')
                             ->createOptionForm(PartnerModalForm::getForm())
+                            ->relationship('partners', 'name')
                             ->label('Partners')
                             ->live()
                             ->required()
@@ -107,14 +107,14 @@ class ActivityResource extends Resource
                             ->preload()
                             ->searchable(['name']),
                         Select::make('contact_person_id')
-                            ->label('Contactpersoon')
                             ->relationship(
                                 'contactPerson',
                                 'name',
                                 function (Builder $query, Get $get) {
                                     return $query->whereIn('id', $get('partners_id'));
                                 })
-                            ->disabled(fn(Get $get) => empty($get('partners_id'))),
+                            ->disabled(fn(Get $get) => empty($get('partners_id')))
+                            ->label('Contactpersoon'),
                     ]),
                 Section::make('Opmerkingen')->schema([
                     Textarea::make('comment')
@@ -229,7 +229,8 @@ class ActivityResource extends Resource
                             ->schema([
                                 TextEntry::make('partners.name')
                                     ->label('Partners')
-                                    ->inlineLabel(),
+                                    ->inlineLabel()
+                                    ->default('-'),
                                 TextEntry::make('contactPerson.name')
                                     ->label('Contactpersoon')
                                     ->inlineLabel()
