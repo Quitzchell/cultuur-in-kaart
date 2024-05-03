@@ -27,15 +27,9 @@ class AppPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->maxContentWidth(MaxWidth::ScreenTwoExtraLarge)
             ->id('app')
             ->path('/')
-            ->topNavigation()
             ->login()
-            ->profile(EditProfile::class)
-            ->colors([
-                'primary' => Color::Indigo,
-            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -66,6 +60,13 @@ class AppPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->brandName('Cultuur in Kaart')
+            ->maxContentWidth(MaxWidth::ScreenTwoExtraLarge)
+            ->topNavigation()
+            ->profile(EditProfile::class)
+            ->colors([
+                'primary' => Color::Indigo,
             ]);
     }
 }
