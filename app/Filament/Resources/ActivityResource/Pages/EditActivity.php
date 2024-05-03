@@ -16,15 +16,6 @@ class EditActivity extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-
-        ];
-    }
-
-    protected function getFormActions(): array
-    {
-        return [
-            $this->getCancelFormAction()->label('Terug'),
-            $this->getSaveFormAction()
         ];
     }
 

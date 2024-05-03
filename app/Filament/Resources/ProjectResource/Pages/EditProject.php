@@ -19,14 +19,6 @@ class EditProject extends EditRecord
         ];
     }
 
-    protected function getFormActions(): array
-    {
-        return [
-            $this->getCancelFormAction()->label('Terug'),
-            $this->getSaveFormAction(),
-        ];
-    }
-
     public function getRelationManagers(): array
     {
         return [];
