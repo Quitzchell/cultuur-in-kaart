@@ -55,6 +55,7 @@ class ActivityResource extends Resource
                             ->columnSpanFull(),
                         Select::make('project_id')
                             ->createOptionForm(ProjectModalForm::getForm())
+                            ->editOptionForm(ProjectModalForm::getForm())
                             ->relationship('project', 'name')
                             ->label('Projectnaam')
                             ->live()
