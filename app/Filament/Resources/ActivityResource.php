@@ -147,17 +147,17 @@ class ActivityResource extends Resource
                     ->limit(40),
             ])
             ->filters([
-                SelectFilter::make('project')
+                SelectFilter::make('project_id')
                     ->relationship('project', 'name')
-                    ->label('Projecten')
+                    ->label('Projectnaam')
                     ->preload()
                     ->multiple(),
-                SelectFilter::make('neighbourhoods')
+                SelectFilter::make('neighbourhood_id')
                     ->relationship('neighbourhoods', 'name')
                     ->label('Wijken')
                     ->preload()
                     ->multiple(),
-                SelectFilter::make('task')
+                SelectFilter::make('task_id')
                     ->relationship('task', 'name'),
                 Tables\Filters\Filter::make('date')->form([
                     DatePicker::make('date_from')
