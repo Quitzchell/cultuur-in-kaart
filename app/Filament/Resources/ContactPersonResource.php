@@ -65,7 +65,6 @@ class ContactPersonResource extends Resource
                     ->label('Telefoonnummer'),
                 TextColumn::make('partners.name')
                     ->label('Samenwerkingspartner')
-                    ->default('-')
                     ->placeholder('-')
                     ->limit(40),
             ])
