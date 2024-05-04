@@ -18,7 +18,7 @@ class PartnerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->company(),
             'zip' => $this->faker->postcode(),
             'city' => $this->faker->city(),
             'street' => $this->faker->streetName(),
