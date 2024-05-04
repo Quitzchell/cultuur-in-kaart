@@ -13,6 +13,8 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ContactPersonResource extends Resource
@@ -70,8 +72,12 @@ class ContactPersonResource extends Resource
                     ->limit(40),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('partner_id')
+                    ->relationship('partners', 'name')
+                    ->label('Samenwerkingspartner')
+                    ->preload()
+                    ->multiple(),
+            ], FiltersLayout::Modal)
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label(''),
