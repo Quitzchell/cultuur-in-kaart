@@ -66,6 +66,7 @@ class ContactPersonResource extends Resource
                 TextColumn::make('partners.name')
                     ->label('Samenwerkingspartner')
                     ->placeholder('-')
+                    ->searchable()
                     ->limit(40),
             ])
             ->filters([
