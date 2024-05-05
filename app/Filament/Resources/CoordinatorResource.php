@@ -38,17 +38,17 @@ class CoordinatorResource extends Resource
                     ->columns()
                     ->schema([
                         TextInput::make('name')
-                            ->name('Naam')
+                            ->label('Naam')
                             ->required()
                             ->ascii()
                             ->maxLength(255),
                         Select::make('role')
-                            ->name('Gebruikersrol')
+                            ->label('Gebruikersrol')
                             ->required()
                             ->enum(Role::class)
                             ->options(Role::class),
                         TextInput::make('email')
-                            ->name('Email')
+                            ->label('Email')
                             ->required()
                             ->email()
                             ->maxLength(255),
@@ -57,7 +57,7 @@ class CoordinatorResource extends Resource
                             ->hiddenOn('edit')
                             ->required(),
                         TextInput::make('phone')
-                            ->name('Telefoonnummer')
+                            ->label('Telefoonnummer')
                             ->tel()
                     ]),
                 Section::make('Wijken')
