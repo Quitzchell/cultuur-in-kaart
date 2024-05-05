@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\Coordinator\Role;
+use App\Enums\Workday\Workday;
 use App\Models\Coordinator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -22,9 +23,10 @@ class CoordinatorFactory extends Factory
             'role' => Role::Werknemer->value,
             'email' => fake()->unique()->userName() . '@soc.nl',
             'email_verified_at' => now(),
-            'phone' => fake()->phoneNumber(),
+            'phone' => fake()->e164PhoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'workdays' => Workday::labels(),
         ];
     }
 
