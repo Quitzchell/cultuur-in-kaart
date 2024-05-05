@@ -2,16 +2,17 @@
 
 use App\Filament\Resources\ContactPersonResource;
 use App\Filament\Resources\ContactPersonResource\Pages\CreateContactPerson;
+use App\Filament\Resources\ContactPersonResource\Pages\EditContactPerson;
 use App\Models\ContactPerson;
 use App\Models\Partner;
 use function Pest\Livewire\livewire;
 
-it('can render contact person form', function () {
+it('can render ContactPerson form', function () {
     $contactPerson = ContactPerson::factory()->create();
     $this->get(ContactPersonResource::getUrl('create', ['record' => $contactPerson->getKey()]))->assertSuccessful();
 });
 
-it('can create contact person', function () {
+it('can create ContactPerson', function () {
     $partner = Partner::factory()->create();
     $contactPerson = ContactPerson::factory()->make();
 
@@ -32,9 +33,15 @@ it('can create contact person', function () {
         'phone' => $contactPerson->phone,
         'comment' => $contactPerson->comment,
     ]);
+
+    $savedContactPerson = ContactPerson::first();
+    $this->assertDatabaseHas('contact_person_partner', [
+        'contact_person_id' => $savedContactPerson->getKey(),
+        'partner_id' => $partner->getKey(),
+    ]);
 });
 
-it('can validate create contact person form', function () {
+it('can validate create ContactPerson form', function () {
     livewire(CreateContactPerson::class)
         ->fillForm([
             'name' => null,
@@ -50,7 +57,33 @@ it('can validate create contact person form', function () {
         ]);
 });
 
-it('can render contact person edit form', function () {
+it('can render ContactPerson edit form', function () {
     $contactPerson = ContactPerson::factory()->create();
     $this->get(ContactPersonResource::getUrl('edit', ['record' => $contactPerson->getKey()]))->assertSuccessful();
+});
+
+it('can edit contact person', function () {
+    $contactPerson = ContactPerson::factory()->create();
+    $partner = Partner::factory()->create();
+    $contactPerson->partners()->attach($partner);
+
+    $newContactPerson = ContactPerson::factory()->make();
+    $newPartner = Partner::factory()->create();
+    $newPartners = $contactPerson->partners->add($newPartner);
+
+    livewire(editContactPerson::class, [
+        'record' => $contactPerson->getKey(),
+    ])->fillForm([
+        'name' => $newContactPerson->name,
+        'email' => $newContactPerson->email,
+        'phone' => $newContactPerson->phone,
+        'partner_id' => $newPartners->map(fn(Partner $partner) => $partner->getKey())->toArray(),
+        'comment' => $newContactPerson->comment,
+    ])->call('save')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('contact_person_partner', [
+        'contact_person_id' => $contactPerson->getKey(),
+        'partner_id' => $partner->getKey(),
+    ]);
 });
