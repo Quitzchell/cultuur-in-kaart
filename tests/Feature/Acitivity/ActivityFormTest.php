@@ -3,6 +3,7 @@
 /** Rendering */
 
 use App\Filament\Resources\ActivityResource;
+use App\Filament\Resources\ActivityResource\Pages\CreateActivity;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Coordinator;
@@ -26,7 +27,7 @@ it('can create Activity', function () {
     $partner = Partner::factory()->create();
     $activity = Activity::factory()->make();
 
-    livewire(ActivityResource\Pages\CreateActivity::class)
+    livewire(CreateActivity::class)
         ->fillForm([
             'name' => $activity->name,
             'project_id' => $project->getKey(),
@@ -57,7 +58,7 @@ it('can disable contact_person_id field on Activity', function () {
     $coordinator = Coordinator::factory()->create();
     $activity = Activity::factory()->make();
 
-    livewire(ActivityResource\Pages\CreateActivity::class)
+    livewire(CreateActivity::class)
         ->fillForm([
             'name' => $activity->name,
             'project_id' => $project->getKey(),
@@ -78,7 +79,7 @@ it('can enable contact_person_id field on Activity', function () {
     $partner = Partner::factory()->create();
     $activity = Activity::factory()->make();
 
-    livewire(ActivityResource\Pages\CreateActivity::class)
+    livewire(CreateActivity::class)
         ->fillForm([
             'name' => $activity->name,
             'project_id' => $project->getKey(),
@@ -91,8 +92,8 @@ it('can enable contact_person_id field on Activity', function () {
         ])->assertFormFieldIsEnabled('contact_person_id');
 });
 
-it('can validate create Activity', function () {
-    livewire(ActivityResource\Pages\CreateActivity::class)
+it('can validate create Activity form', function () {
+    livewire(CreateActivity::class)
         ->fillForm([
             'name' => null,
             'project_id' => null,
