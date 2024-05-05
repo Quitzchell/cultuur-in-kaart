@@ -20,7 +20,7 @@ class ContactPersonFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => $this->faker->e164PhoneNumber(),
             'comment' => $this->faker->text(),
         ];
     }
