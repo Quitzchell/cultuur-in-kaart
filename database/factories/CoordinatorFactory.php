@@ -19,7 +19,7 @@ class CoordinatorFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName() . fake()->lastName(),
             'role' => Role::Werknemer->value,
             'email' => fake()->unique()->userName() . '@soc.nl',
             'email_verified_at' => now(),
