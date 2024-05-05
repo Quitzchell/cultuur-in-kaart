@@ -47,7 +47,7 @@ class ContactPersonResource extends Resource
                             ->tel()
                             ->maxLength(38)
                             ->validationMessages(['regex' => 'Het telefoonnummer is ongeldig.']),
-                        Forms\Components\Select::make('partners')
+                        Forms\Components\Select::make('partner_id')
                             ->label('Samenwerkingspartner')
                             ->relationship('partners', 'name')
                             ->multiple()
