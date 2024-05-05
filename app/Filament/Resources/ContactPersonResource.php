@@ -35,14 +35,18 @@ class ContactPersonResource extends Resource
                     ->columns()
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label('Naam')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
+                            ->label('Mailadres')
                             ->email()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('phone')
+                            ->label('Telefoonnummer')
                             ->tel()
-                            ->maxLength(255),
+                            ->maxLength(38)
+                            ->validationMessages(['regex' => 'Het telefoonnummer is ongeldig.']),
                         Forms\Components\Select::make('partners')
                             ->label('Samenwerkingspartner')
                             ->relationship('partners', 'name')
