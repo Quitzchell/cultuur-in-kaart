@@ -17,7 +17,7 @@ it('can render Discipline edit form', function () {
     $this->get(DisciplineResource::getUrl('edit', ['record' => $discipline->getKey()]))->assertSuccessful();
 });
 
-/** Creation */
+/** Create */
 it('can create Discipline', function () {
     $discipline = Discipline::factory()->make();
 
@@ -32,7 +32,7 @@ it('can create Discipline', function () {
     ]);
 });
 
-/** Validation */
+/** Validate */
 it('can validate Discipline form', function () {
     livewire(CreateDiscipline::class)
         ->fillForm([
