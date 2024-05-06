@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\NeighbourhoodResource;
 use App\Filament\Resources\NeighbourhoodResource\Pages\CreateNeighbourhood;
+use App\Filament\Resources\NeighbourhoodResource\Pages\EditNeighbourhood;
 use App\Models\Neighbourhood;
 use function Pest\Livewire\livewire;
 
@@ -39,4 +40,21 @@ it('can validate Neighbourhood form', function () {
         ->assertHasFormErrors([
             'name' => 'required'
         ]);
+});
+
+/** Edit */
+it('can update Neighbourhood', function () {
+    $neighbourhood = Neighbourhood::factory()->create();
+    $newNeighbourhood = Neighbourhood::factory()->make();
+
+    livewire(EditNeighbourhood::class, [
+        'record' => $neighbourhood->getKey()
+    ])->fillForm([
+        'name' => $newNeighbourhood->name,
+    ])->call('save')
+        ->assertHasNoFormErrors();
+
+    $this->assertDatabaseHas(Neighbourhood::class, [
+        'name' => $newNeighbourhood->name,
+    ]);
 });
