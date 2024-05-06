@@ -43,7 +43,7 @@ it('can validate Discipline form', function () {
         ]);
 });
 
-/** Editing */
+/** Edit */
 it('can update Discipline', function () {
     $discipline = Discipline::factory()->create();
     $newDiscipline = Discipline::factory()->make();
@@ -60,7 +60,7 @@ it('can update Discipline', function () {
     ]);
 });
 
-/** Deletion */
+/** Delete */
 it('can delete Discipline', function () {
     $discipline = Discipline::factory()->create();
     livewire(EditDiscipline::class, [
