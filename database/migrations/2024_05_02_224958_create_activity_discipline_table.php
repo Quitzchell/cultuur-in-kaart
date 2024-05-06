@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(Activity::class)->nullable();
             $table->foreignIdFor(Discipline::class)->nullable();
-            $table->timestamps();
 
             $table->foreign('activity_id')->references('id')->on('activities')->cascadeOnDelete();
             $table->foreign('discipline_id')->references('id')->on('disciplines')->cascadeOnDelete();
