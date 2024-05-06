@@ -109,12 +109,15 @@ class ContactPersonResource extends Resource
                             ->label('Naam')
                             ->inlineLabel(),
                         TextEntry::make('email')
+                            ->placeholder('-')
                             ->inlineLabel(),
                         TextEntry::make('phone')
                             ->label('Telefoonnummer')
+                            ->placeholder('-')
                             ->inlineLabel(),
                         TextEntry::make('partners.name')
                             ->label('Samenwerkingspartner')
+                            ->placeholder('-')
                             ->inlineLabel(),
                     ])->columnSpan(1),
 
@@ -122,7 +125,7 @@ class ContactPersonResource extends Resource
                     ->schema([
                         TextEntry::make('comment')
                             ->label('Opmerkingen')
-                            ->default('-')
+                            ->placeholder('-')
                             ->inlineLabel(),
                     ])->columnSpan(1)
             ]);
