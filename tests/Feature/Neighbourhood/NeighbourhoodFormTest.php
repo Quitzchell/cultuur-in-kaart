@@ -4,6 +4,7 @@ use App\Filament\Resources\NeighbourhoodResource;
 use App\Filament\Resources\NeighbourhoodResource\Pages\CreateNeighbourhood;
 use App\Filament\Resources\NeighbourhoodResource\Pages\EditNeighbourhood;
 use App\Models\Neighbourhood;
+use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -57,4 +58,14 @@ it('can update Neighbourhood', function () {
     $this->assertDatabaseHas(Neighbourhood::class, [
         'name' => $newNeighbourhood->name,
     ]);
+});
+
+/** Delete */
+it('can delete Neighbourhood', function () {
+    $neighbourhood = Neighbourhood::factory()->create();
+    livewire(EditNeighbourhood::class, [
+        'record' => $neighbourhood->getKey()
+    ])->callAction(DeleteAction::class);
+
+    $this->assertModelMissing($neighbourhood);
 });
