@@ -5,6 +5,7 @@ use App\Filament\Resources\ContactPersonResource\Pages\CreateContactPerson;
 use App\Filament\Resources\ContactPersonResource\Pages\EditContactPerson;
 use App\Models\ContactPerson;
 use App\Models\Partner;
+use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
 it('can render ContactPerson form', function () {
@@ -86,4 +87,13 @@ it('can edit contact person', function () {
         'contact_person_id' => $contactPerson->getKey(),
         'partner_id' => $partner->getKey(),
     ]);
+});
+
+it('can delete Contactperson', function () {
+    $contactPerson = ContactPerson::factory()->create();
+    livewire(EditContactPerson::class, [
+        'record' => $contactPerson->getRouteKey()
+    ])->callAction(DeleteAction::class);
+
+    $this->assertModelMissing($contactPerson);
 });
