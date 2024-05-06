@@ -114,7 +114,7 @@ it('can enable contact_person_id field on Activity', function () {
 });
 
 /** Validation */
-it('can validate create Activity form', function () {
+it('can validate Activity form', function () {
     livewire(CreateActivity::class)
         ->fillForm([
             'name' => null,
