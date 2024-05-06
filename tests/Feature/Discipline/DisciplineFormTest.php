@@ -43,3 +43,30 @@ it('can validate Discipline form', function () {
             'name' => 'required'
         ]);
 });
+
+/** Editing */
+it('can update Discipline', function () {
+    $discipline = Discipline::factory()->create();
+    $newDiscipline = Discipline::factory()->make();
+
+    livewire(EditDiscipline::class, [
+        'record' => $discipline->getKey()
+    ])->fillForm([
+        'name' => $newDiscipline->name,
+    ])->call('save')
+        ->assertHasNoFormErrors();
+
+    $this->assertDatabaseHas(Discipline::class, [
+        'name' => $newDiscipline->name,
+    ]);
+});
+
+/** Deletion */
+it('can delete Discipline', function () {
+    $discipline = Discipline::factory()->create();
+    livewire(EditDiscipline::class, [
+        'record' => $discipline->getKey()
+    ])->callAction(DeleteAction::class);
+
+    $this->assertModelMissing($discipline);
+});
