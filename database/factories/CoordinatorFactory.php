@@ -20,7 +20,7 @@ class CoordinatorFactory extends Factory
     {
         return [
             'name' => fake()->firstName() . fake()->lastName(),
-            'role' => Role::Werknemer->value,
+            'role' => Role::Employee->value,
             'email' => fake()->unique()->userName() . '@soc.nl',
             'email_verified_at' => now(),
             'phone' => fake()->e164PhoneNumber(),

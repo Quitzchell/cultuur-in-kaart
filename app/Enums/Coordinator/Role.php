@@ -5,7 +5,7 @@ namespace App\Enums\Coordinator;
 enum Role: string
 {
     case Administrator = 'Administrator';
-    case Werknemer = 'Werknemer';
+    case Employee = 'Werknemer';
 
     public static function labels(): array
     {
