@@ -136,7 +136,7 @@ it('can validate Activity form', function () {
 });
 
 /** Editing */
-it('can edit Activity', function () {
+it('can update Activity', function () {
     $activity = Activity::factory()->create();
     $activity->project()->associate(Project::factory()->create());
     $activity->task()->associate(Task::factory()->create());
@@ -159,18 +159,17 @@ it('can edit Activity', function () {
 
     livewire(EditActivity::class, [
         'record' => $activity->getKey()
-    ])
-        ->fillForm([
-            'name' => $newActivity->name,
-            'project_id' => $newProject->getKey(),
-            'task_id' => $newTask->getKey(),
-            'date' => $newActivity->date,
-            'contact_person_id' => $newContactPerson->getKey(),
-            'neighbourhood_id' => $newNeighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey())->toArray(),
-            'coordinator_id' => $newCoordinators->map(fn(Coordinator $coordinator) => $coordinator->getKey())->toArray(),
-            'partners_id' => $newPartners->map(fn(Partner $partner) => $partner->getKey())->toArray(),
-            'comment' => $newActivity->comment,
-        ])->call('save')
+    ])->fillForm([
+        'name' => $newActivity->name,
+        'project_id' => $newProject->getKey(),
+        'task_id' => $newTask->getKey(),
+        'date' => $newActivity->date,
+        'contact_person_id' => $newContactPerson->getKey(),
+        'neighbourhood_id' => $newNeighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey())->toArray(),
+        'coordinator_id' => $newCoordinators->map(fn(Coordinator $coordinator) => $coordinator->getKey())->toArray(),
+        'partners_id' => $newPartners->map(fn(Partner $partner) => $partner->getKey())->toArray(),
+        'comment' => $newActivity->comment,
+    ])->call('save')
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Activity::class, [

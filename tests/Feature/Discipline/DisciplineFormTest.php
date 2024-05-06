@@ -2,22 +2,24 @@
 
 use App\Filament\Resources\DisciplineResource;
 use App\Filament\Resources\DisciplineResource\Pages\CreateDiscipline;
+use App\Filament\Resources\DisciplineResource\Pages\EditDiscipline;
 use App\Models\Discipline;
+use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
 /** Rendering */
-it('can render discipline create form', function () {
+it('can render Discipline create form', function () {
     $discipline = Discipline::factory()->create();
     $this->get(DisciplineResource::getUrl('create', ['record' => $discipline->getKey()]))->assertSuccessful();
 });
 
-it('can render discipline edit form', function () {
+it('can render Discipline edit form', function () {
     $discipline = Discipline::factory()->create();
     $this->get(DisciplineResource::getUrl('edit', ['record' => $discipline->getKey()]))->assertSuccessful();
 });
 
 /** Creation */
-it('can create discipline', function () {
+it('can create Discipline', function () {
     $discipline = Discipline::factory()->make();
 
     livewire(CreateDiscipline::class)
@@ -31,10 +33,11 @@ it('can create discipline', function () {
     ]);
 });
 
-it('can validate discipline form', function () {
+/** Validation */
+it('can validate Discipline form', function () {
     livewire(CreateDiscipline::class)
         ->fillForm([
-            'name' => null
+            'name' => null,
         ])->call('create')
         ->assertHasFormErrors([
             'name' => 'required'
