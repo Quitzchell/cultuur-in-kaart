@@ -19,11 +19,11 @@ class CoordinatorFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->firstName() . fake()->lastName(),
+            'name' => $this->faker->firstName() . $this->faker->lastName(),
             'role' => Role::Employee->value,
-            'email' => fake()->unique()->userName() . '@soc.nl',
+            'email' => $this->faker->unique()->userName() . '@soc.nl',
             'email_verified_at' => now(),
-            'phone' => fake()->e164PhoneNumber(),
+            'phone' => $this->faker->e164PhoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'workdays' => [Workday::Monday->value, Workday::Tuesday->value, Workday::Wednesday->value]

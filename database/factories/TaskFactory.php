@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Neighbourhood;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Neighbourhood>
+ * @extends Factory<Task>
  */
 class TaskFactory extends Factory
 {
