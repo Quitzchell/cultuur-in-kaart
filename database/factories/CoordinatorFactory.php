@@ -26,7 +26,7 @@ class CoordinatorFactory extends Factory
             'phone' => fake()->e164PhoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'workdays' => Workday::labels(),
+            'workdays' => [Workday::Monday->value, Workday::Tuesday->value, Workday::Wednesday->value]
         ];
     }
 
