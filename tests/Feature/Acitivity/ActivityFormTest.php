@@ -200,8 +200,7 @@ it('can delete Activity', function () {
     $activity = Activity::factory()->create();
     livewire(EditActivity::class, [
         'record' => $activity->getRouteKey()
-    ])
-        ->callAction(DeleteAction::class);
+    ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($activity);
 });
