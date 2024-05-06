@@ -1,7 +1,5 @@
 <?php
 
-/** Rendering */
-
 use App\Filament\Resources\ActivityResource;
 use App\Filament\Resources\ActivityResource\Pages\CreateActivity;
 use App\Filament\Resources\ActivityResource\Pages\EditActivity;
@@ -15,11 +13,18 @@ use App\Models\Task;
 use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
+/** Rendering */
 it('can render Activity create Form', function () {
     $activity = Activity::factory()->create();
     $this->get(ActivityResource::getUrl('create', ['record' => $activity->getKey()]))->assertSuccessful();
 });
 
+it('can render Activity edit Form', function () {
+    $activity = Activity::factory()->create();
+    $this->get(ActivityResource::getUrl('edit', ['record' => $activity->getKey()]))->assertSuccessful();
+});
+
+/** Creation */
 it('can create Activity', function () {
     $project = Project::factory()->create();
     $task = Task::factory()->create();
@@ -108,6 +113,7 @@ it('can enable contact_person_id field on Activity', function () {
         ])->assertFormFieldIsEnabled('contact_person_id');
 });
 
+/** Validation */
 it('can validate create Activity form', function () {
     livewire(CreateActivity::class)
         ->fillForm([
@@ -131,11 +137,7 @@ it('can validate create Activity form', function () {
         ]);
 });
 
-it('can render Activity edit Form', function () {
-    $activity = Activity::factory()->create();
-    $this->get(ActivityResource::getUrl('edit', ['record' => $activity->getKey()]))->assertSuccessful();
-});
-
+/** Editing */
 it('can edit Activity', function () {
     $activity = Activity::factory()->create();
     $activity->project()->associate(Project::factory()->create());
@@ -196,6 +198,7 @@ it('can edit Activity', function () {
     ]);
 });
 
+/** Deletion */
 it('can delete Activity', function () {
     $activity = Activity::factory()->create();
     livewire(EditActivity::class, [
