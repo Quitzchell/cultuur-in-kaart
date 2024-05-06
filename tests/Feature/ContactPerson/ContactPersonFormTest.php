@@ -83,6 +83,13 @@ it('can edit contact person', function () {
     ])->call('save')
         ->assertHasNoErrors();
 
+    $this->assertDatabaseHas(ContactPerson::class, [
+        'name' => $newContactPerson->name,
+        'email' => $newContactPerson->email,
+        'phone' => $newContactPerson->phone,
+        'comment' => $newContactPerson->comment,
+    ]);
+
     $this->assertDatabaseHas('contact_person_partner', [
         'contact_person_id' => $contactPerson->getKey(),
         'partner_id' => $partner->getKey(),
