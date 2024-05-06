@@ -45,8 +45,7 @@ it('can create Activity', function () {
             'coordinator_id' => [$coordinator->getKey()],
             'partners_id' => [$partner->getKey()],
             'comment' => $activity->comment,
-        ])
-        ->call('create')
+        ])->call('create')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas(Activity::class, [
@@ -124,8 +123,7 @@ it('can validate Activity form', function () {
             'neighbourhood_id' => [],
             'coordinator_id' => [],
             'partners_id' => [],
-        ])
-        ->call('create')
+        ])->call('create')
         ->assertHasFormErrors([
             'name' => 'required',
             'project_id' => 'required',
