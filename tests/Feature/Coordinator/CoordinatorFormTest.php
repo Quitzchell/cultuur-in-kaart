@@ -93,3 +93,11 @@ it('can edit coordinator', function () {
         'neighbourhood_id' => $newNeighbourhood->getKey(),
     ]);
 });
+
+it('can hide password field on edit coordinator view', function () {
+    $coordinator = Coordinator::factory()->create();
+
+    livewire(EditCoordinator::class, [
+        'record' => $coordinator->getRouteKey(),
+    ])->assertFormFieldIsHidden('password');
+});
