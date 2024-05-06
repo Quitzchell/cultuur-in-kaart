@@ -9,8 +9,7 @@ use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
 it('can render ContactPerson form', function () {
-    $contactPerson = ContactPerson::factory()->create();
-    $this->get(ContactPersonResource::getUrl('create', ['record' => $contactPerson->getKey()]))->assertSuccessful();
+    $this->get(ContactPersonResource::getUrl('create'))->assertSuccessful();
 });
 
 it('can create ContactPerson', function () {

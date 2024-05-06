@@ -15,8 +15,7 @@ use function Pest\Livewire\livewire;
 
 /** Rendering */
 it('can render Activity create Form', function () {
-    $activity = Activity::factory()->create();
-    $this->get(ActivityResource::getUrl('create', ['record' => $activity->getKey()]))->assertSuccessful();
+    $this->get(ActivityResource::getUrl('create'))->assertSuccessful();
 });
 
 it('can render Activity edit Form', function () {

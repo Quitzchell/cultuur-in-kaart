@@ -9,12 +9,18 @@ use App\Models\Coordinator;
 use App\Models\Neighbourhood;
 use function Pest\Livewire\livewire;
 
-it('can render coordinator form', function () {
-    $coordinator = Coordinator::factory()->create();
-    $this->get(ContactPersonResource::getUrl('create', ['record' => $coordinator]))->assertSuccessful();
+/** Render */
+it('can render Coordinator form', function () {
+    $this->get(ContactPersonResource::getUrl('create'))->assertSuccessful();
 });
 
-it('can create coordinator', function () {
+it('can render Coordinator edit form', function () {
+    $coordinator = Coordinator::factory()->create();
+    $this->get(CoordinatorResource::getUrl('edit', ['record' => $coordinator]))->assertSuccessful();
+});
+
+/** Create */
+it('can create Coordinator', function () {
     $neighbourhoods = Neighbourhood::factory(2)->create();
     $coordinator = Coordinator::factory()->make();
 
@@ -32,6 +38,7 @@ it('can create coordinator', function () {
         ->assertHasNoErrors();
 });
 
+/** Validation */
 it('can validate create coordinator form', function () {
     livewire(CreateCoordinator::class)
         ->fillForm([
@@ -49,12 +56,6 @@ it('can validate create coordinator form', function () {
             'role' => 'required',
             'password' => 'required',
         ]);
-});
-
-it('can render coordinator edit form', function () {
-    $coordinator = Coordinator::factory()->create();
-
-    $this->get(CoordinatorResource::getUrl('edit', ['record' => $coordinator]))->assertSuccessful();
 });
 
 it('can edit coordinator', function () {

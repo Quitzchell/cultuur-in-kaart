@@ -9,8 +9,7 @@ use function Pest\Livewire\livewire;
 
 /** Rendering */
 it('can render Discipline create form', function () {
-    $discipline = Discipline::factory()->create();
-    $this->get(DisciplineResource::getUrl('create', ['record' => $discipline->getKey()]))->assertSuccessful();
+    $this->get(DisciplineResource::getUrl('create'))->assertSuccessful();
 });
 
 it('can render Discipline edit form', function () {
@@ -26,7 +25,7 @@ it('can create Discipline', function () {
         ->fillForm([
             'name' => $discipline->name,
         ])->call('create')
-        ->assertHasNoErrors();
+        ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Discipline::class, [
         'name' => $discipline->name,
