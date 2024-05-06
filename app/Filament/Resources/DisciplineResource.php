@@ -31,6 +31,8 @@ class DisciplineResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->schema([
                     Forms\Components\TextInput::make('name')
+                        ->label('Naam')
+                        ->required()
                 ]),
             ]);
     }
