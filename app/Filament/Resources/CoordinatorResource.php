@@ -109,22 +109,24 @@ class CoordinatorResource extends Resource
                     ->schema([
                         TextEntry::make('email')
                             ->label('Email')
+                            ->placeholder('-')
                             ->inlineLabel(),
                         TextEntry::make('phone')
                             ->label('Telefoonnummer')
+                            ->placeholder('-')
                             ->inlineLabel(),
                         TextEntry::make('workdays')
                             ->label('Werkdagen')
                             ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state)))
                             ->inlineLabel()
-                            ->default('-'),
+                            ->placeholder('-')
                     ])->columnSpan(1),
                 \Filament\Infolists\Components\Section::make('')
                     ->schema([
                         TextEntry::make('neighbourhoods.name')
                             ->label('Wijken')
                             ->inlineLabel()
-                            ->default('-'),
+                            ->placeholder('-')
                     ])->columnSpan(1)
             ])->columns();
     }
