@@ -10,10 +10,10 @@ it('can render Task list', function () {
 });
 
 it('can List Tasks', function () {
-    $task = Task::factory(10)->create();
+    $tasks = Task::factory(10)->create();
 
     livewire(ListTasks::class)
-        ->assertCanSeeTableRecords($task)
+        ->assertCanSeeTableRecords($tasks)
         ->assertCountTableRecords(10)
         ->assertCanRenderTableColumn('name')
         ->assertTableColumnExists('name');
