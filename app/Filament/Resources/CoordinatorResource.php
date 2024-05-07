@@ -40,7 +40,6 @@ class CoordinatorResource extends Resource
                         TextInput::make('name')
                             ->label('Naam')
                             ->required()
-                            ->ascii()
                             ->maxLength(255),
                         Select::make('role')
                             ->label('Gebruikersrol')
