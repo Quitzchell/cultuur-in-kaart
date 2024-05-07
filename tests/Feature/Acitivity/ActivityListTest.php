@@ -8,12 +8,12 @@ use App\Models\Project;
 use App\Models\Task;
 use function Pest\Livewire\livewire;
 
-/** Rendering */
+/** Render */
 it('can render Activity List', function () {
     $this->get(ActivityResource::getUrl())->assertSuccessful();
 });
 
-it('can list activities', function () {
+it('can list Activities', function () {
     $activities = Activity::factory(10)->create();
 
     livewire(ListActivities::class)
@@ -29,8 +29,8 @@ it('can list activities', function () {
         ->assertTableColumnExists('neighbourhoods.name');
 });
 
-/** Sorting */
-it('can sort activities by date', function () {
+/** Sort */
+it('can sort Activities by date', function () {
     $activities = Activity::factory(5)->create();
 
     livewire(ListActivities::class)
@@ -40,8 +40,8 @@ it('can sort activities by date', function () {
         ->assertCanSeeTableRecords($activities->sortByDesc('date'), inOrder: true);
 });
 
-/** searching */
-it('can search activities by name', function () {
+/** Search */
+it('can search Activities by name', function () {
     $activities = Activity::factory(10)->create();
     $name = $activities->first()->name;
 
