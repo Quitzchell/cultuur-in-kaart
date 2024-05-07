@@ -16,6 +16,8 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -120,8 +122,12 @@ class PartnerResource extends Resource
                     ->limit(40),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('neighbourhood_id')
+                    ->relationship('neighbourhood', 'name')
+                    ->label('Wijk')
+                    ->preload()
+                    ->multiple(),
+            ], layout: FiltersLayout::Modal)
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label(''),
