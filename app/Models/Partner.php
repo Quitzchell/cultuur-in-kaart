@@ -22,7 +22,7 @@ class Partner extends Model
         return $this->belongsToMany(ContactPerson::class);
     }
 
-    public function contactPerson(): BelongsTo
+    public function primaryContactPerson(): BelongsTo
     {
         return $this->belongsTo(ContactPerson::class);
     }

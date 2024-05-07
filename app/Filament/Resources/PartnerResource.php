@@ -81,7 +81,7 @@ class PartnerResource extends Resource
                 Forms\Components\Section::make('Contactpersonen')
                     ->columns(['default' => 1, 'lg' => 2])
                     ->schema([
-                        Forms\Components\Select::make('contactPeople')
+                        Forms\Components\Select::make('contact_person_id')
                             ->createOptionForm(ContactPersonModalForm::getForm())
                             ->label('Contactpersonen')
                             ->relationship('contactPeople', 'name')
@@ -90,13 +90,13 @@ class PartnerResource extends Resource
                             ->preload()
                             ->multiple()
                             ->searchable(['name']),
-                        Forms\Components\Select::make('contact_person_id')
+                        Forms\Components\Select::make('primary_contact_person_id')
                             ->label('Primair contactpersoon')
                             ->relationship(
-                                'contactPerson',
+                                'primaryContactPerson',
                                 'name',
                                 function (Builder $query, Get $get) {
-                                    return $query->whereIn('id', $get('contactPeople'));
+                                    return $query->whereIn('id', $get('contact_person_id'));
                                 })
                             ->nullable()
                             ->preload()
@@ -178,10 +178,10 @@ class PartnerResource extends Resource
                                 ->label('contactpersonen')
                                 ->inlineLabel()
                                 ->default('-'),
-                            TextEntry::make('contactPerson.name')
+                            TextEntry::make('primaryContactPerson.name')
                                 ->label('Primair contactpersoon')
                                 ->inlineLabel()
-                                ->default('-'),
+                                ->placeholder('-'),
                         ])
                     ])
             ]);

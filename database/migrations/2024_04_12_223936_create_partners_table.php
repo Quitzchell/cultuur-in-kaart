@@ -21,11 +21,11 @@ return new class extends Migration {
             $table->string('street');
             $table->integer('house_number');
             $table->string('house_number_addition')->nullable();
+            $table->foreignIdFor(ContactPerson::class, 'primary_contact_person_id')->nullable();
             $table->string('address')->virtualAs("CONCAT(street, ' ', house_number, '', COALESCE(house_number_addition, ''))");
-            $table->foreignIdFor(ContactPerson::class)->nullable();
             $table->timestamps();
 
-            $table->foreign('contact_person_id')
+            $table->foreign('primary_contact_person_id')
                 ->references('id')
                 ->on('contact_people')
                 ->cascadeOnDelete();
