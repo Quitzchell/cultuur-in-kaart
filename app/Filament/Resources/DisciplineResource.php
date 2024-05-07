@@ -44,9 +44,6 @@ class DisciplineResource extends Resource
             ->columns([
                 TextColumn::make('name')
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label(''),

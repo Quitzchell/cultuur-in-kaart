@@ -43,9 +43,6 @@ class NeighbourhoodResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Naam')
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label(''),
