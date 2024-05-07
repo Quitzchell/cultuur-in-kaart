@@ -113,9 +113,10 @@ class PartnerResource extends Resource
                 Tables\Columns\TextColumn::make('address')
                     ->label('Adres')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('neighbourhoods.name')
-                    ->label('Wijken')
-                    ->default('-')
+                Tables\Columns\TextColumn::make('neighbourhood.name')
+                    ->label('Wijk')
+                    ->placeholder('-')
+                    ->searchable()
                     ->limit(40),
             ])
             ->filters([
