@@ -10,7 +10,7 @@ use App\Models\Neighbourhood;
 use function Pest\Livewire\livewire;
 
 /** Render */
-it('can render Coordinator form', function () {
+it('can render Coordinator create form', function () {
     $this->get(ContactPersonResource::getUrl('create'))->assertSuccessful();
 });
 
@@ -20,7 +20,7 @@ it('can render Coordinator edit form', function () {
 });
 
 /** Create */
-it('can create Coordinator', function () {
+it('can create a Coordinator', function () {
     $neighbourhoods = Neighbourhood::factory(2)->create();
     $coordinator = Coordinator::factory()->make();
 
@@ -33,8 +33,7 @@ it('can create Coordinator', function () {
             'password' => $coordinator->password,
             'neighborhood_id' => $neighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey()),
             'workdays' => $coordinator->workdays,
-        ])
-        ->call('create')
+        ])->call('create')
         ->assertHasNoErrors();
 });
 
