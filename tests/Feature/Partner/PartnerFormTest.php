@@ -37,3 +37,81 @@ it('can create a Partner', function () {
         ])->call('create')
         ->assertHasNoFormErrors();
 });
+
+/** Validate */
+it('can validate create Partner form', function () {
+    livewire(CreatePartner::class)
+        ->fillForm([
+            'name' => null,
+            'street' => null,
+            'house_number' => null,
+            'zip' => null,
+            'city' => null,
+            'neighbourhood_id' => null,
+        ])->call('create')
+        ->assertHasFormErrors([
+            'name' => 'required',
+            'street' => 'required',
+            'house_number' => 'required',
+            'zip' => 'required',
+            'city' => 'required',
+            'neighbourhood_id' => 'required',
+        ]);
+});
+
+it('can validate numeric on create Partner form', function () {
+    livewire(CreatePartner::class)
+        ->fillForm([
+            'house_number' => 'asdf',
+        ])->call('create')
+        ->assertHasFormErrors([
+            'house_number' => 'numeric',
+        ]);
+});
+
+/** Edit */
+it('can edit a Partner', function () {
+    $partner = Partner::factory()->create();
+    $neighbourhood = Neighbourhood::factory()->create();
+    $contactPeople = ContactPerson::factory(10)->create();
+    $partner->contactPeople()->attach($contactPeople);
+    $partner->save();
+    $partner->primaryContactPerson()->associate($contactPeople->first());
+    $partner->neighbourhood()->associate($neighbourhood);
+
+    $newPartner = Partner::factory()->make();
+    $newNeighbourhood = Neighbourhood::factory()->create();
+    $newContactPerson = ContactPerson::factory()->create();
+    $newContactPeople = $partner->contactPeople->add($newContactPerson);
+
+    livewire(PartnerResource\Pages\EditPartner::class, [
+        'record' => $partner->getKey(),
+    ])
+        ->fillForm([
+            'name' => $newPartner->name,
+            'street' => $newPartner->street,
+            'house_number' => $newPartner->house_number,
+            'house_number_addition' => $newPartner->house_number_addition,
+            'zip' => $newPartner->zip,
+            'city' => $newPartner->city,
+            'neighbourhood_id' => $newNeighbourhood->getKey(),
+            'contact_person_id' => $newContactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
+            'primary_contact_person_id' => $newContactPerson->getKey(),
+        ])->call('save')
+        ->assertHasNoFormErrors();
+
+    $this->assertDatabaseHas(Partner::class, [
+        'name' => $newPartner->name,
+        'street' => $newPartner->street,
+        'house_number' => $newPartner->house_number,
+        'house_number_addition' => $newPartner->house_number_addition,
+        'zip' => $newPartner->zip,
+        'city' => $newPartner->city,
+        'neighbourhood_id' => $newNeighbourhood->getKey(),
+    ]);
+
+    $this->assertDatabaseHas('contact_person_partner', [
+        'partner_id' => $partner->getKey(),
+        'contact_person_id' => $newContactPerson->getKey(),
+    ]);
+});
