@@ -57,7 +57,8 @@ it('can validate create coordinator form', function () {
         ]);
 });
 
-it('can edit coordinator', function () {
+/** Edit */
+it('can edit a Coordinator', function () {
     $coordinator = Coordinator::factory()->create();
     $coordinator->neighbourhoods()->attach(Neighbourhood::factory(2)->create());
     $coordinator->save();
@@ -94,6 +95,7 @@ it('can edit coordinator', function () {
     ]);
 });
 
+/** Other */
 it('can hide password field on edit coordinator view', function () {
     $coordinator = Coordinator::factory()->create();
 

@@ -5,8 +5,8 @@ use App\Filament\Resources\CoordinatorResource\Pages\ListCoordinator;
 use App\Models\Coordinator;
 use function Pest\Livewire\livewire;
 
-/** Rendering */
-it('can render coordinator list', function () {
+/** Render */
+it('can render Coordinator list', function () {
     $this->get(CoordinatorResource::getUrl())->assertSuccessful();
 });
 

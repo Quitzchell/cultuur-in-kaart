@@ -51,7 +51,7 @@ it('can search Activities by name', function () {
         ->assertCanNotSeeTableRecords($activities->where('name', '!==', $name));
 });
 
-it('can search activities by project name', function () {
+it('can search Activities by project name', function () {
     $projects = Project::factory(4)->has(Activity::factory(5))->create();
     $project = $projects->first();
 
@@ -61,7 +61,7 @@ it('can search activities by project name', function () {
         ->assertCanNotSeeTableRecords($project->activities->where('project_id', '!==', $project->getKey()));
 });
 
-it('can search activities by neighbourhood name', function () {
+it('can search Activities by neighbourhood name', function () {
     $neighbourhoods = Neighbourhood::factory(10)->create();
     $activities = Activity::factory(5)->create()->each(function (Activity $activity) use ($neighbourhoods) {
         $activity->neighbourhoods()->attach($neighbourhoods->random(2));
@@ -79,7 +79,7 @@ it('can search activities by neighbourhood name', function () {
 });
 
 /** Filtering */
-it('can filter activities by project', function () {
+it('can filter Activities by Project', function () {
     $projects = Project::factory(4)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($projects) {
         $activity->project()->associate($projects->random());
@@ -94,7 +94,7 @@ it('can filter activities by project', function () {
         ->assertCanNotSeeTableRecords($activities->where('project_id', '!==', $project->getKey()));
 });
 
-it('can filter activities by neighbourhood', function () {
+it('can filter Activities by Neighbourhood', function () {
     $neighbourhoods = Neighbourhood::factory(10)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($neighbourhoods) {
         $activity->neighbourhoods()->attach($neighbourhoods->random(2));
@@ -112,7 +112,7 @@ it('can filter activities by neighbourhood', function () {
         ->assertCanNotSeeTableRecords($activities->diff($filteredActivities));
 });
 
-it('can filter activities by task', function () {
+it('can filter Activities by Task', function () {
     $tasks = Task::factory(10)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($tasks) {
         $activity->task()->associate($tasks->random());
@@ -127,7 +127,7 @@ it('can filter activities by task', function () {
         ->assertCanNotSeeTableRecords($activities->where('task_id', '!==', $task->getKey()));
 });
 
-it('can filter activities by date from', function () {
+it('can filter Activities by date from', function () {
     $activities = Activity::factory(10)->create();
     $sortedActivities = $activities->sortBy('date');
     $dateFrom = $sortedActivities->get(5)->date;

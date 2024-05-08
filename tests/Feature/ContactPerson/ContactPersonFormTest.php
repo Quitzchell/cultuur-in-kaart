@@ -62,7 +62,7 @@ it('can render ContactPerson edit form', function () {
     $this->get(ContactPersonResource::getUrl('edit', ['record' => $contactPerson->getKey()]))->assertSuccessful();
 });
 
-it('can edit contact person', function () {
+it('can edit ContactPerson', function () {
     $contactPerson = ContactPerson::factory()->create();
     $partner = Partner::factory()->create();
     $contactPerson->partners()->attach($partner);
@@ -95,7 +95,7 @@ it('can edit contact person', function () {
     ]);
 });
 
-it('can delete Contactperson', function () {
+it('can delete ContactPerson', function () {
     $contactPerson = ContactPerson::factory()->create();
     livewire(EditContactPerson::class, [
         'record' => $contactPerson->getRouteKey()
