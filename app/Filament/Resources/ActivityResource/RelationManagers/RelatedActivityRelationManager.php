@@ -12,6 +12,8 @@ class RelatedActivityRelationManager extends RelationManager
 {
     protected static string $relationship = 'relatedActivities';
 
+    protected static ?string $title = 'Gerelateerde activiteiten';
+
     public function table(Table $table): Table
     {
         return $table
