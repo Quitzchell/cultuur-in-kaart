@@ -7,7 +7,7 @@ use App\Models\Discipline;
 use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
-/** Rendering */
+/** Render */
 it('can render Discipline create form', function () {
     $this->get(DisciplineResource::getUrl('create'))->assertSuccessful();
 });

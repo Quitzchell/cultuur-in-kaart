@@ -37,7 +37,7 @@ it('can create a Coordinator', function () {
         ->assertHasNoErrors();
 });
 
-/** Validation */
+/** Validate */
 it('can validate create coordinator form', function () {
     livewire(CreateCoordinator::class)
         ->fillForm([

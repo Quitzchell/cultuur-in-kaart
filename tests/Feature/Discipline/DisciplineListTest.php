@@ -5,7 +5,7 @@ use App\Filament\Resources\DisciplineResource\Pages\ListDisciplines;
 use App\Models\Discipline;
 use function Pest\Livewire\livewire;
 
-/** Rendering */
+/** Render */
 it('can render Discipline list', function () {
     $this->get(DisciplineResource::getUrl())->assertSuccessful();
 });

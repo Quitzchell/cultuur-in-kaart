@@ -5,6 +5,7 @@ use App\Filament\Resources\TaskResource\Pages\ListTasks;
 use App\Models\Task;
 use function Pest\Livewire\livewire;
 
+/** Render */
 it('can render Task list', function () {
     $this->get(TaskResource::getUrl())->assertSuccessful();
 });

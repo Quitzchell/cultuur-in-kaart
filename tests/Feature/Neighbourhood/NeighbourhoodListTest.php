@@ -4,6 +4,7 @@ use App\Filament\Resources\NeighbourhoodResource;
 use App\Models\Neighbourhood;
 use function Pest\Livewire\livewire;
 
+/** Render */
 it('can render Neighbourhood list', function () {
     $this->get(NeighbourhoodResource::getUrl())->assertSuccessful();
 });

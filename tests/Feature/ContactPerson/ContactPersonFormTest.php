@@ -8,10 +8,18 @@ use App\Models\Partner;
 use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
+/** Render */
 it('can render ContactPerson form', function () {
     $this->get(ContactPersonResource::getUrl('create'))->assertSuccessful();
 });
 
+it('can render ContactPerson edit form', function () {
+    $contactPerson = ContactPerson::factory()->create();
+    $this->get(ContactPersonResource::getUrl('edit', ['record' => $contactPerson->getKey()]))->assertSuccessful();
+});
+
+
+/** Create */
 it('can create ContactPerson', function () {
     $partner = Partner::factory()->create();
     $contactPerson = ContactPerson::factory()->make();
@@ -41,6 +49,7 @@ it('can create ContactPerson', function () {
     ]);
 });
 
+/** Validate */
 it('can validate create ContactPerson form', function () {
     livewire(CreateContactPerson::class)
         ->fillForm([
@@ -57,11 +66,7 @@ it('can validate create ContactPerson form', function () {
         ]);
 });
 
-it('can render ContactPerson edit form', function () {
-    $contactPerson = ContactPerson::factory()->create();
-    $this->get(ContactPersonResource::getUrl('edit', ['record' => $contactPerson->getKey()]))->assertSuccessful();
-});
-
+/** Edit */
 it('can edit ContactPerson', function () {
     $contactPerson = ContactPerson::factory()->create();
     $partner = Partner::factory()->create();
@@ -95,6 +100,7 @@ it('can edit ContactPerson', function () {
     ]);
 });
 
+/** Delete */
 it('can delete ContactPerson', function () {
     $contactPerson = ContactPerson::factory()->create();
     livewire(EditContactPerson::class, [

@@ -6,7 +6,7 @@ use App\Models\ContactPerson;
 use App\Models\Partner;
 use function Pest\Livewire\livewire;
 
-/** Rendering */
+/** Render */
 it('can render contact person list', function () {
     $this->get(ContactPersonResource::getUrl())->assertSuccessful();
 });
@@ -27,7 +27,7 @@ it('can list contact people', function () {
         ->assertTableColumnExists('partners.name');
 });
 
-/** Searching */
+/** Search */
 it('can search contact people by name', function () {
     $contactPeople = ContactPerson::factory(10)->create();
     $name = $contactPeople->first()->name;
@@ -54,7 +54,7 @@ it('can search contact people by partner', function () {
         ->assertCanNotSeeTableRecords($contactPeople->diff($filteredContactPeople));
 });
 
-/** Filtering */
+/** Filter */
 it('can filter contact people by partner', function () {
     $partners = Partner::factory(10)->create();
     $contactPeople = ContactPerson::factory(10)->create()->each(function ($contactPerson) use ($partners) {

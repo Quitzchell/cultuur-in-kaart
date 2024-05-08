@@ -13,7 +13,7 @@ use App\Models\Task;
 use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
-/** Rendering */
+/** Render */
 it('can render Activity create Form', function () {
     $this->get(ActivityResource::getUrl('create'))->assertSuccessful();
 });
@@ -23,7 +23,7 @@ it('can render Activity edit Form', function () {
     $this->get(ActivityResource::getUrl('edit', ['record' => $activity->getKey()]))->assertSuccessful();
 });
 
-/** Creation */
+/** Create */
 it('can create Activity', function () {
     $project = Project::factory()->create();
     $task = Task::factory()->create();
@@ -70,48 +70,7 @@ it('can create Activity', function () {
     ]);
 });
 
-it('can disable contact_person_id field on Activity', function () {
-    $project = Project::factory()->create();
-    $task = Task::factory()->create();
-    $neighbourhood = Neighbourhood::factory()->create();
-    $coordinator = Coordinator::factory()->create();
-    $activity = Activity::factory()->make();
-
-    livewire(CreateActivity::class)
-        ->fillForm([
-            'name' => $activity->name,
-            'project_id' => $project->getKey(),
-            'task_id' => $task->getKey(),
-            'date' => $activity->date,
-            'neighbourhood_id' => [$neighbourhood->getKey()],
-            'coordinator_id' => [$coordinator->getKey()],
-            'partners_id' => [],
-            'comment' => $activity->comment,
-        ])->assertFormFieldIsDisabled('contact_person_id');
-});
-
-it('can enable contact_person_id field on Activity', function () {
-    $project = Project::factory()->create();
-    $task = Task::factory()->create();
-    $neighbourhood = Neighbourhood::factory()->create();
-    $coordinator = Coordinator::factory()->create();
-    $partner = Partner::factory()->create();
-    $activity = Activity::factory()->make();
-
-    livewire(CreateActivity::class)
-        ->fillForm([
-            'name' => $activity->name,
-            'project_id' => $project->getKey(),
-            'task_id' => $task->getKey(),
-            'date' => $activity->date,
-            'neighbourhood_id' => [$neighbourhood->getKey()],
-            'coordinator_id' => [$coordinator->getKey()],
-            'partners_id' => [$partner->getKey()],
-            'comment' => $activity->comment,
-        ])->assertFormFieldIsEnabled('contact_person_id');
-});
-
-/** Validation */
+/** Validate */
 it('can validate Activity form', function () {
     livewire(CreateActivity::class)
         ->fillForm([
@@ -134,7 +93,7 @@ it('can validate Activity form', function () {
         ]);
 });
 
-/** Editing */
+/** Edit */
 it('can update Activity', function () {
     $activity = Activity::factory()->create();
     $activity->project()->associate(Project::factory()->create());
@@ -194,7 +153,7 @@ it('can update Activity', function () {
     ]);
 });
 
-/** Deletion */
+/** Delete */
 it('can delete Activity', function () {
     $activity = Activity::factory()->create();
     livewire(EditActivity::class, [
@@ -202,4 +161,46 @@ it('can delete Activity', function () {
     ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($activity);
+});
+
+/** Other */
+it('can disable contact_person_id field on Activity', function () {
+    $project = Project::factory()->create();
+    $task = Task::factory()->create();
+    $neighbourhood = Neighbourhood::factory()->create();
+    $coordinator = Coordinator::factory()->create();
+    $activity = Activity::factory()->make();
+
+    livewire(CreateActivity::class)
+        ->fillForm([
+            'name' => $activity->name,
+            'project_id' => $project->getKey(),
+            'task_id' => $task->getKey(),
+            'date' => $activity->date,
+            'neighbourhood_id' => [$neighbourhood->getKey()],
+            'coordinator_id' => [$coordinator->getKey()],
+            'partners_id' => [],
+            'comment' => $activity->comment,
+        ])->assertFormFieldIsDisabled('contact_person_id');
+});
+
+it('can enable contact_person_id field on Activity', function () {
+    $project = Project::factory()->create();
+    $task = Task::factory()->create();
+    $neighbourhood = Neighbourhood::factory()->create();
+    $coordinator = Coordinator::factory()->create();
+    $partner = Partner::factory()->create();
+    $activity = Activity::factory()->make();
+
+    livewire(CreateActivity::class)
+        ->fillForm([
+            'name' => $activity->name,
+            'project_id' => $project->getKey(),
+            'task_id' => $task->getKey(),
+            'date' => $activity->date,
+            'neighbourhood_id' => [$neighbourhood->getKey()],
+            'coordinator_id' => [$coordinator->getKey()],
+            'partners_id' => [$partner->getKey()],
+            'comment' => $activity->comment,
+        ])->assertFormFieldIsEnabled('contact_person_id');
 });
