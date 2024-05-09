@@ -53,7 +53,7 @@ class ProjectResource extends Resource
                             ->columnSpanFull(),
                         Select::make('coordinator_id')
                             ->label('Coördinatoren')
-                            ->relationship('coordinator', 'name')
+                            ->relationship('coordinators', 'name')
                             ->multiple()
                             ->preload()
                             ->required()
