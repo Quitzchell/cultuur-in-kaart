@@ -78,7 +78,7 @@ it('can search Activities by neighbourhood name', function () {
         ->assertCanNotSeeTableRecords($activities->diff($filteredActivities));
 });
 
-/** Filtering */
+/** Filter */
 it('can filter Activities by Project', function () {
     $projects = Project::factory(4)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($projects) {
