@@ -21,9 +21,9 @@ class RelatedActivityRelationManager extends RelationManager
             ->query(function () {
                 return Activity::query()
                     ->where('project_id', $this->ownerRecord->project_id)
-                    ->WhereNot('id', $this->ownerRecord->getKey());
+                    ->whereNot('id', $this->ownerRecord->getKey());
             })
-            ->recordTitleAttribute('activities')
+            ->defaultSort('date', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->label('Datum')
@@ -40,7 +40,6 @@ class RelatedActivityRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('partners.name')
                     ->label('Partners')
                     ->default('-'),
-
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('task_id')
@@ -56,7 +55,7 @@ class RelatedActivityRelationManager extends RelationManager
                     ->label('Samenwerkingspartners')
                     ->preload()
                     ->multiple(),
-                Tables\Filters\SelectFilter::make('neighbourhood_id')
+                Tables\Filters\SelectFilter::make('neighbourhoods_id')
                     ->relationship('neighbourhoods', 'name',
                         fn($query) => $query
                             ->join('activities', 'activities.id', 'activity_neighbourhood.activity_id')
