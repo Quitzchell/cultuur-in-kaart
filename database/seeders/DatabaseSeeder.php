@@ -5,10 +5,10 @@ namespace Database\Seeders;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Coordinator;
-use App\Models\Discipline;
 use App\Models\Neighbourhood;
 use App\Models\Partner;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,40 +26,66 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (app()->environment() !== 'production') {
-            Coordinator::factory(3)->create()->each(function (Coordinator $coordinator) {
+            // Generate ContactPeople
+            ContactPerson::factory(50)->create();
+
+            // Generate Coordinators
+            Coordinator::factory(10)->create()->each(function (Coordinator $coordinator) {
+                // Attach Neighbourhoods
                 $neighbourhoods = Neighbourhood::all()->random(3);
                 foreach ($neighbourhoods as $neighbourhood) {
                     $coordinator->neighbourhoods()->attach($neighbourhood);
                 }
             });
 
-            Project::factory(10)->create()->each(function (Project $project) {
-                $contactPeople = ContactPerson::factory(5)->create();
-                $project->activities()->saveMany(
-                    Activity::factory(5)->make()->each(function (Activity $activity) use ($contactPeople) {
-                        $contactPerson = $contactPeople->random();
-                        $activity->contactPerson()->associate($contactPerson);
-                        $activity->save();
+            // Generate Partners
+            Partner::factory(30)->create()->each(function (Partner $partner) {
+                // Associate Neighbourhood
+                $partner->neighbourhood()->associate(Neighbourhood::all()->random());
+                $partner->save();
 
-                        $neighbourhood = Neighbourhood::all()->random(3);
-                        $activity->neighbourhoods()->attach($neighbourhood);
+                // Attach ContactPeople
+                $partner->contactPeople()->attach(ContactPerson::all()->random(2));
 
-                        $disciplines = Discipline::all()->random(3);
-                        $activity->disciplines()->attach($disciplines);
-                    })
-                );
+                // Associate PrimaryContactPerson
+                $partner->primaryContactPerson()->associate($partner->contactPeople()->inRandomOrder()->first());
+                $partner->save();
             });
 
-            $contactPeople = ContactPerson::all();
-            Partner::factory(10)->recycle($contactPeople)->create()->each(function (Partner $partner) use ($contactPeople) {
-                $contactPeople = $contactPeople->random(3);
-                foreach ($contactPeople as $contactPerson) {
-                    $partner->contactPeople()->attach($contactPerson);
-                }
+            // Generate Projects
+            Project::factory(10)->create()->each(function (Project $project) {
+                // Attach Coordinators
+                $project->coordinators()->attach(Coordinator::all()->random(3));
 
-                $neighbourhoods = Neighbourhood::all()->random();
-                $partner->neighbourhood()->associate($neighbourhoods);
-                $partner->save();
+                // Attach Primary Coordinator
+                $project->coordinator()->associate($project->coordinators()->inRandomOrder()->first());
+                $project->save();
+            });
+
+            // Activities
+            Activity::factory(30)->create()->each(function (Activity $activity) {
+                // Associate Project
+                $activity->project()->associate(Project::all()->random());
+                $activity->save();
+
+                // Associate Task
+                $activity->task()->associate(Task::all()->random());
+                $activity->save();
+
+                // Attach Neighbourhoods
+                $activity->neighbourhoods()->attach(Neighbourhood::all()->random(3));
+
+                // Attach Coordinators
+                $coordinators = $activity->project->coordinators->random(3);
+                $activity->coordinators()->attach($coordinators);
+
+                // Attach Partners
+                $activity->partners()->attach(Partner::all()->random(3));
+
+                // Associate contactPerson
+                $contactPerson = $activity->partners->first()->contactPeople->first();
+                $activity->contactPerson()->associate($contactPerson);
+                $activity->save();
             });
         }
     }

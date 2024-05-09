@@ -21,7 +21,6 @@ class ActivityFactory extends Factory
             'name' => $this->faker->sentence(),
             'date' => $this->faker->date(),
             'comment' => $this->faker->text(120),
-            'task_id' => $this->faker->numberBetween(1, 4),
         ];
     }
 }
