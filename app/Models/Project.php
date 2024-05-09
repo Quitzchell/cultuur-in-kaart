@@ -28,7 +28,7 @@ class Project extends Model
 
     public function coordinator(): belongsTo
     {
-        return $this->belongsTo(Coordinator::class);
+        return $this->belongsTo(Coordinator::class, 'primary_coordinator_id');
     }
 
     public function coordinators(): BelongsToMany
