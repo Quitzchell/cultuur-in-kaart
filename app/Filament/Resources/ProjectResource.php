@@ -161,11 +161,11 @@ class ProjectResource extends Resource
                             ->schema([
                                 TextEntry::make('coordinator.name')
                                     ->label('Primaire Coördinator')
-                                    ->default('-')
+                                    ->placeholder('-')
                                     ->inlineLabel(),
-                                TextEntry::make('coordinators.coordinator.name')
+                                TextEntry::make('coordinators.name')
                                     ->label('Coördinatoren')
-                                    ->default('-')
+                                    ->placeholder('-')
                                     ->inlineLabel(),
                             ]),
                     ]),
