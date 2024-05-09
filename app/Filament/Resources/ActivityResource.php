@@ -129,6 +129,7 @@ class ActivityResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
                     ->label('Datum')

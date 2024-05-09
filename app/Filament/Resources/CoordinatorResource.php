@@ -79,6 +79,7 @@ class CoordinatorResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('role'),

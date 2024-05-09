@@ -41,6 +41,7 @@ class DisciplineResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
             ])
@@ -50,13 +51,6 @@ class DisciplineResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->label(''),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

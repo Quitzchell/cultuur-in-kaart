@@ -38,6 +38,7 @@ class TaskResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('emoji_unicode'),
@@ -48,13 +49,6 @@ class TaskResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->label(''),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

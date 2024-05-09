@@ -39,6 +39,7 @@ class NeighbourhoodResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Naam')
@@ -49,13 +50,6 @@ class NeighbourhoodResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->label(''),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

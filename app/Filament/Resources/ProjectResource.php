@@ -93,6 +93,7 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('start_date', 'desc')
             ->columns([
                 TextColumn::make('name')
                     ->label('Naam')
