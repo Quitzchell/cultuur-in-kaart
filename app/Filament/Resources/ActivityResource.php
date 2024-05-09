@@ -112,7 +112,9 @@ class ActivityResource extends Resource
                                 'contactPerson',
                                 'name',
                                 function (Builder $query, Get $get) {
-                                    return $query->whereIn('id', $get('partners_id'));
+                                    return $query
+                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', '=', 'contact_people.id')
+                                        ->whereIn('partner_id', $get('partners_id'));
                                 })
                             ->disabled(fn(Get $get) => empty($get('partners_id')))
                             ->label('Contactpersoon'),
