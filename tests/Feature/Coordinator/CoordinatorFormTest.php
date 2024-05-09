@@ -66,7 +66,7 @@ it('can edit a Coordinator', function () {
     $newCoordinator = Coordinator::factory()->make();
     $newNeighbourhood = Neighbourhood::factory()->create();
     $newNeighbourhoods = $coordinator->neighbourhoods->add($newNeighbourhood);
-    $newWorkdays = [Workday::Monday->value, Workday::Tuesday->value, Workday::Wednesday->value, Workday::Thursday->value];
+    $newWorkdays = Workday::labelsToCollection()->random(3);
 
     livewire(EditCoordinator::class, [
         'record' => $coordinator->getKey(),
