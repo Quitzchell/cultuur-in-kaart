@@ -57,7 +57,7 @@ class ActivityResource extends Resource
                             ->createOptionForm(ProjectModalForm::getForm())
                             ->editOptionForm(ProjectModalForm::getForm())
                             ->relationship('project', 'name')
-                            ->label('Projectnaam')
+                            ->label('Project')
                             ->live()
                             ->required()
                             ->preload()
