@@ -2,6 +2,8 @@
 
 namespace App\Enums\Workday;
 
+use Illuminate\Support\Collection;
+
 enum Workday: string
 {
     case Monday = 'Maandag';
@@ -40,5 +42,15 @@ enum Workday: string
         }
 
         return $casesToArray;
+    }
+
+    public static function labelsToCollection(): Collection
+    {
+        $collection = collect();
+        foreach (self::cases() as $case) {
+            $collection->push($case->name);
+        }
+
+        return $collection;
     }
 }
