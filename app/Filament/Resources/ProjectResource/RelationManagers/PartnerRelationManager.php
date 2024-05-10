@@ -4,7 +4,9 @@ namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
 use App\Filament\Resources\PartnerResource;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class PartnerRelationManager extends RelationManager
@@ -18,20 +20,20 @@ class PartnerRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('partner.name')
+                TextColumn::make('partner.name')
                     ->label('Naam'),
-                Tables\Columns\TextColumn::make('partner.neighbourhood.name')
+                TextColumn::make('partner.neighbourhood.name')
                     ->label('Wijk'),
-                Tables\Columns\TextColumn::make('partner.primaryContactPerson.name')
+                TextColumn::make('partner.primaryContactPerson.name')
                     ->label('Primair contactpersoon'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('neighbourhood')
+                SelectFilter::make('neighbourhood')
                     ->relationship('partner.neighbourhood', 'name')
                     ->multiple()
                     ->preload()
                     ->label('Wijken'),
-                Tables\Filters\SelectFilter::make('primaryContactPerson')
+                SelectFilter::make('primaryContactPerson')
                     ->relationship('partner.primaryContactPerson', 'name',
                         function ($query) {
                             return $query->whereIn('id', $this->ownerRecord->partners->map(function ($pivotContactPersonPartner) {
@@ -44,7 +46,7 @@ class PartnerRelationManager extends RelationManager
                     ->searchable()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
+                ViewAction::make()
                     ->label('')
                     ->url(fn($record): string => PartnerResource::getUrl('view', ['record' => $record])),
             ]);
