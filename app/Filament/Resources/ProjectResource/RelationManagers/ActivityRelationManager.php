@@ -16,6 +16,7 @@ class ActivityRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('date', 'desc')
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('date')
