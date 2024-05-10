@@ -6,7 +6,6 @@ use App\Filament\Resources\PartnerResource;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class PartnerRelationManager extends RelationManager
 {
