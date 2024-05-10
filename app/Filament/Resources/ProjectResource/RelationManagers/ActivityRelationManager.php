@@ -32,12 +32,12 @@ class ActivityRelationManager extends RelationManager
                     ->placeholder('-'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('task_id')
+                Tables\Filters\SelectFilter::make('task')
                     ->relationship('task', 'name')
                     ->label('Taak')
                     ->preload()
                     ->multiple(),
-                Tables\Filters\SelectFilter::make('partners_id')
+                Tables\Filters\SelectFilter::make('partners')
                     ->relationship('partners', 'name',
                         fn($query) => $query->join('activities', 'activities.id', 'activity_partner.activity_id')
                             ->where('activities.project_id', $this->ownerRecord->getKey()))
