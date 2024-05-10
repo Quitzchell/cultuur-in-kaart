@@ -27,7 +27,10 @@ class PartnerRelationManager extends RelationManager
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('neighbourhood')
-                    ->relationship('partner.neighbourhood', 'name'),
+                    ->relationship('partner.neighbourhood', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->label('Wijken'),
                 Tables\Filters\SelectFilter::make('primaryContactPerson')
                     ->relationship('partner.primaryContactPerson', 'name',
                         function ($query) {
@@ -35,6 +38,7 @@ class PartnerRelationManager extends RelationManager
                                 return $pivotContactPersonPartner->partner->primaryContactPerson->getKey();
                             }));
                         })
+                    ->label('Contactpersonen')
                     ->multiple()
                     ->preload()
                     ->searchable()
