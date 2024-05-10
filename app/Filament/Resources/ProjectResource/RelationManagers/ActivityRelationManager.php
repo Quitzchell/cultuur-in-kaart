@@ -21,6 +21,7 @@ class ActivityRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->label('Datum')
+                    ->sortable()
                     ->date('d-m-Y'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Activiteit'),
