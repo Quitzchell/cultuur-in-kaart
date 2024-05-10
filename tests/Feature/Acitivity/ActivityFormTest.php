@@ -14,11 +14,11 @@ use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
 /** Render */
-it('can render Activity create Form', function () {
+it('can render Activity create form', function () {
     $this->get(ActivityResource::getUrl('create'))->assertSuccessful();
 });
 
-it('can render Activity edit Form', function () {
+it('can render Activity edit form', function () {
     $activity = Activity::factory()->create();
     $this->get(ActivityResource::getUrl('edit', ['record' => $activity->getKey()]))->assertSuccessful();
 });
