@@ -22,6 +22,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ProjectResource extends Resource
@@ -101,13 +102,8 @@ class ProjectResource extends Resource
                 TextColumn::make('neighbourhoods.neighbourhood.name')
                     ->label('Wijken')
                     ->searchable()
-                    ->default('-')
-                    ->limit(40)
-                    ->formatStateUsing(function ($state) {
-                        $uniqueNeighbourhoods = array_unique(explode(',', $state));
-                        sort($uniqueNeighbourhoods);
-                        return implode(', ', $uniqueNeighbourhoods);
-                    }),
+                    ->placeholder('-')
+                    ->limit(40),
                 TextColumn::make('start_date')
                     ->label('Startdatum')
                     ->date('d-m-Y')
@@ -120,7 +116,11 @@ class ProjectResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('neighbourhood')
+                    ->relationship('neighbourhoods.neighbourhood', 'name')
+                    ->label('Wijken')
+                    ->multiple()
+                    ->preload()
             ])
             ->actions([
                 ViewAction::make()
@@ -174,7 +174,7 @@ class ProjectResource extends Resource
                     ->schema([
                         InfoSection::make('')
                             ->schema([
-                                TextEntry::make('activities.partners.name')
+                                TextEntry::make('partners.partner.name')
                                     ->label('Partners'),
                                 TextEntry::make('neighbourhoods.neighbourhood.name')
                                     ->label('Wijken')

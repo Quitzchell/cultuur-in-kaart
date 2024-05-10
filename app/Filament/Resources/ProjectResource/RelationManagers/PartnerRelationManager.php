@@ -17,16 +17,14 @@ class PartnerRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(function (Builder $query) {
-                return $query->with(['partner']);
-            })
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('partner.name')
                     ->label('Naam'),
-                Tables\Columns\TextColumn::make('neighbourhood.name')
+                Tables\Columns\TextColumn::make('partner.neighbourhood.name')
                     ->label('Wijk'),
-                Tables\Columns\TextColumn::make('coordinator.name')
+                Tables\Columns\TextColumn::make('partner.primaryContactPerson.name')
+                    ->label('Primair contactpersoon'),
             ])
             ->filters([
                 //
