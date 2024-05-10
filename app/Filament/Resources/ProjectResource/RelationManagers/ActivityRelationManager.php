@@ -37,7 +37,7 @@ class ActivityRelationManager extends RelationManager
                     ->label('Taak')
                     ->preload()
                     ->multiple(),
-                Tables\Filters\SelectFilter::make('partners')
+                Tables\Filters\SelectFilter::make('partner')
                     ->relationship('partners', 'name',
                         fn($query) => $query->join('activities', 'activities.id', 'activity_partner.activity_id')
                             ->where('activities.project_id', $this->ownerRecord->getKey()))

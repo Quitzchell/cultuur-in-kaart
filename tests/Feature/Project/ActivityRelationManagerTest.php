@@ -91,7 +91,7 @@ it('can filter related Activities by Partners', function () {
         'ownerRecord' => $projects->first(),
         'pageClass' => ViewProjects::class
     ])->assertCanSeeTableRecords($activities)
-        ->filterTable('partners', $activity->partner_id)
+        ->filterTable('partner', $activity->partner_id)
         ->assertCanSeeTableRecords($filteredActivities)
         ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
 });
