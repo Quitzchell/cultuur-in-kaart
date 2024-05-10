@@ -27,7 +27,18 @@ class PartnerRelationManager extends RelationManager
                     ->label('Primair contactpersoon'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('neighbourhood')
+                    ->relationship('partner.neighbourhood', 'name'),
+                Tables\Filters\SelectFilter::make('primaryContactPerson')
+                    ->relationship('partner.primaryContactPerson', 'name',
+                        function ($query) {
+                            return $query->whereIn('id', $this->ownerRecord->partners->map(function ($pivotContactPersonPartner) {
+                                return $pivotContactPersonPartner->partner->primaryContactPerson->getKey();
+                            }));
+                        })
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
             ])
             ->headerActions([
                 //
