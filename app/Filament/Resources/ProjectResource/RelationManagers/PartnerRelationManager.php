@@ -40,9 +40,6 @@ class PartnerRelationManager extends RelationManager
                     ->preload()
                     ->searchable()
             ])
-            ->headerActions([
-                //
-            ])
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label('')
