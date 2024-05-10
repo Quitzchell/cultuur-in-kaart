@@ -28,7 +28,7 @@ class ActivityRelationManager extends RelationManager
                     ->label('Taak'),
                 Tables\Columns\TextColumn::make('partners.name')
                     ->label('Partner(s)')
-                    ->default('-'),
+                    ->placeholder('-'),
             ])
             ->filters([
                 //
