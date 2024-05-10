@@ -107,13 +107,11 @@ class ProjectResource extends Resource
                 TextColumn::make('start_date')
                     ->label('Startdatum')
                     ->date('d-m-Y')
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
                 TextColumn::make('end_date')
                     ->label('Einddatum')
                     ->date('d-m-Y')
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('neighbourhood')

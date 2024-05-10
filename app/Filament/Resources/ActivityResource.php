@@ -63,16 +63,13 @@ class ActivityResource extends Resource
                             ->preload()
                             ->searchable(['name'])
                             ->columnSpanFull(),
-
                         Select::make('task_id')
                             ->relationship('task', 'name')
                             ->label('Taak')
                             ->required(),
-
                         DatePicker::make('date')
                             ->label('Datum')
                             ->required(),
-
                         CheckboxList::make('neighbourhood_id')
                             ->relationship('neighbourhoods', 'name')
                             ->label('Wijken')
