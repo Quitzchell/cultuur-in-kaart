@@ -10,7 +10,7 @@ use App\Models\Task;
 use function Pest\Livewire\livewire;
 
 /** Render */
-it('can render RelatedActivities', function () {
+it('can render related Activities', function () {
     $activities = Activity::factory()->create();
     livewire(RelatedActivityRelationManager::class, [
         'ownerRecord' => $activities->first(),
@@ -18,7 +18,7 @@ it('can render RelatedActivities', function () {
     ])->assertSuccessful();
 });
 
-it('can list RelatedActivities', function () {
+it('can list related Activities', function () {
     $tasks = Task::factory(10)->create();
     $activities = Activity::factory(10)->create(['project_id' => Project::factory()->create()->getKey()])
         ->each(function (Activity $activity) use ($tasks) {
@@ -44,7 +44,7 @@ it('can list RelatedActivities', function () {
 });
 
 /** Sort */
-it('can sort RelatedActivities by date', function () {
+it('can sort related Activities by date', function () {
     $activities = Activity::factory(10)
         ->create(['project_id' => Project::factory()->create()->getKey()]);
 
