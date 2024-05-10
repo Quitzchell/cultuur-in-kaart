@@ -74,7 +74,7 @@ it('can filter RelatedActivities on Task', function () {
         'ownerRecord' => $activity,
         'pageClass' => ViewActivities::class
     ])->assertCanSeeTableRecords($activities)
-        ->filterTable('task_id', $activity->task_id)
+        ->filterTable('task', $activity->task_id)
         ->assertCanSeeTableRecords($activities->where('task_id', $activity->task_id))
         ->assertCanNotSeeTableRecords($activities->where('task_id', '!==', $activity->task_id));
 });
@@ -98,7 +98,7 @@ it('can filter RelatedActivities on Neighbourhood', function () {
         'ownerRecord' => $activity,
         'pageClass' => ViewActivities::class
     ])->assertCanSeeTableRecords($activities)
-        ->filterTable('neighbourhoods_id', $activity->neighbourhood_id)
+        ->filterTable('neighbourhood', $activity->neighbourhood_id)
         ->assertCanSeeTableRecords($filteredActivities)
         ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
 });
@@ -122,7 +122,7 @@ it('can filter RelatedActivities on Partner', function () {
         'ownerRecord' => $activity,
         'pageClass' => ViewActivities::class
     ])->assertCanSeeTableRecords($activities)
-        ->filterTable('partners_id', $activity->partner_id)
+        ->filterTable('partner', $activity->partner_id)
         ->assertCanSeeTableRecords($filteredActivities)
         ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
 });

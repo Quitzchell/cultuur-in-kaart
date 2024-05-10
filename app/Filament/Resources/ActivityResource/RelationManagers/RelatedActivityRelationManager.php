@@ -6,7 +6,10 @@ use App\Filament\Resources\ActivityResource;
 use App\Models\Activity;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class RelatedActivityRelationManager extends RelationManager
@@ -25,29 +28,29 @@ class RelatedActivityRelationManager extends RelationManager
             })
             ->defaultSort('date', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('date')
                     ->label('Datum')
                     ->sortable()
                     ->date('d-m-Y'),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Activiteit'),
-                Tables\Columns\TextColumn::make('task.name')
+                TextColumn::make('task.name')
                     ->label('Taak'),
-                Tables\Columns\TextColumn::make('neighbourhoods.name')
+                TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
                     ->default('-')
                     ->words(4),
-                Tables\Columns\TextColumn::make('partners.name')
+                TextColumn::make('partners.name')
                     ->label('Partners')
                     ->default('-'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('task_id')
+                SelectFilter::make('task')
                     ->relationship('task', 'name')
                     ->label('Taak')
                     ->preload()
                     ->multiple(),
-                Tables\Filters\SelectFilter::make('partners_id')
+                SelectFilter::make('partner')
                     ->relationship('partners', 'name',
                         fn($query) => $query
                             ->join('activities', 'activities.id', 'activity_partner.activity_id')
@@ -55,7 +58,7 @@ class RelatedActivityRelationManager extends RelationManager
                     ->label('Samenwerkingspartners')
                     ->preload()
                     ->multiple(),
-                Tables\Filters\SelectFilter::make('neighbourhoods_id')
+                SelectFilter::make('neighbourhood')
                     ->relationship('neighbourhoods', 'name',
                         fn($query) => $query
                             ->join('activities', 'activities.id', 'activity_neighbourhood.activity_id')
@@ -65,7 +68,7 @@ class RelatedActivityRelationManager extends RelationManager
                     ->multiple(),
             ], FiltersLayout::Modal)
             ->actions([
-                Tables\Actions\ViewAction::make()
+                ViewAction::make()
                     ->label('')
                     ->url(fn($record): string => ActivityResource::getUrl('view', ['record' => $record])),
             ]);
