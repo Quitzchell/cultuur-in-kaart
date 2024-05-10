@@ -12,6 +12,8 @@ class PartnerRelationManager extends RelationManager
 {
     protected static string $relationship = 'partners';
 
+    protected static ?string $title = 'Samenwerkingspartners';
+
     public function table(Table $table): Table
     {
         return $table
