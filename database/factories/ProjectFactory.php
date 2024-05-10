@@ -17,8 +17,8 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
-        $startDate = $this->faker->dateTimeThisMonth();
-        $endDate = $this->faker->dateTimeBetween($startDate, '+1 month');
+        $startDate = $this->faker->dateTimeThisMonth()->format('Y-m-d');
+        $endDate = $this->faker->dateTimeBetween($startDate, '+1 month')->format('Y-m-d');
 
         return [
             'name' => $this->faker->name(),
