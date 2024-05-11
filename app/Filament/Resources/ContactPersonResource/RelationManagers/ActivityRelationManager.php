@@ -26,29 +26,8 @@ class ActivityRelationManager extends RelationManager
                     ->date('d-m-Y')
                     ->sortable(),
                 TextColumn::make('name')
-                    ->label('Activiteitnaam'),
-                TextColumn::make('task.name')
-                    ->label('Taak'),
-                TextColumn::make('neighbourhoods.name')
-                    ->label('Wijken')
-                    ->placeholder('-')
-                    ->limit(40),
-                TextColumn::make('partners.name')
-                    ->label('Samenwerkingspartners')
-                    ->placeholder('-')
-                    ->limit(40),
-            ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('task')
-                    ->relationship('task', 'name')
-                    ->label('Taak')
-                    ->preload()
-                    ->multiple(),
-                Tables\Filters\SelectFilter::make('neighbourhoods')
-                    ->relationship('neighbourhoods', 'name')
-                    ->label('Wijken')
-                    ->preload()
-                    ->multiple()
+                    ->label('Activiteitnaam')
+                    ->searchable(),
             ])
             ->actions([
                 ViewAction::make()
