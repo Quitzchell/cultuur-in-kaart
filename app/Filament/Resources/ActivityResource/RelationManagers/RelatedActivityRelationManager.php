@@ -5,7 +5,6 @@ namespace App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Filament\Resources\ActivityResource;
 use App\Models\Activity;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -30,8 +29,8 @@ class RelatedActivityRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('date')
                     ->label('Datum')
-                    ->sortable()
-                    ->date('d-m-Y'),
+                    ->date('d-m-Y')
+                    ->sortable(),
                 TextColumn::make('name')
                     ->label('Activiteit'),
                 TextColumn::make('task.name')

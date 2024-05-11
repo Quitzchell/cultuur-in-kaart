@@ -21,18 +21,19 @@ class ActivityRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('date')
                     ->label('Datum')
-                    ->date('d-m-Y'),
+                    ->date('d-m-Y')
+                    ->sortable(),
                 TextColumn::make('name')
                     ->label('Activiteitnaam'),
                 TextColumn::make('task.name')
                     ->label('Taak'),
                 TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
-                    ->default('-')
+                    ->placeholder('-')
                     ->limit(40),
                 TextColumn::make('partners.name')
                     ->label('Samenwerkingspartners')
-                    ->default('-')
+                    ->placeholder('-')
                     ->limit(40),
             ])
             ->filters([
