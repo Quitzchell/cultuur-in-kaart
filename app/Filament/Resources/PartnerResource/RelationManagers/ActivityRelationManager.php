@@ -23,7 +23,8 @@ class ActivityRelationManager extends RelationManager
                     ->date('d-m-Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Activiteitnaam'),
+                    ->label('Activiteitnaam')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('task.name')
                     ->label('Taak'),
                 Tables\Columns\TextColumn::make('neighbourhoods.name')
