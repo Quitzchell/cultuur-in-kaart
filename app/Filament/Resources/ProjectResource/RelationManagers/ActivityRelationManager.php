@@ -40,9 +40,8 @@ class ActivityRelationManager extends RelationManager
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('partner')
-                    ->relationship('partners', 'name',
-                        fn($query) => $query->join('activities', 'activities.id', 'activity_partner.activity_id')
-                            ->where('activities.project_id', $this->ownerRecord->getKey()))
+                    ->relationship('partners', 'name', fn($query) => $query
+                        ->whereIn('activity_partner.activity_id', $this->ownerRecord->activities()->pluck('id')))
                     ->label('Samenwerkingspartners')
                     ->preload()
                     ->multiple(),
