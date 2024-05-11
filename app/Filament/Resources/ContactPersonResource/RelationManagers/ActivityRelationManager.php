@@ -22,7 +22,7 @@ class ActivityRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('name')
+            ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
                     ->label('Datum')
