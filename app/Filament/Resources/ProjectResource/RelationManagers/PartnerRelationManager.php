@@ -37,11 +37,9 @@ class PartnerRelationManager extends RelationManager
                     ->preload(),
                 SelectFilter::make('primaryContactPerson')
                     ->relationship('partner.primaryContactPerson', 'name',
-                        function ($query) {
-                            return $query->whereIn('id', $this->ownerRecord->partners->map(function ($pivotContactPersonPartner) {
-                                return $pivotContactPersonPartner->partner->primaryContactPerson->getKey();
-                            }));
-                        })
+                        fn($query) => $query->whereIn('id', $this->ownerRecord->partners->map(function ($pivotContactPersonPartner) {
+                            return $pivotContactPersonPartner->partner->primaryContactPerson?->getKey();
+                        })))
                     ->label('Contactpersonen')
                     ->multiple()
                     ->preload()
