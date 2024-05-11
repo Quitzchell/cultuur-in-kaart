@@ -19,7 +19,7 @@ class ProjectRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('projects')
             ->columns([
-                Tables\Columns\TextColumn::make('project.name')
+                TextColumn::make('project.name')
                     ->label('Projectnaam'),
                 Tables\Columns\TextColumn::make('project.neighbourhoods.neighbourhood.name')
                     ->label('Wijken')
@@ -32,9 +32,6 @@ class ProjectRelationManager extends RelationManager
                     ->date('d-m-Y'),
             ])
             ->filters([
-                //
-            ])
-            ->headerActions([
                 //
             ])
             ->actions([
