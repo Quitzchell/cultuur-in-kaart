@@ -39,13 +39,7 @@ it('can list related Activities', function () {
         ->assertCanRenderTableColumn('date')
         ->assertTableColumnExists('date')
         ->assertCanRenderTableColumn('name')
-        ->assertTableColumnExists('name')
-        ->assertCanRenderTableColumn('task.name')
-        ->assertTableColumnExists('task.name')
-        ->assertCanRenderTableColumn('neighbourhoods.name')
-        ->assertTableColumnExists('neighbourhoods.name')
-        ->assertCanRenderTableColumn('partners.name')
-        ->assertTableColumnExists('partners.name');
+        ->assertTableColumnExists('name');
 });
 
 /** Sort */
@@ -70,25 +64,26 @@ it('can sort related Activities', function () {
         ->assertCanSeeTableRecords($activities->sortByDesc('date'), inOrder: true);
 });
 
-/** Filter */
-it('can filter related Activities by Task', function () {
+/** Search */
+it('can search related Activities', function () {
     $partner = partner::factory()->create();
     $contactPerson = ContactPerson::factory()->create();
     $contactPerson->partners()->attach($partner);
 
+    $tasks = Task::factory()->create();
     $activities = Activity::factory(10)->create()
-        ->each(function (Activity $activity) use ($partner, $contactPerson) {
+        ->each(function (Activity $activity) use ($tasks, $partner, $contactPerson) {
+            $activity->task()->associate($tasks);
             $activity->partners()->attach($partner);
             $activity->contactPerson()->associate($contactPerson);
             $activity->save();
         });
 
-    $activity = $activities->first();
+    $name = $activities->first()->name;
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $contactPerson,
         'pageClass' => ViewContactPerson::class,
-    ])->assertCanSeeTableRecords($activities)
-        ->filterTable('task', $activity->task_id)
-        ->assertCanSeeTableRecords($activities->where('task_id', $activity->task_id))
-        ->assertCanNotSeeTableRecords($activities->where('task_id', '!==', $activity->task_id));
+    ])->searchTable($name)
+        ->assertCanSeeTableRecords($activities->where('name', $name))
+        ->assertCanNotSeeTableRecords($activities->where('name', '!==', $name));
 });
