@@ -11,4 +11,9 @@ class ActivityPartner extends Pivot
     {
         return $this->belongsTo(partner::class);
     }
+
+    public function activity(): BelongsTo
+    {
+        return $this->belongsTo(Activity::class);
+    }
 }
