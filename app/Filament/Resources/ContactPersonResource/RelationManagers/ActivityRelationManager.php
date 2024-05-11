@@ -37,7 +37,19 @@ class ActivityRelationManager extends RelationManager
                     ->limit(40),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('task')
+                    ->relationship('task', 'name')
+                    ->label('Taak')
+                    ->preload()
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('neighbourhoods')
+                    ->relationship('neighbourhoods', 'name',
+                        fn($query) => $query
+                            ->join('activities', 'activities.id', 'activity_neighbourhood.activity_id')
+                            ->where('activities.contact_person_id', $this->ownerRecord->getKey())
+                    )->label('Wijken')
+                    ->preload()
+                    ->multiple()
             ])
             ->actions([
                 ViewAction::make()
