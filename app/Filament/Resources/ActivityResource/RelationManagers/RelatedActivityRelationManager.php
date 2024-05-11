@@ -4,7 +4,9 @@ namespace App\Filament\Resources\ActivityResource\RelationManagers;
 
 use App\Filament\Resources\ActivityResource;
 use App\Models\Activity;
+use Filament\Forms\Components\Section;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -48,15 +50,28 @@ class RelatedActivityRelationManager extends RelationManager
             ->filters([
                 SelectFilter::make('task')
                     ->relationship('task', 'name')
-                    ->label('Taak')
+                    ->columnSpan(1)
+                    ->label('')
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('neighbourhood')
+                    ->columnSpan(1)
                     ->relationship('neighbourhoods', 'name')
-                    ->label('Wijk')
+                    ->label('')
                     ->preload()
                     ->multiple(),
             ], FiltersLayout::Modal)
+            ->filtersFormSchema(fn(array $filters): array => [
+                Section::make('Taken')
+                    ->schema([
+                        $filters['task']
+                    ]),
+                Section::make('Wijken')
+                    ->schema([
+                        $filters['neighbourhood']
+                    ]),
+            ])
+            ->filtersFormWidth(MaxWidth::ExtraLarge)
             ->actions([
                 ViewAction::make()
                     ->label('')
