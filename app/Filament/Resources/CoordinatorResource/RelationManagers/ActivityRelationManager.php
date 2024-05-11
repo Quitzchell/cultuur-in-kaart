@@ -22,7 +22,13 @@ class ActivityRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('task.name'),
                 Tables\Columns\TextColumn::make('neighbourhoods.name')
-                    ->default('-')
+                    ->label('Wijken')
+                    ->formatStateUsing(function ($state) {
+                        $neighbourhoods = explode(', ', $state);
+                        sort($neighbourhoods);
+                        return implode(', ', $neighbourhoods);
+                    })
+                    ->placeholder('-')
                     ->limit(40),
                 Tables\Columns\TextColumn::make('partners.name')
                     ->default('-')

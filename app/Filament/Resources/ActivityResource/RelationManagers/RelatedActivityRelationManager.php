@@ -37,6 +37,11 @@ class RelatedActivityRelationManager extends RelationManager
                     ->label('Taak'),
                 TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
+                    ->formatStateUsing(function ($state) {
+                        $neighbourhoods = explode(', ', $state);
+                        sort($neighbourhoods);
+                        return implode(', ', $neighbourhoods);
+                    })
                     ->default('-')
                     ->words(4),
                 TextColumn::make('partners.name')

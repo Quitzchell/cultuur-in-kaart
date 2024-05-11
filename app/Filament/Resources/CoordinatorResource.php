@@ -125,6 +125,11 @@ class CoordinatorResource extends Resource
                     ->schema([
                         TextEntry::make('neighbourhoods.name')
                             ->label('Wijken')
+                            ->formatStateUsing(function ($state) {
+                                $neighbourhoods = explode(', ', $state);
+                                sort($neighbourhoods);
+                                return implode(', ', $neighbourhoods);
+                            })
                             ->inlineLabel()
                             ->placeholder('-')
                     ])->columnSpan(1)

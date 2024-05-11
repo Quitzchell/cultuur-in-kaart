@@ -142,6 +142,11 @@ class ActivityResource extends Resource
                     ->label('Taak'),
                 TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
+                    ->formatStateUsing(function ($state) {
+                        $neighbourhoods = explode(', ', $state);
+                        sort($neighbourhoods);
+                        return implode(', ', $neighbourhoods);
+                    })
                     ->placeholder('-')
                     ->searchable()
                     ->limit(40),
@@ -217,6 +222,11 @@ class ActivityResource extends Resource
                             ->inlineLabel(),
                         TextEntry::make('neighbourhoods.name')
                             ->label('Wijk')
+                            ->formatStateUsing(function ($state) {
+                                $neighbourhoods = explode(', ', $state);
+                                sort($neighbourhoods);
+                                return implode(', ', $neighbourhoods);
+                            })
                             ->inlineLabel(),
                         TextEntry::make('Coordinators.name')
                             ->label('Coördinatoren')
