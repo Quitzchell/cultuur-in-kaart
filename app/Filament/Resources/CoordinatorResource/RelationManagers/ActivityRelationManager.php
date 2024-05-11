@@ -21,18 +21,6 @@ class ActivityRelationManager extends RelationManager
                     ->date('d-m-Y'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('task.name'),
-                Tables\Columns\TextColumn::make('neighbourhoods.name')
-                    ->label('Wijken')
-                    ->formatStateUsing(function ($state) {
-                        $neighbourhoods = explode(', ', $state);
-                        sort($neighbourhoods);
-                        return implode(', ', $neighbourhoods);
-                    })
-                    ->placeholder('-')
-                    ->limit(40),
-                Tables\Columns\TextColumn::make('partners.name')
-                    ->default('-')
-                    ->limit(40),
             ])
             ->filters([
                 //
