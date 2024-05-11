@@ -19,11 +19,14 @@ use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectResource extends Resource
 {
@@ -116,10 +119,63 @@ class ProjectResource extends Resource
             ->filters([
                 SelectFilter::make('neighbourhood')
                     ->relationship('neighbourhoods.neighbourhood', 'name')
-                    ->label('Wijken')
+                    ->label('')
                     ->multiple()
-                    ->preload()
+                    ->preload(),
+                SelectFilter::make('start_date')
+                    ->columns()
+                    ->form([
+                        DatePicker::make('start_date_from')
+                            ->label('Datum vanaf'),
+                        DatePicker::make('start_date_until')
+                            ->label('Datum tot'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query
+                            ->when(
+                                $data['start_date_from'],
+                                fn(Builder $query, $date) => $query->whereDate('start_date', '>=', $date)
+                            )
+                            ->when(
+                                $data['start_date_until'],
+                                fn(Builder $query, $date) => $query->whereDate('start_date', '<=', $date)
+                            );
+                    }),
+                SelectFilter::make('end_date')
+                    ->columns()
+                    ->form([
+                        DatePicker::make('end_date_from')
+                            ->label('Datum vanaf'),
+                        DatePicker::make('end_date_until')
+                            ->label('Datum tot'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query
+                            ->when(
+                                $data['end_date_from'],
+                                fn(Builder $query, $date) => $query->whereDate('end_date', '>=', $date)
+                            )
+                            ->when(
+                                $data['end_date_until'],
+                                fn(Builder $query, $date) => $query->whereDate('end_date', '<=', $date)
+                            );
+                    })
+            ], layout: FiltersLayout::Modal)
+            ->filtersFormSchema(fn(array $filters): array => [
+                Section::make('Wijken')
+                    ->schema([
+                        $filters['neighbourhood'],
+                    ]),
+                Section::make('Startdatum')
+                    ->schema([
+                        $filters['start_date']
+                    ]),
+                Section::make('Einddatum')
+                    ->schema([
+                        $filters['end_date']
+                    ]),
             ])
+            ->filtersFormWidth(MaxWidth::ThreeExtraLarge)
             ->actions([
                 ViewAction::make()
                     ->label(''),
