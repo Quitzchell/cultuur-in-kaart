@@ -30,12 +30,6 @@ class ProjectRelationManager extends RelationManager
                     ->label('Eind datum')
                     ->date('d-m-Y'),
             ])
-            ->filters([
-                //
-            ])
-            ->headerActions([
-                //
-            ])
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label('')
