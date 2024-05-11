@@ -11,9 +11,9 @@ use function Pest\Livewire\livewire;
 
 /** Render */
 it('can render related Activities', function () {
-    $activities = Activity::factory()->create();
+    $activity = Activity::factory()->create();
     livewire(RelatedActivityRelationManager::class, [
-        'ownerRecord' => $activities->first(),
+        'ownerRecord' => $activity,
         'pageClass' => ViewActivities::class
     ])->assertSuccessful();
 });

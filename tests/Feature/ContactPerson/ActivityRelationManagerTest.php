@@ -70,10 +70,8 @@ it('can search related Activities by name', function () {
     $contactPerson = ContactPerson::factory()->create();
     $contactPerson->partners()->attach($partner);
 
-    $tasks = Task::factory()->create();
     $activities = Activity::factory(10)->create()
-        ->each(function (Activity $activity) use ($tasks, $partner, $contactPerson) {
-            $activity->task()->associate($tasks);
+        ->each(function (Activity $activity) use ($partner, $contactPerson) {
             $activity->partners()->attach($partner);
             $activity->contactPerson()->associate($contactPerson);
             $activity->save();

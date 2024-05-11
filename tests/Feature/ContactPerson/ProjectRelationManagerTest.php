@@ -9,7 +9,7 @@ use App\Models\Project;
 use function Pest\Livewire\livewire;
 
 /** Render */
-it('can render related projects', function () {
+it('can render related Projects', function () {
     $contactPerson = ContactPerson::factory()->create();
     livewire(ProjectRelationManager::class, [
         'ownerRecord' => $contactPerson,
