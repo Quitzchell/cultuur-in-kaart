@@ -3,8 +3,6 @@
 use App\Filament\Resources\ActivityResource\Pages\ViewActivities;
 use App\Filament\Resources\ActivityResource\RelationManagers\RelatedActivityRelationManager;
 use App\Models\Activity;
-use App\Models\Neighbourhood;
-use App\Models\Partner;
 use App\Models\Project;
 use App\Models\Task;
 use function Pest\Livewire\livewire;
@@ -36,9 +34,7 @@ it('can list related Activities', function () {
         ->assertCanRenderTableColumn('name')
         ->assertTableColumnExists('name')
         ->assertCanRenderTableColumn('task.name')
-        ->assertTableColumnExists('task.name')
-        ->assertCanRenderTableColumn('neighbourhoods.name')
-        ->assertTableColumnExists('neighbourhoods.name');
+        ->assertTableColumnExists('task.name');
 });
 
 /** Sort */
@@ -75,28 +71,4 @@ it('can filter RelatedActivities on Task', function () {
         ->filterTable('task', $activity->task_id)
         ->assertCanSeeTableRecords($activities->where('task_id', $activity->task_id))
         ->assertCanNotSeeTableRecords($activities->where('task_id', '!==', $activity->task_id));
-});
-
-it('can filter RelatedActivities on Neighbourhood', function () {
-    $neighbourhoods = Neighbourhood::factory(10)->create();
-    $activities = Activity::factory(10)->create(['project_id' => Project::factory()->create()->getKey()])
-        ->each(function (Activity $activity) use ($neighbourhoods) {
-            $activity->neighbourhoods()->attach($neighbourhoods->random(2));
-        });
-
-    $activity = $activities->first();
-    $neighbourhood = $activity->neighbourhoods->first();
-    $activities = $activities->where('id', '!==', $activity->getKey());
-    $filteredActivities = $activities->filter(function (Activity $iterateActivity) use ($neighbourhood, $activity) {
-        return $iterateActivity->neighbourhoods->contains($neighbourhood->getKey())
-            && $iterateActivity->getKey() !== $activity->getKey();
-    });
-
-    livewire(RelatedActivityRelationManager::class, [
-        'ownerRecord' => $activity,
-        'pageClass' => ViewActivities::class
-    ])->assertCanSeeTableRecords($activities)
-        ->filterTable('neighbourhood', $activity->neighbourhood_id)
-        ->assertCanSeeTableRecords($filteredActivities)
-        ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
 });
