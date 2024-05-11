@@ -10,26 +10,26 @@ use Filament\Tables\Table;
 
 class ProjectRelationManager extends RelationManager
 {
-    protected static string $relationship = 'activities';
+    protected static string $relationship = 'projects';
 
     protected static ?string $title = 'Projecten';
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('projects')
+            ->defaultSort('projects.start_date', 'desc')
             ->columns([
-                TextColumn::make('project.name')
-                    ->label('Projectnaam'),
-                TextColumn::make('project.start_date')
+                TextColumn::make('name')
+                    ->label('Projectnaam')
+                    ->searchable(['projects.name']),
+                TextColumn::make('start_date')
                     ->label('Start datum')
-                    ->date('d-m-Y'),
-                TextColumn::make('project.end_date')
+                    ->date('d-m-Y')
+                    ->sortable(),
+                TextColumn::make('end_date')
                     ->label('Eind datum')
-                    ->date('d-m-Y'),
-            ])
-            ->filters([
-                //
+                    ->date('d-m-Y')
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
