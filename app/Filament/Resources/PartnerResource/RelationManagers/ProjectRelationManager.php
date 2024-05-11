@@ -21,9 +21,6 @@ class ProjectRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('project.name')
                     ->label('Projectnaam'),
-                Tables\Columns\TextColumn::make('project.neighbourhoods.neighbourhood.name')
-                    ->label('Wijken')
-                    ->distinctList(),
                 TextColumn::make('project.start_date')
                     ->label('Start datum')
                     ->date('d-m-Y'),
