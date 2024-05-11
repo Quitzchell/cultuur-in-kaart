@@ -21,10 +21,7 @@ class ProjectRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('projects')
             ->columns([
-                Tables\Columns\TextColumn::make('project.name'),
-                Tables\Columns\TextColumn::make('project.neighbourhoods.neighbourhood.name')
-                    ->label('Wijken')
-                    ->distinctList(),
+                TextColumn::make('project.name'),
                 TextColumn::make('project.start_date')
                     ->label('Start datum')
                     ->date('d-m-Y'),
