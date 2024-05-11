@@ -18,15 +18,19 @@ class ActivityRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('date')
-                    ->date('d-m-Y'),
-                Tables\Columns\TextColumn::make('name'),
+                    ->label('Datum')
+                    ->date('d-m-Y')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('task.name'),
             ])
             ->filters([
-                //
-            ])
-            ->headerActions([
-                //
+                Tables\Filters\SelectFilter::make('task')
+                    ->relationship('task', 'name')
+                    ->label('Taken')
+                    ->preload()
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
