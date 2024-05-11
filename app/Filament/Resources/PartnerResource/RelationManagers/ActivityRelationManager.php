@@ -20,7 +20,8 @@ class ActivityRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->label('Datum')
-                    ->date('d-m-Y'),
+                    ->date('d-m-Y')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Activiteitnaam'),
                 Tables\Columns\TextColumn::make('task.name')
