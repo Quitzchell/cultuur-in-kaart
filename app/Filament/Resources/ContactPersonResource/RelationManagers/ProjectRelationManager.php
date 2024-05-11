@@ -19,7 +19,7 @@ class ProjectRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('projects')
+            ->defaultSort('start_date', 'desc')
             ->columns([
                 TextColumn::make('project.name'),
                 TextColumn::make('project.start_date')
