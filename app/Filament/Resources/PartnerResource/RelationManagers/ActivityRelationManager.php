@@ -3,8 +3,6 @@
 namespace App\Filament\Resources\PartnerResource\RelationManagers;
 
 use App\Filament\Resources\ActivityResource;
-use App\Models\Activity;
-use App\Models\Partner;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
