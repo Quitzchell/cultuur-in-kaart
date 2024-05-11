@@ -37,15 +37,6 @@ class RelatedActivityRelationManager extends RelationManager
                     ->label('Activiteit'),
                 TextColumn::make('task.name')
                     ->label('Taak'),
-                TextColumn::make('neighbourhoods.name')
-                    ->label('Wijken')
-                    ->formatStateUsing(function ($state) {
-                        $neighbourhoods = explode(', ', $state);
-                        sort($neighbourhoods);
-                        return implode(', ', $neighbourhoods);
-                    })
-                    ->default('-')
-                    ->words(4),
             ])
             ->filters([
                 SelectFilter::make('task')
@@ -54,21 +45,11 @@ class RelatedActivityRelationManager extends RelationManager
                     ->label('Taken')
                     ->preload()
                     ->multiple(),
-                SelectFilter::make('neighbourhood')
-                    ->columnSpan(1)
-                    ->relationship('neighbourhoods', 'name')
-                    ->label('Wijken')
-                    ->preload()
-                    ->multiple(),
             ], FiltersLayout::Modal)
             ->filtersFormSchema(fn(array $filters): array => [
                 Section::make()
                     ->schema([
                         $filters['task']
-                    ]),
-                Section::make()
-                    ->schema([
-                        $filters['neighbourhood']
                     ]),
             ])
             ->filtersFormWidth(MaxWidth::ExtraLarge)
