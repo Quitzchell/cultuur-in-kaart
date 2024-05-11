@@ -38,9 +38,7 @@ it('can list related Activities', function () {
         ->assertCanRenderTableColumn('task.name')
         ->assertTableColumnExists('task.name')
         ->assertCanRenderTableColumn('neighbourhoods.name')
-        ->assertTableColumnExists('neighbourhoods.name')
-        ->assertCanRenderTableColumn('partners.name')
-        ->assertTableColumnExists('partners.name');
+        ->assertTableColumnExists('neighbourhoods.name');
 });
 
 /** Sort */
@@ -99,30 +97,6 @@ it('can filter RelatedActivities on Neighbourhood', function () {
         'pageClass' => ViewActivities::class
     ])->assertCanSeeTableRecords($activities)
         ->filterTable('neighbourhood', $activity->neighbourhood_id)
-        ->assertCanSeeTableRecords($filteredActivities)
-        ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
-});
-
-it('can filter RelatedActivities on Partner', function () {
-    $partners = Partner::factory(10)->create();
-    $activities = Activity::factory(10)->create(['project_id' => Project::factory()->create()->getKey()])
-        ->each(function (Activity $activity) use ($partners) {
-            $activity->partners()->attach($partners->random(2));
-        });
-
-    $activity = $activities->first();
-    $partner = $activity->partners->first();
-    $activities = $activities->where('id', '!==', $activity->getKey());
-    $filteredActivities = $activities->filter(function (Activity $iterateActivity) use ($partner, $activity) {
-        return $iterateActivity->partners->contains($partner->getKey())
-            && $iterateActivity->getKey() !== $activity->getKey();
-    });
-
-    livewire(RelatedActivityRelationManager::class, [
-        'ownerRecord' => $activity,
-        'pageClass' => ViewActivities::class
-    ])->assertCanSeeTableRecords($activities)
-        ->filterTable('partner', $activity->partner_id)
         ->assertCanSeeTableRecords($filteredActivities)
         ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
 });

@@ -44,22 +44,11 @@ class RelatedActivityRelationManager extends RelationManager
                     })
                     ->default('-')
                     ->words(4),
-                TextColumn::make('partners.name')
-                    ->label('Partners')
-                    ->default('-'),
             ])
             ->filters([
                 SelectFilter::make('task')
                     ->relationship('task', 'name')
                     ->label('Taak')
-                    ->preload()
-                    ->multiple(),
-                SelectFilter::make('partner')
-                    ->relationship('partners', 'name',
-                        fn($query) => $query
-                            ->join('activities', 'activities.id', 'activity_partner.activity_id')
-                            ->where('project_id', $this->ownerRecord->project_id))
-                    ->label('Samenwerkingspartners')
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('neighbourhood')
