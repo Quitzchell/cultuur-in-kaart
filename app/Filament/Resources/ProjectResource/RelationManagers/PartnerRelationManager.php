@@ -23,16 +23,18 @@ class PartnerRelationManager extends RelationManager
                 TextColumn::make('partner.name')
                     ->label('Naam'),
                 TextColumn::make('partner.neighbourhood.name')
-                    ->label('Wijk'),
+                    ->label('Wijk')
+                    ->placeholder('-'),
                 TextColumn::make('partner.primaryContactPerson.name')
-                    ->label('Primair contactpersoon'),
+                    ->label('Primair contactpersoon')
+                    ->placeholder('-'),
             ])
             ->filters([
                 SelectFilter::make('neighbourhood')
                     ->relationship('partner.neighbourhood', 'name')
+                    ->label('Wijken')
                     ->multiple()
-                    ->preload()
-                    ->label('Wijken'),
+                    ->preload(),
                 SelectFilter::make('primaryContactPerson')
                     ->relationship('partner.primaryContactPerson', 'name',
                         function ($query) {
