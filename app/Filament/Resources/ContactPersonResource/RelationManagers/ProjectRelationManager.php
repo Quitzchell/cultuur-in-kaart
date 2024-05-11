@@ -21,19 +21,17 @@ class ProjectRelationManager extends RelationManager
         return $table
             ->defaultSort('start_date', 'desc')
             ->columns([
-                TextColumn::make('project.name'),
-                TextColumn::make('project.start_date')
-                    ->label('Start datum')
-                    ->date('d-m-Y'),
-                TextColumn::make('project.end_date')
-                    ->label('Eind datum')
-                    ->date('d-m-Y'),
-            ])
-            ->filters([
-                //
-            ])
-            ->headerActions([
-                //
+                TextColumn::make('name')
+                    ->label('Projectnaam')
+                    ->searchable(['projects.name']),
+                TextColumn::make('start_date')
+                    ->label('Startdatum')
+                    ->date('d-m-Y')
+                    ->sortable(),
+                TextColumn::make('end_date')
+                    ->label('Einddatum')
+                    ->date('d-m-Y')
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
