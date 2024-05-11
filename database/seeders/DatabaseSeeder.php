@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
             });
 
             // Activities
-            Activity::factory(30)->create()->each(function (Activity $activity) {
+            Activity::factory(100)->create()->each(function (Activity $activity) {
                 // Associate Project
                 $activity->project()->associate(Project::all()->random());
                 $activity->save();
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
                 $activity->coordinators()->attach($coordinators);
 
                 // Attach Partners
-                $activity->partners()->attach(Partner::all()->random(3));
+                $activity->partners()->attach(Partner::all()->random(2));
 
                 // Associate contactPerson
                 $contactPerson = $activity->partners->first()->contactPeople->first();
