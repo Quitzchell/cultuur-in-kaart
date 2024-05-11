@@ -43,11 +43,8 @@ class ActivityRelationManager extends RelationManager
                     ->preload()
                     ->multiple(),
                 Tables\Filters\SelectFilter::make('neighbourhoods')
-                    ->relationship('neighbourhoods', 'name',
-                        fn($query) => $query
-                            ->join('activities', 'activities.id', 'activity_neighbourhood.activity_id')
-                            ->where('activities.contact_person_id', $this->ownerRecord->getKey())
-                    )->label('Wijken')
+                    ->relationship('neighbourhoods', 'name')
+                    ->label('Wijken')
                     ->preload()
                     ->multiple()
             ])
