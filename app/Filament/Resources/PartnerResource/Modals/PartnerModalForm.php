@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PartnerResource\Modals;
 
 use App\Filament\Resources\Interfaces\ModalForm;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 
 class PartnerModalForm implements ModalForm
@@ -37,7 +38,11 @@ class PartnerModalForm implements ModalForm
             TextInput::make('city')
                 ->label('Stad')
                 ->required()
-                ->maxLength(255)
+                ->maxLength(255),
+            Select::make('neighbourhood_id')
+                ->label('Wijk')
+                ->relationship('neighbourhood', 'name')
+                ->required()
         ];
     }
 }
