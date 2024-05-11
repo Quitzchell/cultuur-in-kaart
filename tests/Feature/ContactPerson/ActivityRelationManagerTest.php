@@ -9,7 +9,7 @@ use App\Models\Task;
 use function Pest\Livewire\livewire;
 
 /** Render */
-it('can can render related Activities', function () {
+it('can render related Activities', function () {
     $contactPerson = ContactPerson::factory()->create();
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $contactPerson,
@@ -43,7 +43,7 @@ it('can list related Activities', function () {
 });
 
 /** Sort */
-it('can sort related Activities', function () {
+it('can sort related Activities by date', function () {
     $partner = partner::factory()->create();
     $contactPerson = ContactPerson::factory()->create();
     $contactPerson->partners()->attach($partner);
@@ -65,7 +65,7 @@ it('can sort related Activities', function () {
 });
 
 /** Search */
-it('can search related Activities', function () {
+it('can search related Activities by name', function () {
     $partner = partner::factory()->create();
     $contactPerson = ContactPerson::factory()->create();
     $contactPerson->partners()->attach($partner);
