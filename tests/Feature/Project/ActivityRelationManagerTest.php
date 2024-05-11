@@ -20,7 +20,9 @@ it('can render related Activities', function () {
 it('can list related Activities', function () {
     $project = Project::factory()->create();
     $tasks = Task::factory(10)->create();
-    $activities = Activity::factory(10)->create(['project_id' => $project->getKey()])->each(function (Activity $activity) use ($tasks) {
+    $activities = Activity::factory(10)->create([
+        'project_id' => $project->getKey()
+    ])->each(function (Activity $activity) use ($tasks) {
         $activity->task()->associate($tasks->random());
         $activity->save();
     });
@@ -58,10 +60,11 @@ it('can sort related Activities by date', function () {
 it('can filter related Activities by Task', function () {
     $project = Project::factory()->create();
     $tasks = Task::factory(10)->create();
-    $activities = Activity::factory(10)->create(['project_id' => $project->getKey()])->each(function (Activity $activity) use ($tasks) {
-        $activity->task()->associate($tasks->random());
-        $activity->save();
-    });
+    $activities = Activity::factory(10)->create(['project_id' => $project->getKey()])
+        ->each(function (Activity $activity) use ($tasks) {
+            $activity->task()->associate($tasks->random());
+            $activity->save();
+        });
 
     $activity = $activities->first();
     livewire(ActivityRelationManager::class, [
@@ -74,24 +77,24 @@ it('can filter related Activities by Task', function () {
 });
 
 it('can filter related Activities by Partners', function () {
-    $projects = Project::factory(2)->create();
-    $partners = Partner::factory(10)->create();
-    $activities = Activity::factory(10)->create(['project_id' => $projects->random()])
+    $project = Project::factory()->create();
+    $partners = Partner::factory(2)->create();
+
+    $activities = Activity::factory(10)->create(['project_id' => $project->getKey()])
         ->each(function (Activity $activity) use ($partners) {
-            $activity->partners()->attach($partners->random(2));
+            $activity->partners()->attach($partners->random());
         });
 
-    $activity = $activities->first();
-    $partner = $activity->partners->first();
-    $filteredActivities = $activities->filter(function (Activity $iterateActivity) use ($partner, $activity) {
-        return $iterateActivity->partners->contains($partner->getKey());
+    $partner = Partner::first();
+    $filteredActivities = $activities->filter(function (Activity $activity) use ($partner, $project) {
+        return $activity->project_id === $project->getKey() && $activity->partners->contains($partner);
     });
 
     livewire(ActivityRelationManager::class, [
-        'ownerRecord' => $projects->first(),
+        'ownerRecord' => $project,
         'pageClass' => ViewProjects::class
     ])->assertCanSeeTableRecords($activities)
-        ->filterTable('partner', $activity->partner_id)
+        ->filterTable('partner', $partner->getKey())
         ->assertCanSeeTableRecords($filteredActivities)
-        ->assertCanNotSeeTableRecords($filteredActivities->diff($filteredActivities));
+        ->assertCanNotSeeTableRecords($activities->diff($filteredActivities));
 });
