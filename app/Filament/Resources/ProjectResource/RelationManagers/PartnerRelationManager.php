@@ -37,15 +37,6 @@ class PartnerRelationManager extends RelationManager
                     ->label('Wijken')
                     ->multiple()
                     ->preload(),
-                SelectFilter::make('primaryContactPerson')
-                    ->relationship('partner.primaryContactPerson', 'name',
-                        fn($query) => $query->whereIn('id', $this->ownerRecord->partners->map(function ($pivotContactPersonPartner) {
-                            return $pivotContactPersonPartner->partner->primaryContactPerson?->getKey();
-                        })))
-                    ->label('Contactpersonen')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
             ])
             ->actions([
                 ViewAction::make()
