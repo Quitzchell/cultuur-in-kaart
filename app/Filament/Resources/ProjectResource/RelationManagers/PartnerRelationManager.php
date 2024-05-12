@@ -21,12 +21,14 @@ class PartnerRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('partner.name')
-                    ->label('Naam'),
+                    ->label('Naam')
+                    ->searchable(),
                 TextColumn::make('partner.neighbourhood.name')
                     ->label('Wijk')
                     ->placeholder('-'),
                 TextColumn::make('partner.primaryContactPerson.name')
                     ->label('Primair contactpersoon')
+                    ->searchable()
                     ->placeholder('-'),
             ])
             ->filters([
