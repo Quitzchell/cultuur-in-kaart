@@ -75,21 +75,27 @@ it('can search related Activities by name', function () {
 
 /** Filter */
 it('can filter related Activities by tasks', function () {
-    $partner = partner::factory()->create();
+    $partner = Partner::factory()->create();
     $tasks = Task::factory(10)->create();
-    $activities = Activity::factory(10)->create()
-        ->each(function (Activity $activity) use ($partner, $tasks) {
-            $activity->partners()->attach($partner);
-            $activity->task()->associate($tasks->random());
-            $activity->save();
-        });
+    $activities = collect();
 
-    $task = $activities->first()->task;
+    foreach ($tasks as $task) {
+        $activity = Activity::factory()->create();
+        $activity->partners()->attach($partner);
+        $activity->task()->associate($task);
+        $activity->save();
+        $activities->push($activity);
+    }
+
+    $task = $tasks->first();
+    $filteredActivities = $activities->filter(function ($activity) use ($task) {
+        return $activity->task_id === $task->id;
+    });
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $partner,
         'pageClass' => ViewPartner::class
     ])->assertCanSeeTableRecords($activities)
         ->filterTable('task', $task->getKey())
-        ->assertCanSeeTableRecords($activities->where('task.name', $task->name))
-        ->assertCanNotSeeTableRecords($activities->where('task.name', '!==', $task->name));
+        ->assertCanSeeTableRecords($filteredActivities)
+        ->assertCanNotSeeTableRecords($activities->diff($filteredActivities));
 });
