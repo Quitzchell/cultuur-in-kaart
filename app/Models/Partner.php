@@ -37,15 +37,11 @@ class Partner extends Model
     {
         return $this->hasManyThrough(
             Project::class,
-            Activity::class,
-            'activity_partner.partner_id',
+            ActivityPartner::class,
+            'partner_id',
             'id',
             'id',
-            'project_id'
-        )->join(
-            'activity_partner',
-            'activities.id',
-            'activity_partner.activity_id'
+            'activity_id'
         )->distinct();
     }
 }
