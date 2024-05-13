@@ -110,7 +110,7 @@ class ActivityResource extends Resource
                                 'name',
                                 function (Builder $query, Get $get) {
                                     return $query
-                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', '=', 'contact_people.id')
+                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->whereIn('partner_id', $get('partners_id'));
                                 })
                             ->disabled(fn(Get $get) => empty($get('partners_id')))
@@ -195,7 +195,8 @@ class ActivityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\RelatedActivityRelationManager::class
+            RelationManagers\RelatedActivityRelationManager::class,
+            RelationManagers\PartnerRelationManager::class
         ];
     }
 
