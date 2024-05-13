@@ -212,15 +212,14 @@ class ProjectResource extends Resource
                             ]),
 
                         InfoSection::make('')
+                            ->columns()
                             ->schema([
-                                TextEntry::make('coordinator.name')
-                                    ->label('Primaire Coördinator')
-                                    ->placeholder('-')
-                                    ->inlineLabel(),
                                 TextEntry::make('coordinators.name')
                                     ->label('Coördinatoren')
-                                    ->placeholder('-')
-                                    ->inlineLabel(),
+                                    ->placeholder('-'),
+                                TextEntry::make('coordinator.name')
+                                    ->label('Primaire Coördinator')
+                                    ->placeholder('-'),
                             ]),
                     ]),
                 Grid::make()
