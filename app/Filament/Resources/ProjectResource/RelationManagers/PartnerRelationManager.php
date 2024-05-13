@@ -27,7 +27,7 @@ class PartnerRelationManager extends RelationManager
                     ->label('Wijk')
                     ->placeholder('-'),
                 TextColumn::make('partner.primaryContactPerson.name')
-                    ->label('Primair contactpersoon')
+                    ->label('Primaire contactpersoon')
                     ->searchable()
                     ->placeholder('-'),
             ])
