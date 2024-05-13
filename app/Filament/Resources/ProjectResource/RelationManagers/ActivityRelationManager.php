@@ -30,7 +30,7 @@ class ActivityRelationManager extends RelationManager
                 TextColumn::make('task.name')
                     ->label('Taak'),
                 TextColumn::make('partners.name')
-                    ->label('Partner(s)')
+                    ->label('Samenwerkingspartners')
                     ->placeholder('-'),
             ])
             ->filters([
