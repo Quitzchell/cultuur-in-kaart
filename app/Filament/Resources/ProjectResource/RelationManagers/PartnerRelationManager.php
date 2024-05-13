@@ -18,7 +18,6 @@ class PartnerRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('partner.name')
                     ->label('Naam')
