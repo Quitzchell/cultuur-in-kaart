@@ -74,7 +74,6 @@ class PartnerResource extends Resource
                         Forms\Components\Select::make('neighbourhood_id')
                             ->label('Wijk')
                             ->relationship('neighbourhood', 'name')
-                            ->required()
                             ->columnSpan(2),
                     ]),
 
