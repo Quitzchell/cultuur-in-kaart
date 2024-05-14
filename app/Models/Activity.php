@@ -18,7 +18,7 @@ class Activity extends Model
         return $this->belongsTo(ContactPerson::class);
     }
 
-    public function activityContactPersonPartner(): HasMany
+    public function contactPersonPartner(): HasMany
     {
         return $this->hasMany(activityContactPersonPartner::class);
     }

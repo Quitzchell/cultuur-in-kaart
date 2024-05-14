@@ -98,8 +98,8 @@ class ActivityResource extends Resource
                             ->preload()
                             ->columnSpanFull(),
 
-                        Repeater::make('activityContactPersonPartner')
-                            ->relationship('activityContactPersonPartner')
+                        Repeater::make('contactPersonPartner')
+                            ->relationship('contactPersonPartner')
                             ->schema([
                                 Select::make('partner_id')
                                     ->createOptionForm(PartnerModalForm::getForm())

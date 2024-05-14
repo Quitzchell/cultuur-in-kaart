@@ -12,7 +12,7 @@ use Filament\Tables\Table;
 
 class PartnerRelationManager extends RelationManager
 {
-    protected static string $relationship = 'activityContactPersonPartner';
+    protected static string $relationship = 'contactPersonPartner';
 
     public function table(Table $table): Table
     {

@@ -46,7 +46,7 @@ it('can create Activity', function () {
             'neighbourhood_id' => [$neighbourhood->getKey()],
             'coordinator_id' => [$coordinator->getKey()],
             'comment' => $activity->comment,
-            'activityContactPersonPartner' => [
+            'contactPersonPartner' => [
                 [
                     'partner_id' => $partner->getKey(),
                     'contact_person_id' => $contactPerson->getKey(),
@@ -93,7 +93,7 @@ it('can validate Activity form', function () {
             'date' => null,
             'neighbourhood_id' => [],
             'coordinator_id' => [],
-            'activityContactPersonPartner' => [
+            'contactPersonPartner' => [
                 [
                     'partner_id' => null,
                     'contact_person_id' => null,
@@ -107,7 +107,7 @@ it('can validate Activity form', function () {
             'date' => 'required',
             'neighbourhood_id' => 'required',
             'coordinator_id' => 'required',
-            'activityContactPersonPartner.0.partner_id' => 'required',
+            'contactPersonPartner.0.partner_id' => 'required',
         ]);
 
     $undoRepeaterFake();
@@ -126,7 +126,7 @@ it('can update Activity', function () {
 
     $contactPerson = ContactPerson::factory()->create();
     $partner = Partner::factory()->create();
-    $activity->activityContactPersonPartner()->create([
+    $activity->contactPersonPartner()->create([
         'contact_person_id' => $contactPerson->getKey(),
         'partner_id' => $partner->getKey(),
     ]);
@@ -151,7 +151,7 @@ it('can update Activity', function () {
         'neighbourhood_id' => $newNeighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey())->toArray(),
         'coordinator_id' => $newCoordinators->map(fn(Coordinator $coordinator) => $coordinator->getKey())->toArray(),
         'comment' => $newActivity->comment,
-        'activityContactPersonPartner' => [
+        'contactPersonPartner' => [
             [
                 'partner_id' => $newPartner->getKey(),
                 'contact_person_id' => $newContactPerson->getKey(),
@@ -214,13 +214,13 @@ it('can disable contact_person_id field on Activity', function () {
             'neighbourhood_id' => [$neighbourhood->getKey()],
             'coordinator_id' => [$coordinator->getKey()],
             'comment' => $activity->comment,
-            'activityContactPersonPartner' => [
+            'contactPersonPartner' => [
                 [
                     'partner_id' => null,
                     'contact_person_id' => null,
                 ]
             ],
-        ])->assertFormFieldIsDisabled('activityContactPersonPartner.0.contact_person_id');
+        ])->assertFormFieldIsDisabled('contactPersonPartner.0.contact_person_id');
 });
 
 it('can enable contact_person_id field on Activity', function () {
@@ -240,11 +240,11 @@ it('can enable contact_person_id field on Activity', function () {
             'neighbourhood_id' => [$neighbourhood->getKey()],
             'coordinator_id' => [$coordinator->getKey()],
             'comment' => $activity->comment,
-            'activityContactPersonPartner' => [
+            'contactPersonPartner' => [
                 [
                     'partner_id' => $partner->getKey(),
                     'contact_person_id' => null,
                 ]
             ],
-        ])->assertFormFieldIsEnabled('activityContactPersonPartner.0.contact_person_id');
+        ])->assertFormFieldIsEnabled('contactPersonPartner.0.contact_person_id');
 });
