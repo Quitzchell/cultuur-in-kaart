@@ -12,29 +12,19 @@ use Filament\Tables\Table;
 
 class PartnerRelationManager extends RelationManager
 {
-    protected static string $relationship = 'partners';
+    protected static string $relationship = 'activityContactPersonPartner';
 
     public function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Naam')
+                Tables\Columns\TextColumn::make('partner.name')
+                    ->label('Samenwerkingspartner')
                     ->searchable(),
-                TextColumn::make('neighbourhood.name')
-                    ->label('Wijk')
-                    ->placeholder('-'),
-                TextColumn::make('primaryContactPerson.name')
-                    ->label('Primaire contactpersoon')
-                    ->searchable()
-                    ->placeholder('-'),
-            ])
-            ->filters([
-                SelectFilter::make('neighbourhood')
-                    ->relationship('neighbourhood', 'name')
-                    ->label('Wijken')
-                    ->multiple()
-                    ->preload(),
+                TextColumn::make('contactPerson.name')
+                    ->label('Contactpersoon')
+                    ->placeholder('-')
+                    ->searchable(),
             ])
             ->actions([
                 ViewAction::make()

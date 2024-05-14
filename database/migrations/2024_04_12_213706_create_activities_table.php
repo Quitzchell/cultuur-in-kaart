@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->date('date');
             $table->text('comment')->nullable();
             $table->foreignIdFor(Task::class)->nullable();
-            $table->foreignIdFor(ContactPerson::class)->nullable();
             $table->foreignIdFor(Project::class)->nullable();
             $table->timestamps();
         });

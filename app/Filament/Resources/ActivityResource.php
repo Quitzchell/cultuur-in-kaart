@@ -7,10 +7,13 @@ use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Filament\Resources\PartnerResource\Modals\PartnerModalForm;
 use App\Filament\Resources\ProjectResource\Modals\ProjectModalForm;
 use App\Models\Activity;
+use App\Models\ContactPerson;
+use App\Models\Partner;
 use App\Models\Project;
 use Carbon\Carbon;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -95,31 +98,33 @@ class ActivityResource extends Resource
                             ->preload()
                             ->columnSpanFull(),
 
-                        Select::make('partners_id')
-                            ->createOptionForm(PartnerModalForm::getForm())
-                            ->relationship('partners', 'name')
-                            ->label('Partners')
-                            ->live()
-                            ->required()
-                            ->multiple()
-                            ->preload()
-                            ->searchable(['name']),
-                        Select::make('contact_person_id')
-                            ->relationship(
-                                'contactPerson',
-                                'name',
-                                function (Builder $query, Get $get) {
-                                    return $query
+                        Repeater::make('activityContactPersonPartner')
+                            ->relationship('activityContactPersonPartner')
+                            ->schema([
+                                Select::make('partner_id')
+                                    ->createOptionForm(PartnerModalForm::getForm())
+                                    ->options(Partner::pluck('name', 'id'))
+                                    ->label('Partners')
+                                    ->live()
+                                    ->required()
+                                    ->preload()
+                                    ->searchable(['name']),
+                                Select::make('contact_person_id')
+                                    ->options(fn($get) => ContactPerson::query()
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
-                                        ->whereIn('partner_id', $get('partners_id'));
-                                })
-                            ->disabled(fn(Get $get) => empty($get('partners_id')))
-                            ->label('Contactpersoon'),
+                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
+                                        ->pluck('contact_people.name', 'contact_people.id'))
+                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
+                                    ->label('Contactpersoon'),
+                            ]),
+                    ])
+                    ->columnSpanFull(),
+
+                Section::make('Opmerkingen')
+                    ->schema([
+                        Textarea::make('comment')
+                            ->label('')
                     ]),
-                Section::make('Opmerkingen')->schema([
-                    Textarea::make('comment')
-                        ->label('')
-                ]),
             ]);
     }
 
@@ -237,17 +242,6 @@ class ActivityResource extends Resource
 
                 Group::make()
                     ->schema([
-                        InfoSection::make('')
-                            ->schema([
-                                TextEntry::make('partners.name')
-                                    ->label('Partners')
-                                    ->inlineLabel()
-                                    ->default('-'),
-                                TextEntry::make('contactPerson.name')
-                                    ->label('Contactpersoon')
-                                    ->inlineLabel()
-                                    ->default('-'),
-                            ])->columnSpan(1),
                         InfoSection::make('')
                             ->schema([
                                 TextEntry::make('comment')

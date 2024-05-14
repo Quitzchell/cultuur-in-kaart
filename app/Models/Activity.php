@@ -18,6 +18,11 @@ class Activity extends Model
         return $this->belongsTo(ContactPerson::class);
     }
 
+    public function activityContactPersonPartner(): HasMany
+    {
+        return $this->hasMany(activityContactPersonPartner::class);
+    }
+
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
