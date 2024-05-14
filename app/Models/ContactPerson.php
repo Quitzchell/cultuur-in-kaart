@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class ContactPerson extends Model
@@ -13,9 +12,14 @@ class ContactPerson extends Model
     use HasFactory;
 
     /* Relations */
-    public function activities(): HasMany
+    public function activities(): HasManyThrough
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasManyThrough(
+            Activity::class,
+            ActivityContactPersonPartner::class,
+            secondKey: 'id',
+            secondLocalKey: 'activity_id'
+        );
     }
 
     public function projects(): HasManyThrough
