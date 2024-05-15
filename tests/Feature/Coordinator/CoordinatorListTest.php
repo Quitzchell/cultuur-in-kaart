@@ -15,7 +15,6 @@ it('can list Coordinators', function () {
     $coordinators = Coordinator::all();
 
     livewire(ListCoordinator::class)
-        ->set('coordinators', $coordinators)
         ->assertCanSeeTableRecords($coordinators)
         ->assertCountTableRecords(10)
         ->assertCanRenderTableColumn('name')
