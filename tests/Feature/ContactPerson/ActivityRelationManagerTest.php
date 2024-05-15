@@ -26,9 +26,10 @@ it('can list related Activities', function () {
     $activities = Activity::factory(10)->create()
         ->each(function (Activity $activity) use ($tasks, $partner, $contactPerson) {
             $activity->task()->associate($tasks);
-            $activity->partners()->attach($partner);
-            $activity->contactPerson()->associate($contactPerson);
-            $activity->save();
+            $activity->contactPersonPartner()->create([
+                'contact_person_id' => $contactPerson->getKey(),
+                'partner_id' => $partner->getKey(),
+            ]);
         });
 
     livewire(ActivityRelationManager::class, [
@@ -39,7 +40,9 @@ it('can list related Activities', function () {
         ->assertCanRenderTableColumn('date')
         ->assertTableColumnExists('date')
         ->assertCanRenderTableColumn('name')
-        ->assertTableColumnExists('name');
+        ->assertTableColumnExists('name')
+        ->assertCanRenderTableColumn('task.name')
+        ->assertTableColumnExists('task.name');
 });
 
 /** Sort */
@@ -50,9 +53,10 @@ it('can sort related Activities by date', function () {
 
     $activities = Activity::factory(10)->create()
         ->each(function (Activity $activity) use ($partner, $contactPerson) {
-            $activity->partners()->attach($partner);
-            $activity->contactPerson()->associate($contactPerson);
-            $activity->save();
+            $activity->contactPersonPartner()->create([
+                'contact_person_id' => $contactPerson->getKey(),
+                'partner_id' => $partner->getKey(),
+            ]);
         });
 
     livewire(ActivityRelationManager::class, [
@@ -72,9 +76,10 @@ it('can search related Activities by name', function () {
 
     $activities = Activity::factory(10)->create()
         ->each(function (Activity $activity) use ($partner, $contactPerson) {
-            $activity->partners()->attach($partner);
-            $activity->contactPerson()->associate($contactPerson);
-            $activity->save();
+            $activity->contactPersonPartner()->create([
+                'contact_person_id' => $contactPerson->getKey(),
+                'partner_id' => $partner->getKey(),
+            ]);
         });
 
     $name = $activities->first()->name;

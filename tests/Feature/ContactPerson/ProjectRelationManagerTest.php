@@ -25,9 +25,10 @@ it('can list related projects', function () {
     $projects = Project::factory(3)->create()
         ->each(function (Project $project) use ($partner, $contactPerson) {
             $project->activities()->saveMany(Activity::factory(3)->create()->each(function (Activity $activity) use ($contactPerson, $partner) {
-                $activity->partners()->attach($partner);
-                $activity->contactPerson()->associate($contactPerson);
-                $activity->save();
+                $activity->contactPersonPartner()->create([
+                    'contact_person_id' => $contactPerson->getKey(),
+                    'partner_id' => $partner->getKey(),
+                ]);
             }));
         });
 
@@ -53,9 +54,10 @@ it('can sort related projects by start date', function () {
     $projects = Project::factory(3)->create()
         ->each(function (Project $project) use ($partner, $contactPerson) {
             $project->activities()->saveMany(Activity::factory(3)->create()->each(function (Activity $activity) use ($contactPerson, $partner) {
-                $activity->partners()->attach($partner);
-                $activity->contactPerson()->associate($contactPerson);
-                $activity->save();
+                $activity->contactPersonPartner()->create([
+                    'contact_person_id' => $contactPerson->getKey(),
+                    'partner_id' => $partner->getKey(),
+                ]);
             }));
         });
 
@@ -76,9 +78,10 @@ it('can search related Projects by name', function () {
 
     $projects = Project::factory(3)->create()->each(function (Project $project) use ($partner, $contactPerson) {
         $project->activities()->saveMany(Activity::factory(3)->create()->each(function (Activity $activity) use ($contactPerson, $partner) {
-            $activity->partners()->attach($partner);
-            $activity->contactPerson()->associate($contactPerson);
-            $activity->save();
+            $activity->contactPersonPartner()->create([
+                'contact_person_id' => $contactPerson->getKey(),
+                'partner_id' => $partner->getKey(),
+            ]);
         }));
     });
 
