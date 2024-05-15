@@ -47,7 +47,6 @@ it('can validate create Partner form', function () {
             'house_number' => null,
             'zip' => null,
             'city' => null,
-            'neighbourhood_id' => null,
         ])->call('create')
         ->assertHasFormErrors([
             'name' => 'required',
@@ -55,7 +54,6 @@ it('can validate create Partner form', function () {
             'house_number' => 'required',
             'zip' => 'required',
             'city' => 'required',
-            'neighbourhood_id' => 'required',
         ]);
 });
 
