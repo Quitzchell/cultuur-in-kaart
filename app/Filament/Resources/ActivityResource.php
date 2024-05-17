@@ -233,7 +233,7 @@ class ActivityResource extends Resource
                         TextEntry::make('task.name')
                             ->label('Taak')
                             ->inlineLabel(),
-                        TextEntry::make('neighbourhoods.name')
+                        TextEntry::make('neighbourhood.name')
                             ->label('Wijk')
                             ->formatStateUsing(function ($state) {
                                 $neighbourhoods = explode(', ', $state);
