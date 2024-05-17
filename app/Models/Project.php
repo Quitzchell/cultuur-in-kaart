@@ -42,8 +42,8 @@ class Project extends Model
         return $this->hasManyThrough(ActivityPartner::class, Activity::class);
     }
 
-    public function neighbourhoods(): HasManyThrough
+    public function neighbourhoods(): BelongsToMany
     {
-        return $this->hasManyThrough(ActivityNeighbourhood::class, Activity::class);
+        return $this->belongsToMany(Neighbourhood::class, Activity::class);
     }
 }
