@@ -97,6 +97,8 @@ class ActivityResource extends Resource
 
                         Repeater::make('contactPersonPartner')
                             ->relationship('contactPersonPartner')
+                            ->label('Contactpersonen')
+                            ->addActionLabel('Contactpersoon toevoegen')
                             ->schema([
                                 Select::make('partner_id')
                                     ->createOptionForm(PartnerModalForm::getForm())
@@ -112,10 +114,8 @@ class ActivityResource extends Resource
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))
                                         ->pluck('contact_people.name', 'contact_people.id'))
                                     ->disabled(fn(Get $get) => $get('partner_id') === null)
-                                    ->label('Contactpersoon'),
-                            ]),
-                    ])
-                    ->columnSpanFull(),
+                            ])->columnSpanFull(),
+                    ]),
 
                 Section::make('Opmerkingen')
                     ->schema([
@@ -139,8 +139,10 @@ class ActivityResource extends Resource
                     ->searchable(),
                 TextColumn::make('project.name')
                     ->label('Projectnaam')
+                    ->placeholder('-')
                     ->searchable(),
                 TextColumn::make('task.name')
+                    ->placeholder('-')
                     ->label('Taak'),
                 TextColumn::make('neighbourhood.name')
                     ->label('Wijk')
