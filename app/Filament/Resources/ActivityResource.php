@@ -123,6 +123,9 @@ class ActivityResource extends Resource
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))
                                         ->pluck('contact_people.name', 'contact_people.id'))
+                                    ->label('Contactpersoon')
+                                    ->required()
+                                    ->preload()
                                     ->disabled(fn(Get $get) => $get('partner_id') === null)
                             ])->columnSpanFull(),
                     ]),
