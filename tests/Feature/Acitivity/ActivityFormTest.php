@@ -43,7 +43,7 @@ it('can create Activity', function () {
             'project_id' => $project->getKey(),
             'task_id' => $task->getKey(),
             'date' => $activity->date,
-            'neighbourhood_id' => [$neighbourhood->getKey()],
+            'neighbourhood_id' => $neighbourhood->getKey(),
             'coordinator_id' => [$coordinator->getKey()],
             'comment' => $activity->comment,
             'contactPersonPartner' => [
@@ -61,13 +61,10 @@ it('can create Activity', function () {
         'task_id' => $task->getKey(),
         'date' => $activity->date,
         'comment' => $activity->comment,
+        'neighbourhood_id' => $neighbourhood->getKey(),
     ]);
 
     $savedActivity = Activity::first();
-    $this->assertDatabaseHas('activity_neighbourhood', [
-        'activity_id' => $savedActivity->getKey(),
-        'neighbourhood_id' => $neighbourhood->getKey(),
-    ]);
     $this->assertDatabaseHas('activity_coordinator', [
         'activity_id' => $savedActivity->getKey(),
         'coordinator_id' => $coordinator->getKey(),
@@ -91,7 +88,7 @@ it('can validate Activity form', function () {
             'project_id' => null,
             'task_id' => null,
             'date' => null,
-            'neighbourhood_id' => [],
+            'neighbourhood_id' => null,
             'coordinator_id' => [],
             'contactPersonPartner' => [
                 [
@@ -120,7 +117,7 @@ it('can update Activity', function () {
     $activity = Activity::factory()->create();
     $activity->project()->associate(Project::factory()->create());
     $activity->task()->associate(Task::factory()->create());
-    $activity->neighbourhoods()->attach(Neighbourhood::factory(4)->create());
+    $activity->neighbourhood()->associate(Neighbourhood::factory()->create());
     $activity->coordinators()->attach(Coordinator::factory(2)->create());
     $activity->save();
 
@@ -135,7 +132,6 @@ it('can update Activity', function () {
     $newProject = Project::factory()->create();
     $newTask = Task::factory()->create();
     $newNeighbourhood = Neighbourhood::factory()->create();
-    $newNeighbourhoods = $activity->neighbourhoods->add($newNeighbourhood);
     $newCoordinator = Coordinator::factory()->create();
     $newCoordinators = $activity->coordinators->add($newCoordinator);
     $newPartner = Partner::factory()->create();
@@ -148,7 +144,7 @@ it('can update Activity', function () {
         'project_id' => $newProject->getKey(),
         'task_id' => $newTask->getKey(),
         'date' => $newActivity->date,
-        'neighbourhood_id' => $newNeighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey())->toArray(),
+        'neighbourhood_id' => $newNeighbourhood->getKey(),
         'coordinator_id' => $newCoordinators->map(fn(Coordinator $coordinator) => $coordinator->getKey())->toArray(),
         'comment' => $newActivity->comment,
         'contactPersonPartner' => [
@@ -164,13 +160,9 @@ it('can update Activity', function () {
         'name' => $newActivity->name,
         'project_id' => $newProject->getKey(),
         'task_id' => $newTask->getKey(),
+        'neighbourhood_id' => $newNeighbourhood->getKey(),
         'date' => $newActivity->date,
         'comment' => $newActivity->comment,
-    ]);
-
-    $this->assertDatabaseHas('activity_neighbourhood', [
-        'activity_id' => $activity->getKey(),
-        'neighbourhood_id' => $newNeighbourhood->getKey(),
     ]);
 
     $this->assertDatabaseHas('activity_coordinator', [
@@ -211,7 +203,7 @@ it('can disable contact_person_id field on Activity', function () {
             'project_id' => $project->getKey(),
             'task_id' => $task->getKey(),
             'date' => $activity->date,
-            'neighbourhood_id' => [$neighbourhood->getKey()],
+            'neighbourhood_id' => $neighbourhood->getKey(),
             'coordinator_id' => [$coordinator->getKey()],
             'comment' => $activity->comment,
             'contactPersonPartner' => [
@@ -237,7 +229,7 @@ it('can enable contact_person_id field on Activity', function () {
             'project_id' => $project->getKey(),
             'task_id' => $task->getKey(),
             'date' => $activity->date,
-            'neighbourhood_id' => [$neighbourhood->getKey()],
+            'neighbourhood_id' => $neighbourhood->getKey(),
             'coordinator_id' => [$coordinator->getKey()],
             'comment' => $activity->comment,
             'contactPersonPartner' => [

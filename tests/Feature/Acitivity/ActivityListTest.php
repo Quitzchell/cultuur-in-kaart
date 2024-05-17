@@ -25,8 +25,8 @@ it('can list Activities', function () {
         ->assertTableColumnExists('name')
         ->assertCanRenderTableColumn('project.name')
         ->assertTableColumnExists('project.name')
-        ->assertCanRenderTableColumn('neighbourhoods.name')
-        ->assertTableColumnExists('neighbourhoods.name');
+        ->assertCanRenderTableColumn('neighbourhood.name')
+        ->assertTableColumnExists('neighbourhood.name');
 });
 
 /** Sort */
@@ -61,21 +61,18 @@ it('can search Activities by project name', function () {
         ->assertCanNotSeeTableRecords($project->activities->where('project_id', '!==', $project->getKey()));
 });
 
-it('can search Activities by neighbourhood name', function () {
-    $neighbourhoods = Neighbourhood::factory(10)->create();
-    $activities = Activity::factory(5)->create()->each(function (Activity $activity) use ($neighbourhoods) {
-        $activity->neighbourhoods()->attach($neighbourhoods->random(2));
+it('can search Activities by Neighbourhood name', function () {
+    $neighbourhoods = Neighbourhood::factory(5)->create();
+    $activities = Activity::factory(20)->create()->each(function (Activity $activity) use ($neighbourhoods) {
+        $activity->neighbourhood()->associate($neighbourhoods->random());
+        $activity->save();
     });
 
     $neighbourhood = $neighbourhoods->first();
-    $filteredActivities = $activities->filter(function (Activity $activity) use ($neighbourhood) {
-        return $activity->neighbourhoods->contains($neighbourhood);
-    });
-
     livewire(ListActivities::class)
         ->searchTable($neighbourhood->name)
-        ->assertCanSeeTableRecords($filteredActivities)
-        ->assertCanNotSeeTableRecords($activities->diff($filteredActivities));
+        ->assertCanSeeTableRecords($activities->where('neighbourhood_id', $neighbourhood->getKey()))
+        ->assertCanNotSeeTableRecords($activities->where('neighbourhood_id', '!==', $neighbourhood->getKey()));
 });
 
 /** Filter */
@@ -97,19 +94,16 @@ it('can filter Activities by Project', function () {
 it('can filter Activities by Neighbourhood', function () {
     $neighbourhoods = Neighbourhood::factory(10)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($neighbourhoods) {
-        $activity->neighbourhoods()->attach($neighbourhoods->random(2));
+        $activity->neighbourhood()->associate($neighbourhoods->random());
+        $activity->save();
     });
 
-    $neighbourhood = $activities->first()->neighbourhoods->first();
-    $filteredActivities = $activities->filter(function (Activity $activity) use ($neighbourhood) {
-        return $activity->neighbourhoods->contains($neighbourhood);
-    });
-
+    $neighbourhood = $activities->first()->neighbourhood;
     livewire(ListActivities::class)
         ->assertCanSeeTableRecords($activities)
         ->filterTable('neighbourhood_id', $neighbourhood->getKey())
-        ->assertCanSeeTableRecords($filteredActivities)
-        ->assertCanNotSeeTableRecords($activities->diff($filteredActivities));
+        ->assertCanSeeTableRecords($activities->where('neighbourhood_id', $neighbourhood->getKey()))
+        ->assertCanNotSeeTableRecords($activities->where('neighbourhood_id', '!==', $neighbourhood->getKey()));
 });
 
 it('can filter Activities by Task', function () {
