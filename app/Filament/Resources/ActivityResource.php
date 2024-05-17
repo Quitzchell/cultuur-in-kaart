@@ -11,7 +11,6 @@ use App\Models\ContactPerson;
 use App\Models\Partner;
 use App\Models\Project;
 use Carbon\Carbon;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -64,8 +63,13 @@ class ActivityResource extends Resource
                             ->live()
                             ->required()
                             ->preload()
-                            ->searchable(['name'])
-                            ->columnSpanFull(),
+                            ->searchable(['name']),
+                        Select::make('neighbourhood_id')
+                            ->relationship('neighbourhood', 'name')
+                            ->label('Wijk')
+                            ->required()
+                            ->preload()
+                            ->columns(3),
                         Select::make('task_id')
                             ->relationship('task', 'name')
                             ->label('Taak')
@@ -73,13 +77,6 @@ class ActivityResource extends Resource
                         DatePicker::make('date')
                             ->label('Datum')
                             ->required(),
-                        CheckboxList::make('neighbourhood_id')
-                            ->relationship('neighbourhoods', 'name')
-                            ->label('Wijken')
-                            ->bulkToggleable()
-                            ->required()
-                            ->columns(3)
-                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Betrokkenen')
@@ -145,13 +142,8 @@ class ActivityResource extends Resource
                     ->searchable(),
                 TextColumn::make('task.name')
                     ->label('Taak'),
-                TextColumn::make('neighbourhoods.name')
-                    ->label('Wijken')
-                    ->formatStateUsing(function ($state) {
-                        $neighbourhoods = explode(', ', $state);
-                        sort($neighbourhoods);
-                        return implode(', ', $neighbourhoods);
-                    })
+                TextColumn::make('neighbourhood.name')
+                    ->label('Wijk')
                     ->placeholder('-')
                     ->searchable()
                     ->limit(40),
@@ -163,8 +155,8 @@ class ActivityResource extends Resource
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('neighbourhood_id')
-                    ->relationship('neighbourhoods', 'name')
-                    ->label('Wijken')
+                    ->relationship('neighbourhood', 'name')
+                    ->label('Wijk')
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('task_id')
