@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
+use App\Filament\Resources\ContactPersonResource\Modals\ContactPersonModalForm;
 use App\Filament\Resources\PartnerResource\Modals\PartnerModalForm;
 use App\Filament\Resources\ProjectResource\Modals\ProjectModalForm;
 use App\Models\Activity;
@@ -101,6 +102,7 @@ class ActivityResource extends Resource
                             ->addActionLabel('Contactpersoon toevoegen')
                             ->schema([
                                 Select::make('partner_id')
+                                    ->relationship('partner', 'name')
                                     ->createOptionForm(PartnerModalForm::getForm())
                                     ->options(Partner::pluck('name', 'id'))
                                     ->label('Partners')
@@ -109,6 +111,14 @@ class ActivityResource extends Resource
                                     ->preload()
                                     ->searchable(['name']),
                                 Select::make('contact_person_id')
+                                    ->relationship('contactPerson', 'name')
+                                    ->createOptionForm(ContactPersonModalForm::getForm())
+                                    ->createOptionUsing(function (array $data, $get): int {
+                                        $partner = Partner::find($get('partner_id'));
+                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
+                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
+                                        return $contactPerson;
+                                    })
                                     ->options(fn($get) => ContactPerson::query()
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))
