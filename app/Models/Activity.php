@@ -33,9 +33,9 @@ class Activity extends Model
         return $this->belongsToMany(Discipline::class);
     }
 
-    public function neighbourhoods(): BelongsToMany
+    public function neighbourhood(): BelongsTo
     {
-        return $this->belongsToMany(Neighbourhood::class);
+        return $this->belongsTo(Neighbourhood::class);
     }
 
     public function partners(): BelongsToMany
