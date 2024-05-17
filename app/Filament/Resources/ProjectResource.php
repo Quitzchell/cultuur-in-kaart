@@ -102,11 +102,10 @@ class ProjectResource extends Resource
                 TextColumn::make('name')
                     ->label('Naam')
                     ->searchable(),
-                TextColumn::make('neighbourhoods.neighbourhood.name')
+                TextColumn::make('neighbourhoods.name')
                     ->label('Wijken')
-                    ->searchable()
-                    ->placeholder('-')
-                    ->limit(40),
+                    ->distinctList()
+                    ->placeholder('-'),
                 TextColumn::make('start_date')
                     ->label('Startdatum')
                     ->date('d-m-Y')
@@ -117,8 +116,8 @@ class ProjectResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('neighbourhood')
-                    ->relationship('neighbourhoods.neighbourhood', 'name')
+                SelectFilter::make('neighbourhoods')
+                    ->relationship('neighbourhoods', 'name')
                     ->label('')
                     ->multiple()
                     ->preload(),
@@ -164,7 +163,7 @@ class ProjectResource extends Resource
             ->filtersFormSchema(fn(array $filters): array => [
                 Section::make('Wijken')
                     ->schema([
-                        $filters['neighbourhood'],
+                        $filters['neighbourhoods'],
                     ]),
                 Section::make('Startdatum')
                     ->schema([
@@ -229,7 +228,7 @@ class ProjectResource extends Resource
                             ->schema([
                                 TextEntry::make('partners.partner.name')
                                     ->label('Samenwerkingspartners'),
-                                TextEntry::make('neighbourhoods.neighbourhood.name')
+                                TextEntry::make('neighbourhoods.name')
                                     ->label('Wijken')
                                     ->distinctList()
                             ])
