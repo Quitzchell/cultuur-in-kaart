@@ -73,7 +73,8 @@ class DatabaseSeeder extends Seeder
                 $activity->save();
 
                 // Attach Neighbourhoods
-                $activity->neighbourhoods()->attach(Neighbourhood::all()->random(3));
+                $activity->neighbourhood()->associate(Neighbourhood::all()->random());
+                $activity->save();
 
                 // Attach Coordinators
                 $coordinators = $activity->project->coordinators->random(3);
@@ -81,11 +82,6 @@ class DatabaseSeeder extends Seeder
 
                 // Attach Partners
                 $activity->partners()->attach(Partner::all()->random(2));
-
-                // Associate contactPerson
-                $contactPerson = $activity->partners->first()->contactPeople->first();
-                $activity->contactPerson()->associate($contactPerson);
-                $activity->save();
             });
         }
     }
