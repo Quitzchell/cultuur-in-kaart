@@ -20,7 +20,7 @@ class Activity extends Model
 
     public function contactPersonPartner(): HasMany
     {
-        return $this->hasMany(activityContactPersonPartner::class);
+        return $this->hasMany(ActivityContactPersonPartner::class);
     }
 
     public function coordinators(): BelongsToMany
