@@ -35,7 +35,6 @@ class Coordinator extends Authenticatable implements FilamentUser
     }
 
     /* Permissions */
-
     public function canAccessPanel(Panel $panel): bool
     {
         return str_ends_with($this->email, '@soc.nl') && $this->hasVerifiedEmail();
