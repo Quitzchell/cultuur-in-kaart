@@ -44,6 +44,11 @@ class Coordinator extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Project::class);
     }
 
+    public function activities(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class);
+    }
+
     /* Permissions */
     public function canAccessPanel(Panel $panel): bool
     {
