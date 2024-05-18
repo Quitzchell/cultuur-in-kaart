@@ -216,9 +216,7 @@ class ActivityResource extends Resource
                         TextEntry::make('project.name')
                             ->label('Projectnaam')
                             ->inlineLabel(),
-                        TextEntry::make('task.name')
-                            ->label('Taak')
-                            ->inlineLabel(),
+
                         TextEntry::make('neighbourhood.name')
                             ->label('Wijk')
                             ->formatStateUsing(function ($state) {
@@ -226,6 +224,9 @@ class ActivityResource extends Resource
                                 sort($neighbourhoods);
                                 return implode(', ', $neighbourhoods);
                             })
+                            ->inlineLabel(),
+                        TextEntry::make('task.name')
+                            ->label('Taak')
                             ->inlineLabel(),
                         TextEntry::make('discipline.name')
                             ->label('Discipline')
