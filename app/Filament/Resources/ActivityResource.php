@@ -253,7 +253,6 @@ class ActivityResource extends Resource
                             ->schema([
                                 TextEntry::make('comment')
                                     ->label('Opmerking')
-                                    ->inlineLabel()
                                     ->placeholder('-'),
                             ]),
                     ])->columnSpan(1),
