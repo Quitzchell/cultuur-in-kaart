@@ -1,7 +1,7 @@
 <?php
 
 use App\Filament\Resources\CoordinatorResource;
-use App\Filament\Resources\CoordinatorResource\Pages\ListCoordinator;
+use App\Filament\Resources\CoordinatorResource\Pages\ListCoordinators;
 use App\Models\Coordinator;
 use function Pest\Livewire\livewire;
 
@@ -14,7 +14,7 @@ it('can list Coordinators', function () {
     Coordinator::factory(9)->create();
     $coordinators = Coordinator::all();
 
-    livewire(ListCoordinator::class)
+    livewire(ListCoordinators::class)
         ->assertCanSeeTableRecords($coordinators)
         ->assertCountTableRecords(10)
         ->assertCanRenderTableColumn('name')
