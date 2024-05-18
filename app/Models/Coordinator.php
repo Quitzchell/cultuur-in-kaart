@@ -29,22 +29,6 @@ class Coordinator extends Authenticatable implements FilamentUser
     }
 
     /* Relations */
-
-    public function activity(): HasOne
-    {
-        return $this->hasOne(Activity::class);
-    }
-
-    public function activities(): BelongsToMany
-    {
-        return $this->belongsToMany(Activity::class);
-    }
-
-    public function projects(): BelongsToMany
-    {
-        return $this->belongsToMany(Project::class);
-    }
-
     public function neighbourhoods(): BelongsToMany
     {
         return $this->belongsToMany(Neighbourhood::class);
