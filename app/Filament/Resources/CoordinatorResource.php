@@ -4,30 +4,27 @@ namespace App\Filament\Resources;
 
 use App\Enums\Coordinator\Role;
 use App\Enums\Workday\Workday;
-use App\Filament\Resources\CoordinatorResource\RelationManagers\ActivityRelationManager;
-use App\Filament\Resources\CoordinatorResource\RelationManagers\ProjectRelationManager;
 use App\Filament\Resources\CoordinatorResource\Pages;
+use App\Filament\Resources\CoordinatorResource\RelationManagers;
 use App\Models\Coordinator;
+use Filament\Forms;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CoordinatorResource extends Resource
 {
     protected static ?string $model = Coordinator::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationLabel = 'Coördinatoren';
-
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
@@ -96,44 +93,8 @@ class CoordinatorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ActivityRelationManager::make(),
-            ProjectRelationManager::make()
+            //
         ];
-    }
-
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                \Filament\Infolists\Components\Section::make('')
-                    ->schema([
-                        TextEntry::make('email')
-                            ->label('Email')
-                            ->placeholder('-')
-                            ->inlineLabel(),
-                        TextEntry::make('phone')
-                            ->label('Telefoonnummer')
-                            ->placeholder('-')
-                            ->inlineLabel(),
-                        TextEntry::make('workdays')
-                            ->label('Werkdagen')
-                            ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state)))
-                            ->inlineLabel()
-                            ->placeholder('-')
-                    ])->columnSpan(1),
-                \Filament\Infolists\Components\Section::make('')
-                    ->schema([
-                        TextEntry::make('neighbourhoods.name')
-                            ->label('Wijken')
-                            ->formatStateUsing(function ($state) {
-                                $neighbourhoods = explode(', ', $state);
-                                sort($neighbourhoods);
-                                return implode(', ', $neighbourhoods);
-                            })
-                            ->inlineLabel()
-                            ->placeholder('-')
-                    ])->columnSpan(1)
-            ])->columns();
     }
 
     public static function getPages(): array
