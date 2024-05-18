@@ -31,4 +31,9 @@ class Activity extends Model
     {
         return $this->belongsToMany(Coordinator::class);
     }
+
+    public function discipline(): BelongsTo
+    {
+        return $this->belongsTo(Discipline::class);
+    }
 }

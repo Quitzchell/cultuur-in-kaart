@@ -58,17 +58,21 @@ class ActivityResource extends Resource
                             ->live()
                             ->required()
                             ->preload()
-                            ->searchable(['name']),
+                            ->searchable(['name'])
+                            ->columnSpanFull(),
                         Select::make('neighbourhood_id')
                             ->relationship('neighbourhood', 'name')
                             ->label('Wijk')
                             ->required()
-                            ->preload()
-                            ->columns(3),
+                            ->preload(),
                         Select::make('task_id')
                             ->relationship('task', 'name')
                             ->label('Taak')
-                            ->required(),
+                            ->required()
+                            ->preload(),
+                        Select::make('discipline_id')
+                            ->relationship('discipline', 'name')
+                            ->label('Discipline'),
                         DatePicker::make('date')
                             ->label('Datum')
                             ->required(),
@@ -222,6 +226,9 @@ class ActivityResource extends Resource
                                 sort($neighbourhoods);
                                 return implode(', ', $neighbourhoods);
                             })
+                            ->inlineLabel(),
+                        TextEntry::make('discipline.name')
+                            ->label('Discipline')
                             ->inlineLabel(),
                         TextEntry::make('Coordinators.name')
                             ->label('Coördinatoren')

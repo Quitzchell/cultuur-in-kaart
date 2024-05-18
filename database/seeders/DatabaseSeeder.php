@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Activity;
 use App\Models\Coordinator;
+use App\Models\Discipline;
 use App\Models\Neighbourhood;
 use App\Models\Project;
 use App\Models\Task;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             NeighbourhoodSeeder::class,
             TaskSeeder::class,
+            DisciplineSeeder::class
         ]);
 
         $this->createModels();
@@ -38,6 +40,7 @@ class DatabaseSeeder extends Seeder
             $activity->task()->associate(Task::all()->random());
             $activity->project()->associate(Project::all()->random());
             $activity->neighbourhood()->associate(Neighbourhood::all()->random());
+            $activity->discipline()->associate(Discipline::all()->random());
             $activity->save();
             $activity->coordinators()->attach($activity->project->coordinators()->first());
         }

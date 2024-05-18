@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Discipline;
 use App\Models\Neighbourhood;
 use App\Models\Project;
 use App\Models\Task;
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Task::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Project::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Neighbourhood::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Discipline::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
