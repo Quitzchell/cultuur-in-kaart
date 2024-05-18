@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Coordinator;
+use App\Models\Neighbourhood;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('coordinator_neighbourhood', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('emoji_unicode')->nullable();
-            $table->timestamps();
+            $table->foreignIdFor(Coordinator::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Neighbourhood::class)->constrained()->cascadeOnDelete();
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('coordinator_neighbourhood');
     }
 };
