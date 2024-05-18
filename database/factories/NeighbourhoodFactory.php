@@ -5,12 +5,13 @@ namespace Database\Factories;
 use App\Models\Neighbourhood;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Neighbourhood>
+ */
 class NeighbourhoodFactory extends Factory
 {
-    /**
-     * @extends Factory<Neighbourhood>
-     */
-    public function definition()
+
+    public function definition(): array
     {
         return [
             'name' => $this->faker->city(),
