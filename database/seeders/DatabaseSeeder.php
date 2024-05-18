@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Activity;
 use App\Models\Coordinator;
 use App\Models\Neighbourhood;
 use App\Models\Project;
@@ -25,12 +26,20 @@ class DatabaseSeeder extends Seeder
 
         foreach (Coordinator::all() as $coordinator) {
             $coordinator->neighbourhoods()->attach(Neighbourhood::all()->random(2));
-            $coordinator->projects()->attach(Project::all()->random(2));
         }
 
         foreach (Project::all() as $project) {
             $project->coordinator()->associate($project->coordinators()->first());
+            $project->coordinators()->attach(Coordinator::all()->random(2));
             $project->save();
+        }
+
+        foreach (Activity::all() as $activity) {
+            $activity->task()->associate(Task::all()->random());
+            $activity->project()->associate(Project::all()->random());
+            $activity->neighbourhood()->associate(Neighbourhood::all()->random());
+            $activity->save();
+            $activity->coordinators()->attach($activity->project->coordinators()->first());
         }
 
     }
@@ -38,6 +47,7 @@ class DatabaseSeeder extends Seeder
     private function createModels(): void
     {
         Coordinator::factory(2)->create();
-        Project::factory(5)->create();
+        Project::factory(25)->create();
+        Activity::factory(500)->create();
     }
 }
