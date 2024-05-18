@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Coordinator;
 use App\Models\Discipline;
 use App\Models\Neighbourhood;
+use App\Models\Partner;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Seeder;
@@ -46,6 +47,10 @@ class DatabaseSeeder extends Seeder
             $activity->save();
         }
 
+        foreach (Partner::all() as $partner) {
+            $partner->neighbourhood()->associate(Neighbourhood::all()->random());
+            $partner->save();
+        }
     }
 
     private function createModels(): void
@@ -53,5 +58,6 @@ class DatabaseSeeder extends Seeder
         Coordinator::factory(2)->create();
         Project::factory(25)->create();
         Activity::factory(500)->create();
+        Partner::factory(25)->create();
     }
 }
