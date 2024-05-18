@@ -13,9 +13,11 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -90,6 +92,37 @@ class CoordinatorResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                \Filament\Infolists\Components\Section::make('')
+                    ->schema([
+                        TextEntry::make('email')
+                            ->label('Email')
+                            ->placeholder('-')
+                            ->inlineLabel(),
+                        TextEntry::make('phone')
+                            ->label('Telefoonnummer')
+                            ->placeholder('-')
+                            ->inlineLabel(),
+                        TextEntry::make('workdays')
+                            ->label('Werkdagen')
+                            ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state)))
+                            ->inlineLabel()
+                            ->placeholder('-')
+                    ])->columnSpan(1),
+                \Filament\Infolists\Components\Section::make('')
+                    ->schema([
+                        TextEntry::make('neighbourhoods.name')
+                            ->label('Wijken')
+                            ->distinctList()
+                            ->inlineLabel()
+                            ->placeholder('-')
+                    ])->columnSpan(1)
+            ])->columns();
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -100,7 +133,7 @@ class CoordinatorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCoordinator::route('/'),
+            'index' => Pages\ListCoordinators::route('/'),
             'create' => Pages\CreateCoordinator::route('/create'),
             'view' => Pages\ViewCoordinator::route('/{record}'),
             'edit' => Pages\EditCoordinator::route('/{record}/edit'),
