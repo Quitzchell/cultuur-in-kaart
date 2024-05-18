@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Coordinator;
 use App\Models\Neighbourhood;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             NeighbourhoodSeeder::class
+            NeighbourhoodSeeder::class,
+            TaskSeeder::class,
         ]);
 
         $this->createModels();
