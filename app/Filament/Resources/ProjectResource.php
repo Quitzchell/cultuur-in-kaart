@@ -207,7 +207,8 @@ class ProjectResource extends Resource
                                     ->date('d-m-Y'),
                                 TextEntry::make('end_date')
                                     ->label('Einddatum')
-                                    ->date('d-m-Y'),
+                                    ->date('d-m-Y')
+                                    ->placeholder('-'),
                             ]),
 
                         InfoSection::make('')
@@ -228,7 +229,7 @@ class ProjectResource extends Resource
                             ->schema([
                                 TextEntry::make('partners.partner.name')
                                     ->label('Samenwerkingspartners')
-                                ->placeholder('-'),
+                                    ->placeholder('-'),
                                 TextEntry::make('neighbourhoods.name')
                                     ->label('Wijken')
                                     ->placeholder('-')
