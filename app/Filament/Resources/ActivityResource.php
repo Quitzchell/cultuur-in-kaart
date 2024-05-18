@@ -81,7 +81,7 @@ class ActivityResource extends Resource
                 Section::make('Betrokkenen')
                     ->columns()
                     ->schema([
-                        Select::make('coordinator_id')
+                        Select::make('coordinators_id')
                             ->relationship('coordinators', 'name',
                                 function (Builder $query, Get $get) {
                                     $project = Project::find($get('project_id'));
