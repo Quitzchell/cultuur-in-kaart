@@ -77,22 +77,22 @@ it('can search Activities by Neighbourhood name', function () {
 
 /** Filter */
 it('can filter Activities by Project', function () {
-    $projects = Project::factory(4)->create();
+    $projects = Project::factory(2)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($projects) {
         $activity->project()->associate($projects->random());
         $activity->save();
     });
-    $project = $projects->first();
 
+    $project = $projects->random();
     livewire(ListActivities::class)
         ->assertCanSeeTableRecords($activities)
-        ->filterTable('project_id', $project->getKey())
+        ->filterTable('project', $project->getKey())
         ->assertCanSeeTableRecords($activities->where('project_id', $project->getKey()))
         ->assertCanNotSeeTableRecords($activities->where('project_id', '!==', $project->getKey()));
 });
 
 it('can filter Activities by Neighbourhood', function () {
-    $neighbourhoods = Neighbourhood::factory(10)->create();
+    $neighbourhoods = Neighbourhood::factory(5)->create();
     $activities = Activity::factory(10)->create()->each(function (Activity $activity) use ($neighbourhoods) {
         $activity->neighbourhood()->associate($neighbourhoods->random());
         $activity->save();
@@ -101,7 +101,7 @@ it('can filter Activities by Neighbourhood', function () {
     $neighbourhood = $activities->first()->neighbourhood;
     livewire(ListActivities::class)
         ->assertCanSeeTableRecords($activities)
-        ->filterTable('neighbourhood_id', $neighbourhood->getKey())
+        ->filterTable('neighbourhood', $neighbourhood->getKey())
         ->assertCanSeeTableRecords($activities->where('neighbourhood_id', $neighbourhood->getKey()))
         ->assertCanNotSeeTableRecords($activities->where('neighbourhood_id', '!==', $neighbourhood->getKey()));
 });
@@ -116,7 +116,7 @@ it('can filter Activities by Task', function () {
 
     livewire(ListActivities::class)
         ->assertCanSeeTableRecords($activities)
-        ->filterTable('task_id', $task->getKey())
+        ->filterTable('task', $task->getKey())
         ->assertCanSeeTableRecords($activities->where('task_id', $task->getKey()))
         ->assertCanNotSeeTableRecords($activities->where('task_id', '!==', $task->getKey()));
 });
