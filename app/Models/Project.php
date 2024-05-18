@@ -33,4 +33,9 @@ class Project extends Model
     {
         return $this->hasMany(Activity::class);
     }
+
+    public function neighbourhoods(): HasMany
+    {
+        return $this->hasMany(Activity::class)->with('neighbourhood');
+    }
 }

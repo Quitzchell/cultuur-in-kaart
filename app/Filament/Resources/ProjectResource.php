@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Helpers\ListHelper;
 use App\Models\Coordinator;
 use App\Models\Project;
 use Filament\Forms;
@@ -97,11 +98,15 @@ class ProjectResource extends Resource
     {
         return $table
             ->defaultSort('start_date', 'desc')
-            // todo: add neighbourhoods through related activities
             ->columns([
                 TextColumn::make('name')
                     ->label('Naam')
                     ->searchable(),
+                TextColumn::make('neighbourhoods.neighbourhood.name')
+                    ->label('Wijken')
+                    ->distinctList()
+                    ->formatStateUsing(fn(string $state) => ListHelper::sortFilamentList($state))
+                    ->placeholder('-'),
                 TextColumn::make('start_date')
                     ->label('Startdatum')
                     ->date('d-m-Y')
@@ -112,6 +117,11 @@ class ProjectResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                SelectFilter::make('neighbourhoods')
+                    ->relationship('neighbourhoods', 'name')
+                    ->label('')
+                    ->multiple()
+                    ->preload(),
                 SelectFilter::make('start_date')
                     ->columns()
                     ->form([
@@ -152,6 +162,10 @@ class ProjectResource extends Resource
                     })
             ], layout: FiltersLayout::Modal)
             ->filtersFormSchema(fn(array $filters): array => [
+                Section::make('Wijken')
+                    ->schema([
+                        $filters['neighbourhoods'],
+                    ]),
                 Section::make('Startdatum')
                     ->schema([
                         $filters['start_date']
@@ -198,6 +212,21 @@ class ProjectResource extends Resource
                                     ->label('Primaire Coördinator')
                                     ->placeholder('-'),
                             ]),
+                    ]),
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->schema([
+//                                TextEntry::make('partners.partner.name')
+//                                    ->label('Samenwerkingspartners')
+//                                    ->placeholder('-'),
+                                TextEntry::make('neighbourhoods.neighbourhood.name')
+                                    ->label('Wijken')
+                                    ->distinctList()
+                                    ->formatStateUsing(fn(string $state) => ListHelper::sortFilamentList($state))
+                                    ->placeholder('-')
+                            ])
                     ]),
             ]);
     }
