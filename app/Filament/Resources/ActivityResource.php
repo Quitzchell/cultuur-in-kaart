@@ -243,7 +243,7 @@ class ActivityResource extends Resource
                             ->inlineLabel(),
                         TextEntry::make('Coordinators.name')
                             ->label('Coördinatoren')
-                            ->default('-')
+                            ->placeholder('-')
                             ->inlineLabel(),
                     ])->columnSpan(1),
 
@@ -254,7 +254,7 @@ class ActivityResource extends Resource
                                 TextEntry::make('comment')
                                     ->label('Opmerking')
                                     ->inlineLabel()
-                                    ->default('-'),
+                                    ->placeholder('-'),
                             ]),
                     ])->columnSpan(1),
             ]);

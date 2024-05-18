@@ -177,7 +177,7 @@ class PartnerResource extends Resource
                             TextEntry::make('contactPeople.name')
                                 ->label('contactpersonen')
                                 ->inlineLabel()
-                                ->default('-'),
+                                ->placeholder('-'),
                             TextEntry::make('primaryContactPerson.name')
                                 ->label('Primair contactpersoon')
                                 ->inlineLabel()
