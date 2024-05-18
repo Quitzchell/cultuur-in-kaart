@@ -17,13 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            NeighbourhoodSeeder::class
             NeighbourhoodSeeder::class,
             TaskSeeder::class,
         ]);
 
         $this->createModels();
-
 
         foreach (Coordinator::all() as $coordinator) {
             $coordinator->neighbourhoods()->attach(Neighbourhood::all()->random(2));
