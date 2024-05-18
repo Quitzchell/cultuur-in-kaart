@@ -27,6 +27,11 @@ class DatabaseSeeder extends Seeder
             $coordinator->projects()->attach(Project::all()->random(2));
         }
 
+        foreach (Project::all() as $project) {
+            $project->coordinator()->associate($project->coordinators()->first());
+            $project->save();
+        }
+
     }
 
     private function createModels(): void
