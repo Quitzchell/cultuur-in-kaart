@@ -38,11 +38,6 @@ class Activity extends Model
         return $this->hasMany(ActivityPartnerContactPerson::class);
     }
 
-    public function partnerContactPeople(): HasManyThrough
-    {
-        return $this->hasManyThrough(Partner::class, ActivityPartner::class)->with('contactPeople');
-    }
-
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
@@ -56,6 +51,11 @@ class Activity extends Model
     public function neighbourhood(): BelongsTo
     {
         return $this->belongsTo(Neighbourhood::class);
+    }
+
+    public function partnerContactPeople(): HasManyThrough
+    {
+        return $this->hasManyThrough(Partner::class, ActivityPartner::class)->with('contactPeople');
     }
 
     public function partners(): BelongsToMany
