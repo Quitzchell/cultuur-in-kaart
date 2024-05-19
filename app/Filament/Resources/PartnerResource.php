@@ -161,20 +161,21 @@ class PartnerResource extends Resource
                             ])
                     ]),
 
-//                Grid::make()
-//                    ->columnSpan(1)
-//                    ->schema([
-//                        InfoSection::make('')->schema([
-//                            TextEntry::make('contactPeople.name')
-//                                ->label('contactpersonen')
-//                                ->inlineLabel()
-//                                ->placeholder('-'),
-//                            TextEntry::make('primaryContactPerson.name')
-//                                ->label('Primair contactpersoon')
-//                                ->inlineLabel()
-//                                ->placeholder('-'),
-//                        ])
-//                    ])
+                Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        InfoSection::make('')
+                            ->schema([
+                                TextEntry::make('contactPeople.name')
+                                    ->label('contactpersonen')
+                                    ->inlineLabel()
+                                    ->placeholder('-'),
+                                TextEntry::make('primaryContactPerson.name')
+                                    ->label('Primair contactpersoon')
+                                    ->inlineLabel()
+                                    ->placeholder('-'),
+                            ])
+                    ])
             ]);
     }
 
