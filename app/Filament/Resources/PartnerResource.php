@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Modals\ContactPersonModal;
+use App\Filament\RelationManagers\PartnerResource\ActivityRelationManager;
+use App\Filament\RelationManagers\PartnerResource\ProjectRelationManager;
 use App\Filament\Resources\PartnerResource\Pages;
 use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
@@ -181,7 +183,8 @@ class PartnerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ActivityRelationManager::class,
+            ProjectRelationManager::class
         ];
     }
 

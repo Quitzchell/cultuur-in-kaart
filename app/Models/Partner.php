@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Partner extends Model
 {
@@ -30,5 +32,16 @@ class Partner extends Model
     public function neighbourhood(): BelongsTo
     {
         return $this->belongsTo(Neighbourhood::class);
+    }
+
+    public function projects(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Project::class,
+            Activity::class,
+            firstKey: 'project_id',
+            secondKey: 'id',
+            secondLocalKey: 'project_id'
+        )->groupBy('project_id');
     }
 }
