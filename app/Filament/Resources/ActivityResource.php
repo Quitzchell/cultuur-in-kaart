@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Modals\ContactPersonModal;
+use App\Filament\Modals\PartnerModal;
 use App\Filament\Modals\ProjectModal;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
@@ -101,13 +102,17 @@ class ActivityResource extends Resource
                             ->addActionLabel('Contactpersoon toevoegen')
                             ->schema([
                                 Select::make('partner_id')
-//                                    ->createOptionForm(PartnerModalForm::getForm())
+                                    ->relationship('partner', 'name')
+                                    ->label('Partner')
+                                    ->createOptionForm(PartnerModal::getForm())
                                     ->options(Partner::pluck('name', 'id'))
                                     ->live()
                                     ->required()
                                     ->preload()
                                     ->searchable(['name']),
                                 Select::make('contact_person_id')
+                                    ->relationship('contactPerson', 'name')
+                                    ->label('Contactpersoon')
                                     ->createOptionForm(ContactPersonModal::getForm())
                                     ->createOptionUsing(function (array $data, $get): int {
                                         $partner = Partner::find($get('partner_id'));
@@ -119,7 +124,6 @@ class ActivityResource extends Resource
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))
                                         ->pluck('contact_people.name', 'contact_people.id'))
-                                    ->label('Contactpersoon')
                                     ->required()
                                     ->preload()
                                     ->disabled(fn(Get $get) => $get('partner_id') === null),
