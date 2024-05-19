@@ -14,29 +14,9 @@ class Activity extends Model
     use HasFactory;
 
     /* Relations */
-    public function task(): BelongsTo
-    {
-        return $this->belongsTo(Task::class);
-    }
-
-    public function project(): BelongsTo
-    {
-        return $this->belongsTo(Project::class);
-    }
-
-    public function partners(): BelongsToMany
-    {
-        return $this->belongsToMany(Partner::class);
-    }
-
     public function activityPartner(): HasMany
     {
         return $this->hasMany(ActivityPartner::class);
-    }
-
-    public function neighbourhood(): BelongsTo
-    {
-        return $this->belongsTo(Neighbourhood::class);
     }
 
     public function coordinators(): BelongsToMany
@@ -47,5 +27,25 @@ class Activity extends Model
     public function discipline(): BelongsTo
     {
         return $this->belongsTo(Discipline::class);
+    }
+
+    public function neighbourhood(): BelongsTo
+    {
+        return $this->belongsTo(Neighbourhood::class);
+    }
+
+    public function partners(): BelongsToMany
+    {
+        return $this->belongsToMany(Partner::class);
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class);
     }
 }
