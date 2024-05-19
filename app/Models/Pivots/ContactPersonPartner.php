@@ -4,8 +4,6 @@ namespace App\Models\Pivots;
 
 use App\Models\ContactPerson;
 use App\Models\Partner;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
