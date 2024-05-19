@@ -56,6 +56,12 @@ class Activity extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function relatedActivities(): HasMany
+    {
+        return $this->hasMany(self::class, 'project_id', 'project_id')
+            ->whereNot('id', $this->getKey());
+    }
+
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
