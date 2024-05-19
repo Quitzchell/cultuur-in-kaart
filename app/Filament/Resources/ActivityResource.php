@@ -9,10 +9,7 @@ use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Partner;
-use App\Models\Pivots\ActivityPartner;
 use App\Models\Project;
-use Carbon\Carbon;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -34,7 +31,6 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ActivityResource extends Resource
 {
@@ -107,7 +103,6 @@ class ActivityResource extends Resource
                                 Select::make('partner_id')
 //                                    ->createOptionForm(PartnerModalForm::getForm())
                                     ->options(Partner::pluck('name', 'id'))
-                                    ->label('Partner')
                                     ->live()
                                     ->required()
                                     ->preload()
