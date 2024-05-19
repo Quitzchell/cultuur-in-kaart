@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\ActivityPartnerContactPerson;
 use App\Models\Pivots\ActivityPartner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,12 @@ class Activity extends Model
         return $this->hasMany(ActivityPartner::class);
     }
 
-    public function contactPeople(): HasManyThrough
+    public function activityPartnerContactPerson(): HasMany
+    {
+        return $this->hasMany(ActivityPartnerContactPerson::class);
+    }
+
+    public function partnerContactPeople(): HasManyThrough
     {
         return $this->hasManyThrough(Partner::class, ActivityPartner::class)->with('contactPeople');
     }
