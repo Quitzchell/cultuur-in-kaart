@@ -8,6 +8,7 @@ use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Partner;
+use App\Models\Pivots\ActivityPartner;
 use App\Models\Project;
 use Carbon\Carbon;
 use Filament\Forms;
