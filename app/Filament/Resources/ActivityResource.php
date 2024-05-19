@@ -96,13 +96,12 @@ class ActivityResource extends Resource
                             ->preload()
                             ->columnSpanFull(),
 
-                        Repeater::make('activityPartner')
-                            ->relationship('activityPartner')
+                        Repeater::make('activityPartnerContactPerson')
+                            ->relationship()
                             ->label('Contactpersonen')
                             ->addActionLabel('Contactpersoon toevoegen')
                             ->schema([
                                 Select::make('partner_id')
-                                    ->relationship('partner', 'name')
 //                                    ->createOptionForm(PartnerModalForm::getForm())
                                     ->options(Partner::pluck('name', 'id'))
                                     ->label('Partner')
@@ -111,7 +110,6 @@ class ActivityResource extends Resource
                                     ->preload()
                                     ->searchable(['name']),
                                 Select::make('contact_person_id')
-                                    ->relationship('contactPeople', 'contactPeople.name')
 //                                    ->createOptionForm(ContactPersonModal::getForm())
 //                                    ->createOptionUsing(function (array $data, $get): int {
 //                                        $partner = Partner::find($get('partner_id'));
@@ -126,8 +124,17 @@ class ActivityResource extends Resource
                                     ->label('Contactpersoon')
                                     ->required()
                                     ->preload()
-                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
-                            ])->columnSpanFull(),
+                                    ->disabled(fn(Get $get) => $get('partner_id') === null),
+                            ])
+                            ->mutateRelationshipDataBeforeCreateUsing(function (?Activity $activity, array $data): array {
+                                $activity?->partners()->attach($data['partner_id']);
+                                return $data;
+                            })
+                            ->mutateRelationshipDataBeforeSaveUsing(function (?Activity $activity, array $data): array {
+                                $activity->partners()->attach($data['partner_id']);
+                                return $data;
+                            })
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Opmerkingen')
