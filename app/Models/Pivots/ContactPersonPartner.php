@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class PartnerContactPerson extends Pivot
+class ContactPersonPartner extends Pivot
 {
-    protected $table = 'partner_contact_person';
+    protected $table = 'contact_person_partner';
     public $timestamps = false;
 
     public function partner(): BelongsTo
