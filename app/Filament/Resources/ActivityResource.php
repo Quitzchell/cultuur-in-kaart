@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
+use App\Models\ContactPerson;
 use App\Models\Partner;
 use App\Models\Project;
 use Carbon\Carbon;
@@ -109,23 +110,23 @@ class ActivityResource extends Resource
                                     ->required()
                                     ->preload()
                                     ->searchable(['name']),
-//                                Select::make('contact_person_id')
-//                                    ->relationship('contactPerson', 'name')
-//                                    ->createOptionForm(ContactPersonModalForm::getForm())
+                                Select::make('contact_person_id')
+                                    ->relationship('contactPeople', 'name')
+//                                    ->createOptionForm(ContactPersonModal::getForm())
 //                                    ->createOptionUsing(function (array $data, $get): int {
 //                                        $partner = Partner::find($get('partner_id'));
 //                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
 //                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
 //                                        return $contactPerson;
 //                                    })
-//                                    ->options(fn($get) => ContactPerson::query()
-//                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
-//                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
-//                                        ->pluck('contact_people.name', 'contact_people.id'))
-//                                    ->label('Contactpersoon')
-//                                    ->required()
-//                                    ->preload()
-//                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
+                                    ->options(fn($get) => ContactPerson::query()
+                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
+                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
+                                        ->pluck('contact_people.name', 'contact_people.id'))
+                                    ->label('Contactpersoon')
+                                    ->required()
+                                    ->preload()
+                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
                             ])->columnSpanFull(),
                     ]),
 
