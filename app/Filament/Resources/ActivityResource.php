@@ -6,6 +6,7 @@ use App\Filament\Modals\ContactPersonModal;
 use App\Filament\Modals\PartnerModal;
 use App\Filament\Modals\ProjectModal;
 use App\Filament\RelationManagers\ActivityResource\ActivitiesRelationManager;
+use App\Filament\RelationManagers\ActivityResource\PartnerContactPersonRelationManager;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
@@ -266,6 +267,7 @@ class ActivityResource extends Resource
     {
         return [
             ActivitiesRelationManager::class,
+            PartnerContactPersonRelationManager::class
         ];
     }
 
