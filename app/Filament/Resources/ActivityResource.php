@@ -111,7 +111,7 @@ class ActivityResource extends Resource
                                     ->preload()
                                     ->searchable(['name']),
                                 Select::make('contact_person_id')
-                                    ->relationship('contactPeople', 'name')
+                                    ->relationship('contactPeople', 'contactPeople.name')
 //                                    ->createOptionForm(ContactPersonModal::getForm())
 //                                    ->createOptionUsing(function (array $data, $get): int {
 //                                        $partner = Partner::find($get('partner_id'));
