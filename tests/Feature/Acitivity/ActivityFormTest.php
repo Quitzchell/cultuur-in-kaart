@@ -4,14 +4,10 @@ use App\Filament\Resources\ActivityResource;
 use App\Filament\Resources\ActivityResource\Pages\CreateActivity;
 use App\Filament\Resources\ActivityResource\Pages\EditActivity;
 use App\Models\Activity;
-
-//use App\Models\ContactPerson;
 use App\Models\ContactPerson;
 use App\Models\Coordinator;
 use App\Models\Discipline;
 use App\Models\Neighbourhood;
-
-//use App\Models\Partner;
 use App\Models\Partner;
 use App\Models\Project;
 use App\Models\Task;
