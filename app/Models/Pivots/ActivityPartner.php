@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ActivityPartner extends Model
 {
-    use HasFactory;
+    protected $table = 'activity_partner';
+    public $timestamps = false;
 
+    /* Relations */
     public function activity(): BelongsTo
     {
         return $this->belongsTo(Activity::class);

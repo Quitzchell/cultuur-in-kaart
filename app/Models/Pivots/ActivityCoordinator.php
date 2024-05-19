@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ActivityCoordinator extends Pivot
 {
+    protected $table = 'activity_coordinator';
+    public $timestamps = false;
+
     /* Relations */
     public function activity(): BelongsTo
     {
