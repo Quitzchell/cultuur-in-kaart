@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\RelationManagers\ProjectResource\ActivityRelationManager;
+use App\Filament\RelationManagers\ProjectResource\PartnerRelationManager;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Helpers\ListHelper;
@@ -234,7 +236,8 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ActivityRelationManager::class,
+            PartnerRelationManager::class
         ];
     }
 
