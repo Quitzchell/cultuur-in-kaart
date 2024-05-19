@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach (Project::all() as $project) {
-            $project->coordinator()->associate($project->coordinators()->first());
             $project->coordinators()->attach(Coordinator::all()->random(2));
+            $project->coordinator()->associate($project->coordinators()->first());
             $project->save();
         }
 
