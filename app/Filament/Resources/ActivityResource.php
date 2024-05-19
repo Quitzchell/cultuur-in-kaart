@@ -118,7 +118,7 @@ class ActivityResource extends Resource
                                     ->createOptionUsing(function (array $data, $get): int {
                                         $partner = Partner::find($get('partner_id'));
                                         $contactPerson = $partner->contactPeople()->create($data)->getKey();
-                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
+                                        $partner->contactPeople()->sync([$contactPerson]);
                                         return $contactPerson->getKey();
                                     })
                                     ->options(fn($get) => ContactPerson::query()
@@ -130,11 +130,11 @@ class ActivityResource extends Resource
                                     ->disabled(fn(Get $get) => $get('partner_id') === null),
                             ])
                             ->mutateRelationshipDataBeforeCreateUsing(function (?Activity $activity, array $data): array {
-                                $activity?->partners()->attach($data['partner_id']);
+                                $activity?->partners()->sync($data['partner_id']);
                                 return $data;
                             })
                             ->mutateRelationshipDataBeforeSaveUsing(function (?Activity $activity, array $data): array {
-                                $activity->partners()->attach($data['partner_id']);
+                                $activity->partners()->sync($data['partner_id']);
                                 return $data;
                             })
                             ->columnSpanFull(),
