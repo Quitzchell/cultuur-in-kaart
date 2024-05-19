@@ -6,7 +6,6 @@ use App\Filament\Modals\ContactPersonModal;
 use App\Filament\RelationManagers\PartnerResource\ActivityRelationManager;
 use App\Filament\RelationManagers\PartnerResource\ProjectRelationManager;
 use App\Filament\Resources\PartnerResource\Pages;
-use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -22,7 +21,6 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PartnerResource extends Resource
 {

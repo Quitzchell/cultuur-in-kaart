@@ -5,9 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\Coordinator\Role;
 use App\Enums\Workday\Workday;
 use App\Filament\Resources\CoordinatorResource\Pages;
-use App\Filament\Resources\CoordinatorResource\RelationManagers;
 use App\Models\Coordinator;
-use Filament\Forms;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -19,8 +17,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CoordinatorResource extends Resource
 {
