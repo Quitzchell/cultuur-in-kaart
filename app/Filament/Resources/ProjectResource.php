@@ -218,9 +218,9 @@ class ProjectResource extends Resource
                     ->schema([
                         InfoSection::make('')
                             ->schema([
-//                                TextEntry::make('partners.partner.name')
-//                                    ->label('Samenwerkingspartners')
-//                                    ->placeholder('-'),
+                                TextEntry::make('partners.name')
+                                    ->label('Samenwerkingspartners')
+                                    ->placeholder('-'),
                                 TextEntry::make('neighbourhoods.neighbourhood.name')
                                     ->label('Wijken')
                                     ->distinctList()

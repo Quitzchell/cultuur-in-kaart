@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
+use App\Models\Partner;
 use App\Models\Project;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -94,20 +95,20 @@ class ActivityResource extends Resource
                             ->preload()
                             ->columnSpanFull(),
 
-//                        Repeater::make('contactPersonPartner')
-//                            ->relationship('contactPersonPartner')
-//                            ->label('Contactpersonen')
-//                            ->addActionLabel('Contactpersoon toevoegen')
-//                            ->schema([
-//                                Select::make('partner_id')
-//                                    ->relationship('partner', 'name')
+                        Repeater::make('activityPartner')
+                            ->relationship('activityPartner')
+                            ->label('Contactpersonen')
+                            ->addActionLabel('Contactpersoon toevoegen')
+                            ->schema([
+                                Select::make('partner_id')
+                                    ->relationship('partner', 'name')
 //                                    ->createOptionForm(PartnerModalForm::getForm())
-//                                    ->options(Partner::pluck('name', 'id'))
-//                                    ->label('Partners')
-//                                    ->live()
-//                                    ->required()
-//                                    ->preload()
-//                                    ->searchable(['name']),
+                                    ->options(Partner::pluck('name', 'id'))
+                                    ->label('Partner')
+                                    ->live()
+                                    ->required()
+                                    ->preload()
+                                    ->searchable(['name']),
 //                                Select::make('contact_person_id')
 //                                    ->relationship('contactPerson', 'name')
 //                                    ->createOptionForm(ContactPersonModalForm::getForm())
@@ -125,7 +126,7 @@ class ActivityResource extends Resource
 //                                    ->required()
 //                                    ->preload()
 //                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
-//                            ])->columnSpanFull(),
+                            ])->columnSpanFull(),
                     ]),
 
                 Section::make('Opmerkingen')
