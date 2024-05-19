@@ -74,30 +74,30 @@ class PartnerResource extends Resource
                             ->columnSpan(2),
                     ]),
 
-//                Forms\Components\Section::make('Contactpersonen')
-//                    ->columns(['default' => 1, 'lg' => 2])
-//                    ->schema([
-//                        Forms\Components\Select::make('contact_person_id')
-//                            ->createOptionForm(ContactPersonModalForm::getForm())
-//                            ->label('Contactpersonen')
-//                            ->relationship('contactPeople', 'name')
-//                            ->live()
-//                            ->nullable()
-//                            ->preload()
-//                            ->multiple()
-//                            ->searchable(['name']),
-//                        Forms\Components\Select::make('primary_contact_person_id')
-//                            ->label('Primair contactpersoon')
-//                            ->relationship(
-//                                'primaryContactPerson',
-//                                'name',
-//                                function (Builder $query, Get $get) {
-//                                    return $query->whereIn('id', $get('contact_person_id'));
-//                                })
-//                            ->nullable()
-//                            ->preload()
-//                            ->searchable(['name']),
-//                    ])
+                Forms\Components\Section::make('Contactpersonen')
+                    ->columns(['default' => 1, 'lg' => 2])
+                    ->schema([
+                        Forms\Components\Select::make('contact_person_id')
+//                            ->createOptionForm(ContactPersonModal::getForm())
+                            ->label('Contactpersonen')
+                            ->relationship('contactPeople', 'name')
+                            ->live()
+                            ->nullable()
+                            ->preload()
+                            ->multiple()
+                            ->searchable(['name']),
+                        Forms\Components\Select::make('primary_contact_person_id')
+                            ->label('Primair contactpersoon')
+                            ->relationship(
+                                'contactPerson',
+                                'name',
+                                function (Builder $query, Get $get) {
+                                    return $query->whereIn('id', $get('contact_person_id'));
+                                })
+                            ->nullable()
+                            ->preload()
+                            ->searchable(['name']),
+                    ])
             ]);
     }
 
