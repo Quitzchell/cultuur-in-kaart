@@ -8,7 +8,6 @@ use App\Filament\Modals\ProjectModal;
 use App\Filament\RelationManagers\ActivityResource\ActivitiesRelationManager;
 use App\Filament\RelationManagers\ActivityResource\PartnerContactPersonRelationManager;
 use App\Filament\Resources\ActivityResource\Pages;
-use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Partner;
