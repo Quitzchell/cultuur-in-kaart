@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\ActivityPartner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Activity extends Model
 {
@@ -20,6 +22,16 @@ class Activity extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function partners(): BelongsToMany
+    {
+        return $this->belongsToMany(Partner::class);
+    }
+
+    public function activityPartner(): HasMany
+    {
+        return $this->hasMany(ActivityPartner::class);
     }
 
     public function neighbourhood(): BelongsTo
