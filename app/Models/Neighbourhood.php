@@ -12,13 +12,18 @@ class Neighbourhood extends Model
     use HasFactory;
 
     /* Relations */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
     }
 
-    public function activities(): HasMany
+    public function partners(): HasMany
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasMany(Partner::class);
     }
 }
