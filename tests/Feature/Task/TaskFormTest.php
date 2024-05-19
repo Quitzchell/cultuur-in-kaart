@@ -24,13 +24,11 @@ it('can create Task', function () {
     livewire(CreateTask::class)
         ->fillForm([
             'name' => $task->name,
-            'emoji_unicode' => $task->emoji_unicode,
         ])->call('create')
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Task::class, [
         'name' => $task->name,
-        'emoji_unicode' => $task->emoji_unicode,
     ]);
 });
 
@@ -55,13 +53,11 @@ it('can update Task', function () {
         'record' => $task->getKey()
     ])->fillForm([
         'name' => $newTask->name,
-        'emoji_unicode' => $newTask->emoji_unicode,
     ])->call('save')
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Task::class, [
         'name' => $newTask->name,
-        'emoji_unicode' => $newTask->emoji_unicode,
     ]);
 });
 
