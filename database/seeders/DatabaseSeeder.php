@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Activity;
+use App\Models\ContactPerson;
 use App\Models\Coordinator;
 use App\Models\Discipline;
 use App\Models\Neighbourhood;
@@ -49,6 +50,8 @@ class DatabaseSeeder extends Seeder
 
         foreach (Partner::all() as $partner) {
             $partner->neighbourhood()->associate(Neighbourhood::all()->random());
+            $partner->contactPeople()->attach(ContactPerson::all()->random(3));
+            $partner->contactPerson()->associate($partner->contactPeople()->first());
             $partner->save();
         }
     }
@@ -59,5 +62,6 @@ class DatabaseSeeder extends Seeder
         Project::factory(25)->create();
         Activity::factory(500)->create();
         Partner::factory(25)->create();
+        ContactPerson::factory(50)->create();
     }
 }
