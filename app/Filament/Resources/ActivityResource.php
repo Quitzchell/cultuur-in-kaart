@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Modals\ContactPersonModal;
 use App\Filament\Modals\ProjectModal;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
@@ -112,13 +113,13 @@ class ActivityResource extends Resource
                                     ->preload()
                                     ->searchable(['name']),
                                 Select::make('contact_person_id')
-//                                    ->createOptionForm(ContactPersonModal::getForm())
-//                                    ->createOptionUsing(function (array $data, $get): int {
-//                                        $partner = Partner::find($get('partner_id'));
-//                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
-//                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
-//                                        return $contactPerson;
-//                                    })
+                                    ->createOptionForm(ContactPersonModal::getForm())
+                                    ->createOptionUsing(function (array $data, $get): int {
+                                        $partner = Partner::find($get('partner_id'));
+                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
+                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
+                                        return $contactPerson->getKey();
+                                    })
                                     ->options(fn($get) => ContactPerson::query()
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))

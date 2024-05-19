@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Modals\ContactPersonModal;
 use App\Filament\Resources\PartnerResource\Pages;
 use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
@@ -78,7 +79,7 @@ class PartnerResource extends Resource
                     ->columns(['default' => 1, 'lg' => 2])
                     ->schema([
                         Forms\Components\Select::make('contact_person_id')
-//                            ->createOptionForm(ContactPersonModal::getForm())
+                            ->createOptionForm(ContactPersonModal::getForm())
                             ->label('Contactpersonen')
                             ->relationship('contactPeople', 'name')
                             ->live()
