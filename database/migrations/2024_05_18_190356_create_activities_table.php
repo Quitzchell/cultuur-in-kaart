@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('name');
             $table->date('date');
             $table->text('comment')->nullable();
-            $table->foreignIdFor(Task::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Project::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Neighbourhood::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Discipline::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Task::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Project::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Neighbourhood::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Discipline::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
