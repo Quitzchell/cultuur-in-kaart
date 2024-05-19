@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Modals\ProjectModal;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
@@ -53,8 +54,8 @@ class ActivityResource extends Resource
                             ->maxLength(120)
                             ->columnSpanFull(),
                         Select::make('project_id')
-//                            ->createOptionForm(ProjectModalForm::getForm())
-//                            ->editOptionForm(ProjectModalForm::getForm())
+                            ->createOptionForm(ProjectModal::getForm())
+                            ->editOptionForm(ProjectModal::getForm())
                             ->relationship('project', 'name')
                             ->label('Project')
                             ->live()
