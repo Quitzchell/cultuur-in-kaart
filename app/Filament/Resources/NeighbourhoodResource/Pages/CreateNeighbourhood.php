@@ -9,6 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateNeighbourhood extends CreateRecord
 {
     protected static string $resource = NeighbourhoodResource::class;
-
     protected static ?string $title = 'Wijk aanmaken';
 }

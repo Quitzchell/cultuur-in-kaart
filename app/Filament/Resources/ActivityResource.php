@@ -4,14 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
-use App\Filament\Resources\ContactPersonResource\Modals\ContactPersonModalForm;
-use App\Filament\Resources\PartnerResource\Modals\PartnerModalForm;
-use App\Filament\Resources\ProjectResource\Modals\ProjectModalForm;
 use App\Models\Activity;
-use App\Models\ContactPerson;
 use App\Models\Partner;
 use App\Models\Project;
 use Carbon\Carbon;
+use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -21,7 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Group;
-use Filament\Infolists\Components\Section as InfoSection;
+use Filament\Infolists\Components\Section as infoSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -33,15 +30,13 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ActivityResource extends Resource
 {
     protected static ?string $model = Activity::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationLabel = 'Activiteiten';
-
     protected static ?string $navigationGroup = 'Projecten';
 
     public static function form(Form $form): Form
@@ -54,27 +49,31 @@ class ActivityResource extends Resource
                         TextInput::make('name')
                             ->label('Naam')
                             ->required()
-                            ->maxLength(255)
+                            ->maxLength(120)
                             ->columnSpanFull(),
                         Select::make('project_id')
-                            ->createOptionForm(ProjectModalForm::getForm())
-                            ->editOptionForm(ProjectModalForm::getForm())
+//                            ->createOptionForm(ProjectModalForm::getForm())
+//                            ->editOptionForm(ProjectModalForm::getForm())
                             ->relationship('project', 'name')
                             ->label('Project')
                             ->live()
                             ->required()
                             ->preload()
-                            ->searchable(['name']),
+                            ->searchable(['name'])
+                            ->columnSpanFull(),
                         Select::make('neighbourhood_id')
                             ->relationship('neighbourhood', 'name')
                             ->label('Wijk')
                             ->required()
-                            ->preload()
-                            ->columns(3),
+                            ->preload(),
                         Select::make('task_id')
                             ->relationship('task', 'name')
                             ->label('Taak')
-                            ->required(),
+                            ->required()
+                            ->preload(),
+                        Select::make('discipline_id')
+                            ->relationship('discipline', 'name')
+                            ->label('Discipline'),
                         DatePicker::make('date')
                             ->label('Datum')
                             ->required(),
@@ -83,7 +82,7 @@ class ActivityResource extends Resource
                 Section::make('Betrokkenen')
                     ->columns()
                     ->schema([
-                        Select::make('coordinator_id')
+                        Select::make('coordinators_id')
                             ->relationship('coordinators', 'name',
                                 function (Builder $query, Get $get) {
                                     $project = Project::find($get('project_id'));
@@ -96,37 +95,37 @@ class ActivityResource extends Resource
                             ->preload()
                             ->columnSpanFull(),
 
-                        Repeater::make('contactPersonPartner')
-                            ->relationship('contactPersonPartner')
+                        Repeater::make('activityPartner')
+                            ->relationship('activityPartner')
                             ->label('Contactpersonen')
                             ->addActionLabel('Contactpersoon toevoegen')
                             ->schema([
                                 Select::make('partner_id')
                                     ->relationship('partner', 'name')
-                                    ->createOptionForm(PartnerModalForm::getForm())
+//                                    ->createOptionForm(PartnerModalForm::getForm())
                                     ->options(Partner::pluck('name', 'id'))
-                                    ->label('Partners')
+                                    ->label('Partner')
                                     ->live()
                                     ->required()
                                     ->preload()
                                     ->searchable(['name']),
-                                Select::make('contact_person_id')
-                                    ->relationship('contactPerson', 'name')
-                                    ->createOptionForm(ContactPersonModalForm::getForm())
-                                    ->createOptionUsing(function (array $data, $get): int {
-                                        $partner = Partner::find($get('partner_id'));
-                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
-                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
-                                        return $contactPerson;
-                                    })
-                                    ->options(fn($get) => ContactPerson::query()
-                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
-                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
-                                        ->pluck('contact_people.name', 'contact_people.id'))
-                                    ->label('Contactpersoon')
-                                    ->required()
-                                    ->preload()
-                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
+//                                Select::make('contact_person_id')
+//                                    ->relationship('contactPerson', 'name')
+//                                    ->createOptionForm(ContactPersonModalForm::getForm())
+//                                    ->createOptionUsing(function (array $data, $get): int {
+//                                        $partner = Partner::find($get('partner_id'));
+//                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
+//                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
+//                                        return $contactPerson;
+//                                    })
+//                                    ->options(fn($get) => ContactPerson::query()
+//                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
+//                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
+//                                        ->pluck('contact_people.name', 'contact_people.id'))
+//                                    ->label('Contactpersoon')
+//                                    ->required()
+//                                    ->preload()
+//                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
                             ])->columnSpanFull(),
                     ]),
 
@@ -164,17 +163,17 @@ class ActivityResource extends Resource
                     ->limit(40),
             ])
             ->filters([
-                SelectFilter::make('project_id')
+                SelectFilter::make('project')
                     ->relationship('project', 'name')
                     ->label('Projectnaam')
                     ->preload()
                     ->multiple(),
-                SelectFilter::make('neighbourhood_id')
+                SelectFilter::make('neighbourhood')
                     ->relationship('neighbourhood', 'name')
                     ->label('Wijk')
                     ->preload()
                     ->multiple(),
-                SelectFilter::make('task_id')
+                SelectFilter::make('task')
                     ->relationship('task', 'name'),
                 Tables\Filters\Filter::make('date')->form([
                     DatePicker::make('date_from')
@@ -204,35 +203,21 @@ class ActivityResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\RelatedActivityRelationManager::class,
-            RelationManagers\PartnerRelationManager::class
-        ];
-    }
-
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->columns(['default' => 1, 'lg' => 2])
             ->schema([
-                InfoSection::make('')
+                infoSection::make('')
                     ->schema([
                         TextEntry::make('date')
                             ->label('Datum')
-                            ->inlineLabel()
-                            ->formatStateUsing(function ($state, $component) {
-                                return ucfirst(Carbon::parse($state)
-                                    ->setTimezone($component->getTimezone())
-                                    ->translatedFormat('l j F Y'));
-                            }),
+                            ->date('l j F Y', 'Europe/Amsterdam')
+                            ->inlineLabel(),
                         TextEntry::make('project.name')
                             ->label('Projectnaam')
                             ->inlineLabel(),
-                        TextEntry::make('task.name')
-                            ->label('Taak')
-                            ->inlineLabel(),
+
                         TextEntry::make('neighbourhood.name')
                             ->label('Wijk')
                             ->formatStateUsing(function ($state) {
@@ -240,6 +225,12 @@ class ActivityResource extends Resource
                                 sort($neighbourhoods);
                                 return implode(', ', $neighbourhoods);
                             })
+                            ->inlineLabel(),
+                        TextEntry::make('task.name')
+                            ->label('Taak')
+                            ->inlineLabel(),
+                        TextEntry::make('discipline.name')
+                            ->label('Discipline')
                             ->inlineLabel(),
                         TextEntry::make('Coordinators.name')
                             ->label('Coördinatoren')
@@ -260,12 +251,19 @@ class ActivityResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListActivities::route('/'),
             'create' => Pages\CreateActivity::route('/create'),
-            'view' => Pages\ViewActivities::route('/{record}'),
+            'view' => Pages\ViewActivity::route('/{record}'),
             'edit' => Pages\EditActivity::route('/{record}/edit'),
         ];
     }

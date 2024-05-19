@@ -67,7 +67,7 @@ it('can filter contact people by partner', function () {
 
     livewire(ListContactPeople::class)
         ->assertCanSeeTableRecords($contactPeople)
-        ->filterTable('partner_id', $partner->getKey())
+        ->filterTable('partners', $partner->getKey())
         ->assertCanSeeTableRecords($filteredContactPeople)
         ->assertCanNotSeeTableRecords($contactPeople->diff($filteredContactPeople));
 });

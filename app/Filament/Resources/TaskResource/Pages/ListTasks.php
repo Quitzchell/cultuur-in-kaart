@@ -9,7 +9,6 @@ use Filament\Resources\Pages\ListRecords;
 class ListTasks extends ListRecords
 {
     protected static string $resource = TaskResource::class;
-
     protected static ?string $title = 'Overzicht taken';
 
     protected function getHeaderActions(): array

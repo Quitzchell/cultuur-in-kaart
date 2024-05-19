@@ -29,20 +29,9 @@ class Coordinator extends Authenticatable implements FilamentUser
     }
 
     /* Relations */
-
-    public function activity(): HasOne
-    {
-        return $this->hasOne(Activity::class);
-    }
-
     public function activities(): BelongsToMany
     {
         return $this->belongsToMany(Activity::class);
-    }
-
-    public function projects(): BelongsToMany
-    {
-        return $this->belongsToMany(Project::class);
     }
 
     public function neighbourhoods(): BelongsToMany
@@ -50,8 +39,17 @@ class Coordinator extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Neighbourhood::class);
     }
 
-    /* Permissions */
+    public function project(): HasOne
+    {
+        return $this->hasOne(Project::class , 'primary_coordinator_id');
+    }
 
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    /* Permissions */
     public function canAccessPanel(Panel $panel): bool
     {
         return str_ends_with($this->email, '@soc.nl') && $this->hasVerifiedEmail();

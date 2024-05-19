@@ -7,7 +7,7 @@ use App\Filament\Resources\ContactPersonResource\RelationManagers;
 use App\Models\ContactPerson;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Section as InfoSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -16,15 +16,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContactPersonResource extends Resource
 {
     protected static ?string $model = ContactPerson::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-phone';
     protected static ?string $navigationLabel = 'Contactpersonen';
-
     protected static ?string $navigationGroup = 'Contacten';
 
     public static function form(Form $form): Form
@@ -48,7 +47,7 @@ class ContactPersonResource extends Resource
                             ->maxLength(38)
                             ->validationMessages(['regex' => 'Het telefoonnummer is ongeldig.']),
                         Forms\Components\Select::make('partner_id')
-                            ->label('Samenwerkingspartner')
+                            ->label('Samenwerkingspartners')
                             ->relationship('partners', 'name')
                             ->multiple()
                             ->preload()
@@ -77,7 +76,7 @@ class ContactPersonResource extends Resource
                     ->limit(40),
             ])
             ->filters([
-                SelectFilter::make('partner_id')
+                SelectFilter::make('partners')
                     ->relationship('partners', 'name')
                     ->label('Samenwerkingspartner')
                     ->preload()
@@ -91,20 +90,12 @@ class ContactPersonResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\ActivityRelationManager::make(),
-            RelationManagers\ProjectRelationManager::make()
-        ];
-    }
-
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->columns(['default' => 1, 'lg' => 2])
             ->schema([
-                Section::make()
+                InfoSection::make()
                     ->schema([
                         TextEntry::make('name')
                             ->label('Naam')
@@ -122,7 +113,7 @@ class ContactPersonResource extends Resource
                             ->inlineLabel(),
                     ])->columnSpan(1),
 
-                Section::make()
+                InfoSection::make()
                     ->schema([
                         TextEntry::make('comment')
                             ->label('Opmerkingen')
@@ -130,6 +121,13 @@ class ContactPersonResource extends Resource
                             ->inlineLabel(),
                     ])->columnSpan(1)
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array

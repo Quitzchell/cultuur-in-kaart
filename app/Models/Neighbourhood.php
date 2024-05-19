@@ -5,19 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Neighbourhood extends Model
 {
     use HasFactory;
 
     /* Relations */
-    public function activities(): BelongsToMany
+    public function activities(): HasMany
     {
-        return $this->belongsToMany(Activity::class);
+        return $this->hasMany(Activity::class);
     }
 
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
+    }
+
+    public function partners(): HasMany
+    {
+        return $this->hasMany(Partner::class);
     }
 }

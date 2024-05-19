@@ -18,9 +18,9 @@ class ActivityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(),
+            'name' => $this->faker->name(),
             'date' => $this->faker->date(),
-            'comment' => $this->faker->text(120),
+            'comment' => $this->faker->text(),
         ];
     }
 }

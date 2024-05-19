@@ -2,22 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Models\Neighbourhood;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Neighbourhood>
+ * @extends Factory<Neighbourhood>
  */
 class NeighbourhoodFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         return [
-            'name' => $this->faker->streetName()
+            'name' => $this->faker->city(),
         ];
     }
 }

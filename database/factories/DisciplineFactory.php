@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Discipline;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Discipline>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Discipline>
  */
 class DisciplineFactory extends Factory
 {
@@ -18,7 +17,7 @@ class DisciplineFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'name' => $this->faker->name(),
         ];
     }
 }

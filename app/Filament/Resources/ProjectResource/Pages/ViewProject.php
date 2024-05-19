@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\ActivityResource\Pages;
+namespace App\Filament\Resources\ProjectResource\Pages;
 
-use App\Filament\Resources\ActivityResource;
+use App\Filament\Resources\ProjectResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
 
-class ViewActivities extends ViewRecord
+class ViewProject extends ViewRecord
 {
-    protected static string $resource = ActivityResource::class;
+    protected static string $resource = ProjectResource::class;
 
     public function getTitle(): string|Htmlable
     {
@@ -20,7 +20,7 @@ class ViewActivities extends ViewRecord
     {
         return [
             Actions\EditAction::make()
-                ->label('Activiteit bewerken'),
+                ->label('Project bewerken'),
         ];
     }
 }

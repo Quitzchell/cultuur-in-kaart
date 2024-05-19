@@ -11,7 +11,7 @@ use function Pest\Livewire\livewire;
 
 /** Render */
 it('can render Coordinator create form', function () {
-    $this->get(ContactPersonResource::getUrl('create'))->assertSuccessful();
+    $this->get(CoordinatorResource::getUrl('create'))->assertSuccessful();
 });
 
 it('can render Coordinator edit form', function () {

@@ -15,10 +15,8 @@ return new class extends Migration
     {
         Schema::create('activity_partner', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Activity::class);
-            $table->foreignIdFor(Partner::class);
-            $table->foreign('activity_id')->references('id')->on('activities')->cascadeOnDelete();
-            $table->foreign('partner_id')->references('id')->on('partners')->cascadeOnDelete();
+            $table->foreignIdFor(Activity::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Partner::class)->constrained()->cascadeOnDelete();
         });
     }
 

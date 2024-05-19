@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\ActivityPartner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,14 +14,14 @@ class Activity extends Model
     use HasFactory;
 
     /* Relations */
-    public function contactPerson(): BelongsTo
+    public function activityPartner(): HasMany
     {
-        return $this->belongsTo(ContactPerson::class);
+        return $this->hasMany(ActivityPartner::class);
     }
 
-    public function contactPersonPartner(): HasMany
+    public function contactPeople(): BelongsToMany
     {
-        return $this->hasMany(ActivityContactPersonPartner::class);
+        return $this->belongsToMany(Partner::class)->with('contactPeople');
     }
 
     public function coordinators(): BelongsToMany
@@ -28,9 +29,9 @@ class Activity extends Model
         return $this->belongsToMany(Coordinator::class);
     }
 
-    public function disciplines(): BelongsToMany
+    public function discipline(): BelongsTo
     {
-        return $this->belongsToMany(Discipline::class);
+        return $this->belongsTo(Discipline::class);
     }
 
     public function neighbourhood(): BelongsTo
@@ -46,11 +47,6 @@ class Activity extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
-    }
-
-    public function relatedActivities(): HasMany
-    {
-        return $this->hasMany(self::class, 'project_id');
     }
 
     public function task(): BelongsTo

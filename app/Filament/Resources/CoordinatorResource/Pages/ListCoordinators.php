@@ -8,10 +8,9 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
 
-class ListCoordinator extends ListRecords
+class ListCoordinators extends ListRecords
 {
     protected static string $resource = CoordinatorResource::class;
-
     protected static ?string $title = 'Overzicht coördinatoren';
 
     protected function getHeaderActions(): array

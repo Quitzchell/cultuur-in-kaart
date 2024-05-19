@@ -20,7 +20,6 @@ class DisciplineSeeder extends Seeder
             ['name' => 'Theater'],
             ['name' => 'Muziek'],
             ['name' => 'Natuur'],
-            ['name' => 'Dans'],
         ];
 
         foreach ($disciplines as $discipline) {

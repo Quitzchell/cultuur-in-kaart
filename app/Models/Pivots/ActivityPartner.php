@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pivots;
 
+use App\Models\Activity;
+use App\Models\Partner;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ActivityContactPersonPartner extends Pivot
+class ActivityPartner extends Model
 {
+    protected $table = 'activity_partner';
     public $timestamps = false;
 
+    /* Relations */
     public function activity(): BelongsTo
     {
         return $this->belongsTo(Activity::class);
-    }
-
-    public function contactPerson(): BelongsTo
-    {
-        return $this->belongsTo(ContactPerson::class);
     }
 
     public function partner(): BelongsTo

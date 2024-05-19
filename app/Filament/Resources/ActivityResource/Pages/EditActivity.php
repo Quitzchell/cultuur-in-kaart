@@ -9,12 +9,12 @@ use Filament\Resources\Pages\EditRecord;
 class EditActivity extends EditRecord
 {
     protected static string $resource = ActivityResource::class;
-
     protected static ?string $title = 'Activiteit bewerken';
 
     protected function getHeaderActions(): array
     {
         return [
+            Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
     }

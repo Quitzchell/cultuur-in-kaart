@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\ContactPerson;
 use App\Models\Neighbourhood;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -15,20 +15,14 @@ return new class extends Migration {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('zip');
-            $table->string('city');
-            $table->foreignIdFor(Neighbourhood::class)->nullable();
             $table->string('street');
-            $table->integer('house_number');
+            $table->string('house_number');
+            $table->string('city');
+            $table->foreignIdFor(Neighbourhood::class)->nullable()->constrained();
+            $table->string('zip');
             $table->string('house_number_addition')->nullable();
-            $table->foreignIdFor(ContactPerson::class, 'primary_contact_person_id')->nullable();
             $table->string('address')->virtualAs("CONCAT(street, ' ', house_number, '', COALESCE(house_number_addition, ''))");
             $table->timestamps();
-
-            $table->foreign('primary_contact_person_id')
-                ->references('id')
-                ->on('contact_people')
-                ->cascadeOnDelete();
         });
     }
 

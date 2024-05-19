@@ -9,7 +9,6 @@ use Filament\Resources\Pages\ListRecords;
 class ListNeighbourhoods extends ListRecords
 {
     protected static string $resource = NeighbourhoodResource::class;
-
     protected static ?string $title = 'Overzicht Wijken';
 
     protected function getHeaderActions(): array

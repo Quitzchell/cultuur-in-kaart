@@ -8,28 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Project extends Model
 {
     use HasFactory;
 
     /* Casts */
-
     protected $casts = [
         'budget_spend' => MoneyCast::class,
     ];
 
     /* Relations */
-
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);
     }
 
-    public function coordinator(): belongsTo
+    public function contactPeople(): HasMany
     {
-        return $this->belongsTo(Coordinator::class, 'primary_coordinator_id');
+        return$this->hasMany(Activity::class)->with('partners')->with('contactPeople');
     }
 
     public function coordinators(): BelongsToMany
@@ -37,13 +34,18 @@ class Project extends Model
         return $this->belongsToMany(Coordinator::class);
     }
 
-    public function partners(): HasManyThrough
+    public function coordinator(): BelongsTo
     {
-        return $this->hasManyThrough(ActivityPartner::class, Activity::class);
+        return $this->belongsTo(Coordinator::class, 'primary_coordinator_id');
     }
 
-    public function neighbourhoods(): BelongsToMany
+    public function neighbourhoods(): HasMany
     {
-        return $this->belongsToMany(Neighbourhood::class, Activity::class);
+        return $this->hasMany(Activity::class)->with('neighbourhood');
+    }
+
+    public function partners(): HasMany
+    {
+        return $this->hasMany(Activity::class)->with('partners');
     }
 }

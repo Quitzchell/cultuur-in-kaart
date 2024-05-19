@@ -16,11 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class NeighbourhoodResource extends Resource
 {
     protected static ?string $model = Neighbourhood::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
     protected static ?string $navigationLabel = 'Wijken';
-
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form

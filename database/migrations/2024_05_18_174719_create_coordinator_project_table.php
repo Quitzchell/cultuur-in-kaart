@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Coordinator;
+use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,10 +15,8 @@ return new class extends Migration {
     {
         Schema::create('coordinator_project', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('coordinator_id');
-            $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();
-            $table->foreign('coordinator_id')->references('id')->on('coordinators')->cascadeOnDelete();
+            $table->foreignIdFor(Coordinator::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Project::class)->constrained()->cascadeOnDelete();
         });
     }
 

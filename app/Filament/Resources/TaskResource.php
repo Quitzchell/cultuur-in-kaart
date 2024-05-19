@@ -3,21 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TaskResource\Pages;
+use App\Filament\Resources\TaskResource\RelationManagers;
 use App\Models\Task;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-wrench';
     protected static ?string $navigationLabel = 'Taken';
-
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
@@ -27,10 +27,7 @@ class TaskResource extends Resource
                 Forms\Components\Section::make()->schema([
                     Forms\Components\TextInput::make('name')
                         ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('emoji_unicode')
-                        ->required()
-                        ->maxLength(255),
+                        ->maxLength(120),
                 ])
             ]);
     }

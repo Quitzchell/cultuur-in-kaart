@@ -3,10 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers\ActivityRelationManager;
-use App\Filament\Resources\ProjectResource\RelationManagers\PartnerRelationManager;
+use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Helpers\ListHelper;
 use App\Models\Coordinator;
 use App\Models\Project;
+use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -15,11 +16,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Grid;
-use Filament\Infolists\Components\Section as InfoSection;
+use Filament\Infolists\Components\Section as infoSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -27,15 +29,13 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
     protected static ?string $navigationLabel = 'Projecten';
-
     protected static ?string $navigationGroup = 'Projecten';
 
     public static function form(Form $form): Form
@@ -63,8 +63,8 @@ class ProjectResource extends Resource
                             ->required()
                             ->live(),
                         Select::make('primary_coordinator_id')
+                            ->relationship('coordinator', 'name', fn(Get $get) => Coordinator::whereIn('id', $get('coordinator_id')))
                             ->label('Primaire Coördinator')
-                            ->relationship('coordinator', 'name', fn(Get $get) => Coordinator::where('id', $get('coordinator_id')))
                             ->disabled(fn(Get $get) => empty($get('coordinator_id'))),
                     ]),
 
@@ -72,7 +72,7 @@ class ProjectResource extends Resource
                     ->columnSpanFull()
                     ->columns()
                     ->schema([
-                        Section::make('Data')
+                        Section::make('Planning')
                             ->columnSpan(1)
                             ->schema([
                                 DatePicker::make('start_date')
@@ -102,9 +102,10 @@ class ProjectResource extends Resource
                 TextColumn::make('name')
                     ->label('Naam')
                     ->searchable(),
-                TextColumn::make('neighbourhoods.name')
+                TextColumn::make('neighbourhoods.neighbourhood.name')
                     ->label('Wijken')
                     ->distinctList()
+                    ->formatStateUsing(fn(string $state) => ListHelper::sortFilamentList($state))
                     ->placeholder('-'),
                 TextColumn::make('start_date')
                     ->label('Startdatum')
@@ -173,22 +174,13 @@ class ProjectResource extends Resource
                     ->schema([
                         $filters['end_date']
                     ]),
-            ])
-            ->filtersFormWidth(MaxWidth::ThreeExtraLarge)
+            ])->filtersFormWidth(MaxWidth::ThreeExtraLarge)
             ->actions([
                 ViewAction::make()
                     ->label(''),
                 EditAction::make()
                     ->label(''),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            ActivityRelationManager::class,
-            PartnerRelationManager::class
-        ];
     }
 
     public static function infolist(Infolist $infolist): Infolist
@@ -199,7 +191,7 @@ class ProjectResource extends Resource
                 Grid::make()
                     ->columnSpan(1)
                     ->schema([
-                        InfoSection::make('')
+                        infoSection::make('')
                             ->columns()
                             ->schema([
                                 TextEntry::make('start_date')
@@ -226,16 +218,24 @@ class ProjectResource extends Resource
                     ->schema([
                         InfoSection::make('')
                             ->schema([
-                                TextEntry::make('partners.partner.name')
+                                TextEntry::make('partners.name')
                                     ->label('Samenwerkingspartners')
-                                ->placeholder('-'),
-                                TextEntry::make('neighbourhoods.name')
+                                    ->placeholder('-'),
+                                TextEntry::make('neighbourhoods.neighbourhood.name')
                                     ->label('Wijken')
-                                    ->placeholder('-')
                                     ->distinctList()
+                                    ->formatStateUsing(fn(string $state) => ListHelper::sortFilamentList($state))
+                                    ->placeholder('-')
                             ])
                     ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
@@ -243,7 +243,7 @@ class ProjectResource extends Resource
         return [
             'index' => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
-            'view' => Pages\ViewProjects::route('/{record}'),
+            'view' => Pages\ViewProject::route('/{record}'),
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }
