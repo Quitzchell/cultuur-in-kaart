@@ -17,6 +17,11 @@ class Partner extends Model
         return $this->belongsToMany(Activity::class);
     }
 
+    public function contactPerson(): BelongsTo
+    {
+        return $this->belongsTo(ContactPerson::class, 'primary_contact_person_id');
+    }
+
     public function contactPeople(): BelongsToMany
     {
         return $this->belongsToMany(ContactPerson::class);
