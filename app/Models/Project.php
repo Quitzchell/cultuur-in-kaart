@@ -19,6 +19,16 @@ class Project extends Model
     ];
 
     /* Relations */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    public function contactPeople(): HasMany
+    {
+        return$this->hasMany(Activity::class)->with('partners')->with('contactPeople');
+    }
+
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
@@ -27,11 +37,6 @@ class Project extends Model
     public function coordinator(): BelongsTo
     {
         return $this->belongsTo(Coordinator::class, 'primary_coordinator_id');
-    }
-
-    public function activities(): HasMany
-    {
-        return $this->hasMany(Activity::class);
     }
 
     public function neighbourhoods(): HasMany

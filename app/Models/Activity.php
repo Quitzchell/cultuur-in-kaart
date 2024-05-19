@@ -19,6 +19,11 @@ class Activity extends Model
         return $this->hasMany(ActivityPartner::class);
     }
 
+    public function contactPeople(): BelongsToMany
+    {
+        return $this->belongsToMany(Partner::class)->with('contactPeople');
+    }
+
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
