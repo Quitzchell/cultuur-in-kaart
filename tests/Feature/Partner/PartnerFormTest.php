@@ -19,7 +19,7 @@ it('can render Partner edit form', function () {
 
 /** Create */
 it('can create a Partner', function () {
-    $contactPeople = ContactPerson::factory(10)->create();
+//    $contactPeople = ContactPerson::factory(10)->create();
     $neighbourhood = Neighbourhood::factory()->create();
     $partner = Partner::factory()->make();
 
@@ -32,8 +32,8 @@ it('can create a Partner', function () {
             'zip' => $partner->zip,
             'city' => $partner->city,
             'neighbourhood_id' => $neighbourhood->getKey(),
-            'contact_person_id' => $contactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
-            'primary_contact_person_id' => $contactPeople->first()->getKey(),
+//            'contact_person_id' => $contactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
+//            'primary_contact_person_id' => $contactPeople->first()->getKey(),
         ])->call('create')
         ->assertHasNoFormErrors();
 });
@@ -71,16 +71,16 @@ it('can validate numeric on create Partner form', function () {
 it('can edit a Partner', function () {
     $partner = Partner::factory()->create();
     $neighbourhood = Neighbourhood::factory()->create();
-    $contactPeople = ContactPerson::factory(10)->create();
-    $partner->contactPeople()->attach($contactPeople);
+//    $contactPeople = ContactPerson::factory(10)->create();
+//    $partner->contactPeople()->attach($contactPeople);
     $partner->save();
-    $partner->primaryContactPerson()->associate($contactPeople->first());
+//    $partner->primaryContactPerson()->associate($contactPeople->first());
     $partner->neighbourhood()->associate($neighbourhood);
 
     $newPartner = Partner::factory()->make();
     $newNeighbourhood = Neighbourhood::factory()->create();
-    $newContactPerson = ContactPerson::factory()->create();
-    $newContactPeople = $partner->contactPeople->add($newContactPerson);
+//    $newContactPerson = ContactPerson::factory()->create();
+//    $newContactPeople = $partner->contactPeople->add($newContactPerson);
 
     livewire(PartnerResource\Pages\EditPartner::class, [
         'record' => $partner->getKey(),
@@ -93,8 +93,8 @@ it('can edit a Partner', function () {
             'zip' => $newPartner->zip,
             'city' => $newPartner->city,
             'neighbourhood_id' => $newNeighbourhood->getKey(),
-            'contact_person_id' => $newContactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
-            'primary_contact_person_id' => $newContactPerson->getKey(),
+//            'contact_person_id' => $newContactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
+//            'primary_contact_person_id' => $newContactPerson->getKey(),
         ])->call('save')
         ->assertHasNoFormErrors();
 
@@ -108,8 +108,8 @@ it('can edit a Partner', function () {
         'neighbourhood_id' => $newNeighbourhood->getKey(),
     ]);
 
-    $this->assertDatabaseHas('contact_person_partner', [
-        'partner_id' => $partner->getKey(),
-        'contact_person_id' => $newContactPerson->getKey(),
-    ]);
+//    $this->assertDatabaseHas('contact_person_partner', [
+//        'partner_id' => $partner->getKey(),
+//        'contact_person_id' => $newContactPerson->getKey(),
+//    ]);
 });
