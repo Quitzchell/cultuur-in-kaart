@@ -27,14 +27,4 @@ class ContactPerson extends Model
     {
         return $this->belongsToMany(Partner::class);
     }
-
-    public function projects(): HasManyThrough
-    {
-        return $this->hasManyThrough(
-            Activity::class,
-            ActivityPartnerContactPerson::class,
-            secondKey: 'id',
-            secondLocalKey: 'activity_id',
-        )->leftJoin('projects', 'projects.id', 'activities.project_id');
-    }
 }
