@@ -1,6 +1,10 @@
 name: Tests
 
-on: [ 'push', 'pull_request' ]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   ci:
@@ -19,6 +23,9 @@ jobs:
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Ensure SQLite Extension Enabled
+        run: sudo apt-get install -y php8.2-sqlite3
 
       - name: Create Database
         run: |
