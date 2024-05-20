@@ -23,6 +23,7 @@ class TaskResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->schema([
                     Forms\Components\TextInput::make('name')
+                        ->label('Naam')
                         ->required()
                         ->maxLength(120),
                 ])
@@ -34,8 +35,8 @@ class TaskResource extends Resource
         return $table
             ->defaultSort('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('emoji_unicode'),
+                Tables\Columns\TextColumn::make('name')
+                ->label('Naam'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

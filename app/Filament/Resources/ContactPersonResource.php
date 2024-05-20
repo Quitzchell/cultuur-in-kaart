@@ -52,6 +52,7 @@ class ContactPersonResource extends Resource
                             ->preload()
                             ->searchable('name'),
                         Forms\Components\Textarea::make('comment')
+                            ->label('Opmerkingen')
                             ->columnSpanFull(),
                     ])
             ]);
@@ -117,7 +118,6 @@ class ContactPersonResource extends Resource
                         TextEntry::make('comment')
                             ->label('Opmerkingen')
                             ->placeholder('-')
-                            ->inlineLabel(),
                     ])->columnSpan(1)
             ]);
     }

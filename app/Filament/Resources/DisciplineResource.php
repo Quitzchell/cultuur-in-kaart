@@ -37,6 +37,7 @@ class DisciplineResource extends Resource
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                ->label('Naam')
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
