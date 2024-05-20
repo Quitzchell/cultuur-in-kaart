@@ -41,7 +41,7 @@ class ActivityRelationManager extends RelationManager
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => ActivityResource::getUrl('view', ['record' => $record])),
+                    ->url(fn ($record): string => ActivityResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }

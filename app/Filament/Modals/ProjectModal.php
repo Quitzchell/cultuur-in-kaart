@@ -9,7 +9,6 @@ use Filament\Forms\Components\TextInput;
 
 class ProjectModal implements ModalForm
 {
-
     public static function getForm(): array
     {
         return [
@@ -31,7 +30,7 @@ class ProjectModal implements ModalForm
                 ->multiple()
                 ->preload()
                 ->required()
-                ->label('Coördinator')
+                ->label('Coördinator'),
         ];
     }
 }

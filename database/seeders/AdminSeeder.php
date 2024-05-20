@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\Coordinator\Role;
 use App\Models\Coordinator;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -13,7 +12,7 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-//        if (app()->environment() !== 'production') {
+        //        if (app()->environment() !== 'production') {
         Coordinator::create([
             'name' => 'Mitchell Quitz',
             'role' => Role::Administrator->value,
@@ -23,7 +22,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ]);
-//        }
+        //        }
 
         Coordinator::create([
             'name' => 'Melanie Leeflang',

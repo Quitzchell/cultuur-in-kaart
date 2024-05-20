@@ -8,7 +8,6 @@ use Filament\Forms\Components\TextInput;
 
 class ContactPersonModal implements ModalForm
 {
-
     public static function getForm(): array
     {
         return [
@@ -24,7 +23,7 @@ class ContactPersonModal implements ModalForm
                 ->tel()
                 ->maxLength(255),
             Textarea::make('comment')
-                ->columnSpanFull()
+                ->columnSpanFull(),
         ];
     }
 }

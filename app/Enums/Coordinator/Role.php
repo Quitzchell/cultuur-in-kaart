@@ -10,7 +10,7 @@ enum Role: string
     public static function labels(): array
     {
         $labels = [];
-        foreach(self::cases() as $case) {
+        foreach (self::cases() as $case) {
             $labels[] = $case->name;
         }
 
@@ -20,7 +20,7 @@ enum Role: string
     public static function values(): array
     {
         $values = [];
-        foreach(self::cases() as $case) {
+        foreach (self::cases() as $case) {
             $values[] = $case->value;
         }
 
@@ -30,7 +30,7 @@ enum Role: string
     public static function toArray(): array
     {
         $roleArray = [];
-        foreach (self::cases() as $case){
+        foreach (self::cases() as $case) {
             $roleArray[$case->name] = $case->value;
         }
 

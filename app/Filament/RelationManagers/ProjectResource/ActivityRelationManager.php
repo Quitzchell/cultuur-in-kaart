@@ -40,7 +40,7 @@ class ActivityRelationManager extends RelationManager
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('partner')
-                    ->relationship('partners', 'name', fn($query) => $query
+                    ->relationship('partners', 'name', fn ($query) => $query
                         ->whereIn('activity_partner.activity_id', $this->ownerRecord->activities()->pluck('id')))
                     ->label('Samenwerkingspartners')
                     ->preload()
@@ -50,7 +50,7 @@ class ActivityRelationManager extends RelationManager
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => ActivityResource::getUrl('view', ['record' => $record])),
+                    ->url(fn ($record): string => ActivityResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }

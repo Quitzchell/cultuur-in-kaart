@@ -15,7 +15,7 @@ class EditProfile extends BaseEditProfile
                 $this->getNameFormComponent(),
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
-                $this->getPasswordConfirmationFormComponent()
+                $this->getPasswordConfirmationFormComponent(),
             ]);
     }
 
@@ -23,7 +23,7 @@ class EditProfile extends BaseEditProfile
     {
         return parent::getPasswordFormComponent()
             ->validationMessages([
-                'same' => 'De invoer voor het nieuwe wachtwoorden komt niet overeen.'
+                'same' => 'De invoer voor het nieuwe wachtwoorden komt niet overeen.',
             ]);
     }
 

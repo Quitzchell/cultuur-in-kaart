@@ -21,8 +21,11 @@ use Filament\Tables\Table;
 class ContactPersonResource extends Resource
 {
     protected static ?string $model = ContactPerson::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-phone';
+
     protected static ?string $navigationLabel = 'Contactpersonen';
+
     protected static ?string $navigationGroup = 'Contacten';
 
     public static function form(Form $form): Form
@@ -54,7 +57,7 @@ class ContactPersonResource extends Resource
                         Forms\Components\Textarea::make('comment')
                             ->label('Opmerkingen')
                             ->columnSpanFull(),
-                    ])
+                    ]),
             ]);
     }
 
@@ -86,7 +89,7 @@ class ContactPersonResource extends Resource
                 Tables\Actions\ViewAction::make()
                     ->label(''),
                 Tables\Actions\EditAction::make()
-                    ->label('')
+                    ->label(''),
             ]);
     }
 
@@ -117,8 +120,8 @@ class ContactPersonResource extends Resource
                     ->schema([
                         TextEntry::make('comment')
                             ->label('Opmerkingen')
-                            ->placeholder('-')
-                    ])->columnSpan(1)
+                            ->placeholder('-'),
+                    ])->columnSpan(1),
             ]);
     }
 

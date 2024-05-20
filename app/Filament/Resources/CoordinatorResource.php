@@ -12,17 +12,20 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
 
 class CoordinatorResource extends Resource
 {
     protected static ?string $model = Coordinator::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
     protected static ?string $navigationLabel = 'Coördinatoren';
+
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
@@ -52,22 +55,22 @@ class CoordinatorResource extends Resource
                             ->required(),
                         TextInput::make('phone')
                             ->label('Telefoonnummer')
-                            ->tel()
+                            ->tel(),
                     ]),
                 Section::make('Wijken')
                     ->schema([
                         CheckboxList::make('neighbourhood_id')
                             ->label('')
-                            ->relationship('neighbourhoods', 'name', fn($query) => $query->whereNot('name', 'Alle wijken'))
-                            ->columns()
+                            ->relationship('neighbourhoods', 'name', fn ($query) => $query->whereNot('name', 'Alle wijken'))
+                            ->columns(),
                     ])->columnSpan(1),
                 Section::make('Werkdagen')
                     ->schema([
                         CheckboxList::make('workdays')
                             ->name('')
                             ->columns()
-                            ->options(Workday::toArray())
-                    ])->columnSpan(1)
+                            ->options(Workday::toArray()),
+                    ])->columnSpan(1),
             ])->columns();
     }
 
@@ -107,9 +110,9 @@ class CoordinatorResource extends Resource
                             ->inlineLabel(),
                         TextEntry::make('workdays')
                             ->label('Werkdagen')
-                            ->formatStateUsing(fn(string $state) => ucfirst(strtolower($state)))
+                            ->formatStateUsing(fn (string $state) => ucfirst(strtolower($state)))
                             ->inlineLabel()
-                            ->placeholder('-')
+                            ->placeholder('-'),
                     ])->columnSpan(1),
                 \Filament\Infolists\Components\Section::make('')
                     ->schema([
@@ -117,8 +120,8 @@ class CoordinatorResource extends Resource
                             ->label('Wijken')
                             ->distinctList()
                             ->inlineLabel()
-                            ->placeholder('-')
-                    ])->columnSpan(1)
+                            ->placeholder('-'),
+                    ])->columnSpan(1),
             ])->columns();
     }
 

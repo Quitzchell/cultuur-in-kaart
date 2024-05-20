@@ -3,9 +3,9 @@
 use App\Filament\Resources\ProjectResource;
 use App\Filament\Resources\ProjectResource\Pages\ListProjects;
 use App\Models\Activity;
-use App\Models\ActivityNeighbourhood;
 use App\Models\Neighbourhood;
 use App\Models\Project;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -70,7 +70,7 @@ it('can filter Projects by neighbourhood', function () {
         $activity->neighbourhood()->associate($neighbourhoods[$key % 2]);
         $activity->project()->associate($projects[$key % 2]);
         $activity->save();
-    };
+    }
 
     $neighbourhood = $projects->first()->neighbourhoods->first();
     $filteredProjects = $projects->filter(function (Project $project) use ($neighbourhood) {

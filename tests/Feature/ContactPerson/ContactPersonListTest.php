@@ -4,6 +4,7 @@ use App\Filament\Resources\ContactPersonResource;
 use App\Filament\Resources\ContactPersonResource\Pages\ListContactPeople;
 use App\Models\ContactPerson;
 use App\Models\Partner;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -71,5 +72,3 @@ it('can filter contact people by partner', function () {
         ->assertCanSeeTableRecords($filteredContactPeople)
         ->assertCanNotSeeTableRecords($contactPeople->diff($filteredContactPeople));
 });
-
-

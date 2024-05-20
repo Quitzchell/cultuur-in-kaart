@@ -3,6 +3,7 @@
 use App\Filament\Resources\DisciplineResource;
 use App\Filament\Resources\DisciplineResource\Pages\ListDisciplines;
 use App\Models\Discipline;
+
 use function Pest\Livewire\livewire;
 
 /** Render */

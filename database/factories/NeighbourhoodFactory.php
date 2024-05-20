@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class NeighbourhoodFactory extends Factory
 {
-
     public function definition(): array
     {
         return [

@@ -21,7 +21,7 @@ class CoordinatorFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'role' => Role::Employee->value,
-            'email' => $this->faker->unique()->userName() . '@soc.nl',
+            'email' => $this->faker->unique()->userName().'@soc.nl',
             'email_verified_at' => now(),
             'phone' => $this->faker->e164PhoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
@@ -30,10 +30,9 @@ class CoordinatorFactory extends Factory
         ];
     }
 
-    public
-    function unverified(): static
+    public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class ContactPersonPartner extends Pivot
 {
     protected $table = 'contact_person_partner';
+
     public $timestamps = false;
 
     public function partner(): BelongsTo

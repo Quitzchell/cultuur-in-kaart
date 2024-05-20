@@ -25,8 +25,11 @@ use Illuminate\Database\Eloquent\Builder;
 class PartnerResource extends Resource
 {
     protected static ?string $model = Partner::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
+
     protected static ?string $navigationLabel = 'Samenwerkingspartners';
+
     protected static ?string $navigationGroup = 'Contacten';
 
     public static function form(Form $form): Form
@@ -98,7 +101,7 @@ class PartnerResource extends Resource
                             ->nullable()
                             ->preload()
                             ->searchable(['name']),
-                    ])
+                    ]),
             ]);
     }
 
@@ -158,7 +161,7 @@ class PartnerResource extends Resource
                                 TextEntry::make('Neighbourhood.name')
                                     ->label('Wijk')
                                     ->inlineLabel(),
-                            ])
+                            ]),
                     ]),
 
                 Grid::make()
@@ -174,8 +177,8 @@ class PartnerResource extends Resource
                                     ->label('Primair contactpersoon')
                                     ->inlineLabel()
                                     ->placeholder('-'),
-                            ])
-                    ])
+                            ]),
+                    ]),
             ]);
     }
 
@@ -183,7 +186,7 @@ class PartnerResource extends Resource
     {
         return [
             ActivityRelationManager::class,
-            ProjectRelationManager::class
+            ProjectRelationManager::class,
         ];
     }
 

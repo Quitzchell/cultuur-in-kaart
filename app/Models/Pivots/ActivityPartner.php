@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ActivityPartner extends Model
 {
     protected $table = 'activity_partner';
+
     public $timestamps = false;
 
     /* Relations */

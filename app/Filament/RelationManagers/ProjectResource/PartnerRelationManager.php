@@ -40,7 +40,7 @@ class PartnerRelationManager extends RelationManager
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => PartnerResource::getUrl('view', ['record' => $record->partner])),
+                    ->url(fn ($record): string => PartnerResource::getUrl('view', ['record' => $record->partner])),
             ]);
     }
 }

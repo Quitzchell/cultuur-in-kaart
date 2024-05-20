@@ -14,8 +14,11 @@ use Filament\Tables\Table;
 class DisciplineResource extends Resource
 {
     protected static ?string $model = Discipline::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-heart';
+
     protected static ?string $navigationLabel = 'Disciplines';
+
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
@@ -26,7 +29,7 @@ class DisciplineResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->label('Naam')
                         ->required()
-                        ->maxLength(255)
+                        ->maxLength(255),
                 ]),
             ]);
     }
@@ -37,7 +40,7 @@ class DisciplineResource extends Resource
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
-                ->label('Naam')
+                    ->label('Naam'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

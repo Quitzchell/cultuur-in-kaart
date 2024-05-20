@@ -13,6 +13,7 @@ use App\Models\Project;
 use App\Models\Task;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Repeater;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -54,11 +55,10 @@ it('can create Activity', function () {
             'activityPartnerContactPerson' => [
                 [
                     'partner_id' => $partner->getKey(),
-                    'contact_person_id' => $partner->contactPeople->first()->getKey()
-                ]
-            ]
+                    'contact_person_id' => $partner->contactPeople->first()->getKey(),
+                ],
+            ],
         ])->call('create')->assertHasNoFormErrors();
-
 
     $this->assertDatabaseHas(Activity::class, [
         'name' => $activity->name,
@@ -105,8 +105,8 @@ it('can validate Activity form', function () {
                 [
                     'partner_id' => null,
                     'contact_person_id' => null,
-                ]
-            ]
+                ],
+            ],
         ])->call('create')
         ->assertHasFormErrors([
             'name' => 'required',
@@ -151,7 +151,7 @@ it('can update Activity', function () {
     $newPartner->contactPeople()->attach($newContactPerson->getKey());
 
     livewire(EditActivity::class, [
-        'record' => $activity->getKey()
+        'record' => $activity->getKey(),
     ])->fillForm([
         'name' => $newActivity->name,
         'project_id' => $newProject->getKey(),
@@ -164,8 +164,8 @@ it('can update Activity', function () {
             [
                 'partner_id' => $newPartner->getKey(),
                 'contact_person_id' => $newPartner->contactPeople->first()->getKey(),
-            ]
-        ]
+            ],
+        ],
     ])->call('save')
         ->assertHasNoFormErrors();
 
@@ -201,7 +201,7 @@ it('can update Activity', function () {
 it('can delete Activity', function () {
     $activity = Activity::factory()->create();
     livewire(EditActivity::class, [
-        'record' => $activity->getRouteKey()
+        'record' => $activity->getRouteKey(),
     ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($activity);
@@ -228,7 +228,7 @@ it('can disable contact_person_id field on Activity', function () {
                 [
                     'partner_id' => null,
                     'contact_person_id' => null,
-                ]
+                ],
             ],
         ])->assertFormFieldIsDisabled('activityPartnerContactPerson.0.contact_person_id');
 });
@@ -254,7 +254,7 @@ it('can enable contact_person_id field on Activity', function () {
                 [
                     'partner_id' => $partner->getKey(),
                     'contact_person_id' => null,
-                ]
+                ],
             ],
         ])->assertFormFieldIsEnabled('activityPartnerContactPerson.0.contact_person_id');
 });

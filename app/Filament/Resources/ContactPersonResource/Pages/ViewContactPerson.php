@@ -10,6 +10,7 @@ use Illuminate\Contracts\Support\Htmlable;
 class ViewContactPerson extends ViewRecord
 {
     protected static string $resource = ContactPersonResource::class;
+
     public function getTitle(): string|Htmlable
     {
         return __($this->record->name);

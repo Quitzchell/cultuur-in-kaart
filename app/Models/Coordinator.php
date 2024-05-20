@@ -26,7 +26,7 @@ class Coordinator extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'workdays' => 'array'
+            'workdays' => 'array',
         ];
     }
 
@@ -43,7 +43,7 @@ class Coordinator extends Authenticatable implements FilamentUser
 
     public function project(): HasOne
     {
-        return $this->hasOne(Project::class , 'primary_coordinator_id');
+        return $this->hasOne(Project::class, 'primary_coordinator_id');
     }
 
     public function projects(): BelongsToMany
