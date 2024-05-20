@@ -14,9 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Generate Application Key
-        run: php artisan key:generate
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -27,8 +24,8 @@ jobs:
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Ensure SQLite Extension Enabled
-        run: sudo apt-get install -y php8.2-sqlite3
+      - name: Generate Application Key
+        run: php artisan key:generate
 
       - name: Create Database
         run: |
