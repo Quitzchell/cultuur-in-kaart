@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignIdFor(Neighbourhood::class)->nullable()->constrained()->nullOnDelete();
             $table->string('zip');
             $table->string('house_number_addition')->nullable();
-            $table->string('address')->virtualAs("CONCAT(street, ' ', house_number, '', COALESCE(house_number_addition, ''))");
             $table->timestamps();
         });
     }

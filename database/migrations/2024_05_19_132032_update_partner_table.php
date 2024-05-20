@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('partners', function (Blueprint $table) {
             $table->foreignIdFor(ContactPerson::class, 'primary_contact_person_id')
-                ->nullable()->after('address')->constrained('contact_people')->nullOnDelete();
+                ->nullable()->after('house_number_addition')->constrained('contact_people')->nullOnDelete();
         });
     }
 
