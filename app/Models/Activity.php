@@ -15,7 +15,7 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::saved(static function (Activity $activity) {
             $partnerIds = $activity->activityPartnerContactPerson->pluck('partner_id')->unique();

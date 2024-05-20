@@ -12,7 +12,6 @@ use Filament\Tables\Table;
 class ProjectRelationManager extends RelationManager
 {
     protected static string $relationship = 'activities';
-
     protected static ?string $title = 'Projecten';
 
     public function table(Table $table): Table

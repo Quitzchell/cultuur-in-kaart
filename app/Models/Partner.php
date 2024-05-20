@@ -33,15 +33,4 @@ class Partner extends Model
     {
         return $this->belongsTo(Neighbourhood::class);
     }
-
-    public function projects(): HasOneThrough
-    {
-        return $this->hasOneThrough(
-            Project::class,
-            Activity::class,
-            firstKey: 'project_id',
-            secondKey: 'id',
-            secondLocalKey: 'project_id'
-        )->groupBy('project_id');
-    }
 }
