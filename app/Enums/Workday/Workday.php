@@ -6,13 +6,6 @@ use Illuminate\Support\Collection;
 
 enum Workday: string
 {
-
-
-
-
-
-
-
     case Monday = 'Maandag';
     case Tuesday = 'Dinsdag';
     case Wednesday = 'Woensdag';
