@@ -26,11 +26,6 @@ class Project extends Model
         return $this->hasMany(Activity::class);
     }
 
-    public function contactPeople(): HasMany
-    {
-        return$this->hasMany(Activity::class)->with('partners')->with('contactPeople');
-    }
-
     public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Coordinator::class);
