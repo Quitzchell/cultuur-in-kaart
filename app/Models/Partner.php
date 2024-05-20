@@ -13,6 +13,8 @@ class Partner extends Model
 {
     use HasFactory;
 
+    protected $appends = ['address'];
+
     /* Relations */
     public function activities(): BelongsToMany
     {
@@ -32,5 +34,11 @@ class Partner extends Model
     public function neighbourhood(): BelongsTo
     {
         return $this->belongsTo(Neighbourhood::class);
+    }
+
+    /* Attribute */
+    public function getAddressAttribute(): string
+    {
+        return trim("$this->street $this->house_number$this->house_number_addition");
     }
 }

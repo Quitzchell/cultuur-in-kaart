@@ -40,10 +40,13 @@ it('can search Partners by address', function () {
     $partners = Partner::factory(10)->create();
     $address = $partners->first()->address;
 
+    $filteredPartners = $partners->filter(function (Partner $partner) use ($address) {
+        return $partner->adress === $address;
+    });
     livewire(ListPartners::class)
         ->searchTable($address)
-        ->assertCanSeeTableRecords($partners->where('address', $address))
-        ->assertCanNotSeeTableRecords($partners->where('address', '!==', $address));
+        ->assertCanSeeTableRecords($filteredPartners)
+        ->assertCanNotSeeTableRecords($partners->diff($filteredPartners));
 });
 
 it('can search Partners by neighbourhood', function () {
