@@ -19,20 +19,20 @@ class PartnerRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('partners.name')
+                TextColumn::make('partner.name')
                     ->label('Naam')
                     ->searchable(),
-                TextColumn::make('partners.neighbourhood.name')
+                TextColumn::make('partner.neighbourhood.name')
                     ->label('Wijk')
                     ->placeholder('-'),
-                TextColumn::make('partners.primaryContactPerson.name')
+                TextColumn::make('partner.contactPerson.name')
                     ->label('Primaire contactpersoon')
                     ->placeholder('-')
                     ->searchable(),
             ])
             ->filters([
                 SelectFilter::make('neighbourhood')
-                    ->relationship('partners.neighbourhood', 'name')
+                    ->relationship('partner.neighbourhood', 'name')
                     ->label('Wijken')
                     ->multiple()
                     ->preload(),
@@ -40,7 +40,7 @@ class PartnerRelationManager extends RelationManager
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => PartnerResource::getUrl('view', ['record' => $record])),
+                    ->url(fn($record): string => PartnerResource::getUrl('view', ['record' => $record->partner])),
             ]);
     }
 }
