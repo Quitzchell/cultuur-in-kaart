@@ -44,7 +44,7 @@ class Project extends Model
         return $this->hasMany(Activity::class)->with('neighbourhood');
     }
 
-    public function partners(): HasMany
+    public function partners(): HasManyThrough
     {
         return $this->hasMany(Activity::class)->with('partners');
     }
