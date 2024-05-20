@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Activity extends Model
 {
@@ -51,11 +50,6 @@ class Activity extends Model
     public function neighbourhood(): BelongsTo
     {
         return $this->belongsTo(Neighbourhood::class);
-    }
-
-    public function partnerContactPeople(): HasManyThrough
-    {
-        return $this->hasManyThrough(Partner::class, ActivityPartner::class)->with('contactPeople');
     }
 
     public function partners(): BelongsToMany

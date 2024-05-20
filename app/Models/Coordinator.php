@@ -14,11 +14,13 @@ class Coordinator extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
+    /* Hidden */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /* Casts */
     protected function casts(): array
     {
         return [

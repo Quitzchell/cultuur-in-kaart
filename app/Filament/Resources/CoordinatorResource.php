@@ -76,9 +76,12 @@ class CoordinatorResource extends Resource
         return $table
             ->defaultSort('name')
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('role'),
+                TextColumn::make('name')
+                    ->label('Naam'),
+                TextColumn::make('role')
+                    ->label('Gebruikersrol'),
                 TextColumn::make('phone')
+                    ->label('Telefoonnummer'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
