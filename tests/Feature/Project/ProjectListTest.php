@@ -63,17 +63,18 @@ it('can filter Projects by name', function () {
 
 /** Filter */
 it('can filter Projects by neighbourhood', function () {
-    $projects = Project::factory(10)->create();
-    $neighbourhoods = Neighbourhood::factory(5)->create();
-    Activity::factory(40)->create()->each(function (Activity $activity) use ($projects, $neighbourhoods) {
-        $activity->neighbourhood()->associate($neighbourhoods->random());
-        $activity->project()->associate($projects->random());
+    $projects = Project::factory(2)->create();
+    $neighbourhoods = Neighbourhood::factory(2)->create();
+    $activities = Activity::factory(40)->create();
+    foreach ($activities as $key => $activity) {
+        $activity->neighbourhood()->associate($neighbourhoods[$key % 2]);
+        $activity->project()->associate($projects[$key % 2]);
         $activity->save();
-    });
+    };
 
     $neighbourhood = $projects->first()->neighbourhoods->first();
     $filteredProjects = $projects->filter(function (Project $project) use ($neighbourhood) {
-       return $project->neighbourhoods->contains($neighbourhood);
+        return $project->neighbourhoods->contains($neighbourhood);
     });
 
     livewire(ListProjects::class)

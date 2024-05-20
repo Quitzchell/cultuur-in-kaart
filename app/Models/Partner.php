@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Partner extends Model
 {
@@ -15,6 +17,11 @@ class Partner extends Model
     public function activities(): BelongsToMany
     {
         return $this->belongsToMany(Activity::class);
+    }
+
+    public function contactPerson(): BelongsTo
+    {
+        return $this->belongsTo(ContactPerson::class, 'primary_contact_person_id');
     }
 
     public function contactPeople(): BelongsToMany

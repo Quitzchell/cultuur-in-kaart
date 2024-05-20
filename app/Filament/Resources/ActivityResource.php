@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Modals\ContactPersonModal;
+use App\Filament\Modals\PartnerModal;
+use App\Filament\Modals\ProjectModal;
+use App\Filament\RelationManagers\ActivityResource\ActivityRelationManager;
+use App\Filament\RelationManagers\ActivityResource\PartnerContactPersonRelationManager;
 use App\Filament\Resources\ActivityResource\Pages;
-use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
+use App\Models\ContactPerson;
 use App\Models\Partner;
 use App\Models\Project;
-use Carbon\Carbon;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -30,7 +33,6 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ActivityResource extends Resource
 {
@@ -52,8 +54,8 @@ class ActivityResource extends Resource
                             ->maxLength(120)
                             ->columnSpanFull(),
                         Select::make('project_id')
-//                            ->createOptionForm(ProjectModalForm::getForm())
-//                            ->editOptionForm(ProjectModalForm::getForm())
+                            ->createOptionForm(ProjectModal::getForm())
+                            ->editOptionForm(ProjectModal::getForm())
                             ->relationship('project', 'name')
                             ->label('Project')
                             ->live()
@@ -95,38 +97,47 @@ class ActivityResource extends Resource
                             ->preload()
                             ->columnSpanFull(),
 
-                        Repeater::make('activityPartner')
-                            ->relationship('activityPartner')
+                        Repeater::make('activityPartnerContactPerson')
+                            ->relationship()
                             ->label('Contactpersonen')
                             ->addActionLabel('Contactpersoon toevoegen')
                             ->schema([
                                 Select::make('partner_id')
                                     ->relationship('partner', 'name')
-//                                    ->createOptionForm(PartnerModalForm::getForm())
-                                    ->options(Partner::pluck('name', 'id'))
                                     ->label('Partner')
+                                    ->createOptionForm(PartnerModal::getForm())
+                                    ->options(Partner::pluck('name', 'id'))
                                     ->live()
                                     ->required()
                                     ->preload()
                                     ->searchable(['name']),
-//                                Select::make('contact_person_id')
-//                                    ->relationship('contactPerson', 'name')
-//                                    ->createOptionForm(ContactPersonModalForm::getForm())
-//                                    ->createOptionUsing(function (array $data, $get): int {
-//                                        $partner = Partner::find($get('partner_id'));
-//                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
-//                                        $partner->contactPeople()->syncWithoutDetaching([$contactPerson]);
-//                                        return $contactPerson;
-//                                    })
-//                                    ->options(fn($get) => ContactPerson::query()
-//                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
-//                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
-//                                        ->pluck('contact_people.name', 'contact_people.id'))
-//                                    ->label('Contactpersoon')
-//                                    ->required()
-//                                    ->preload()
-//                                    ->disabled(fn(Get $get) => $get('partner_id') === null)
-                            ])->columnSpanFull(),
+                                Select::make('contact_person_id')
+                                    ->relationship('contactPerson', 'name')
+                                    ->label('Contactpersoon')
+                                    ->createOptionForm(ContactPersonModal::getForm())
+                                    ->createOptionUsing(function (array $data, $get): int {
+                                        $partner = Partner::find($get('partner_id'));
+                                        $contactPerson = $partner->contactPeople()->create($data)->getKey();
+                                        $partner->contactPeople()->sync([$contactPerson]);
+                                        return $contactPerson->getKey();
+                                    })
+                                    ->options(fn($get) => ContactPerson::query()
+                                        ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
+                                        ->where('contact_person_partner.partner_id', $get('partner_id'))
+                                        ->pluck('contact_people.name', 'contact_people.id'))
+                                    ->required()
+                                    ->preload()
+                                    ->disabled(fn(Get $get) => $get('partner_id') === null),
+                            ])
+                            ->mutateRelationshipDataBeforeCreateUsing(function (?Activity $activity, array $data): array {
+                                $activity?->partners()->sync($data['partner_id']);
+                                return $data;
+                            })
+                            ->mutateRelationshipDataBeforeSaveUsing(function (?Activity $activity, array $data): array {
+                                $activity->partners()->sync($data['partner_id']);
+                                return $data;
+                            })
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Opmerkingen')
@@ -254,7 +265,8 @@ class ActivityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ActivityRelationManager::class,
+            PartnerContactPersonRelationManager::class
         ];
     }
 

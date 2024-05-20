@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\RelationManagers\ContactPersonResource\ActivityRelationManager;
+use App\Filament\RelationManagers\ContactPersonResource\ProjectRelationManager;
 use App\Filament\Resources\ContactPersonResource\Pages;
-use App\Filament\Resources\ContactPersonResource\RelationManagers;
 use App\Models\ContactPerson;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -16,8 +17,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContactPersonResource extends Resource
 {
@@ -126,7 +125,8 @@ class ContactPersonResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ActivityRelationManager::class,
+            ProjectRelationManager::class,
         ];
     }
 

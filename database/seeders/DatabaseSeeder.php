@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Activity;
+use App\Models\ContactPerson;
 use App\Models\Coordinator;
 use App\Models\Discipline;
 use App\Models\Neighbourhood;
@@ -38,18 +39,28 @@ class DatabaseSeeder extends Seeder
             $project->save();
         }
 
+        foreach (Partner::all() as $partner) {
+            $partner->neighbourhood()->associate(Neighbourhood::all()->random());
+            $partner->contactPeople()->attach(ContactPerson::all()->random(3));
+            $partner->contactPerson()->associate($partner->contactPeople()->first());
+            $partner->save();
+        }
+
         foreach (Activity::all() as $activity) {
             $activity->task()->associate(Task::all()->random());
             $activity->project()->associate(Project::all()->random());
             $activity->neighbourhood()->associate(Neighbourhood::all()->random());
             $activity->discipline()->associate(Discipline::all()->random());
             $activity->coordinators()->attach($activity->project->coordinators()->first());
+            $partners = Partner::all()->random(3);
+            foreach ($partners as $partner) {
+                $activity->activityPartnerContactPerson()->create([
+                    'partner_id' => $partner->getKey(),
+                    'contact_person_id' => $partner->contactPeople->random()->getKey()
+                ]);
+                $activity->partners()->attach($partner->getKey());
+            }
             $activity->save();
-        }
-
-        foreach (Partner::all() as $partner) {
-            $partner->neighbourhood()->associate(Neighbourhood::all()->random());
-            $partner->save();
         }
     }
 
@@ -59,5 +70,6 @@ class DatabaseSeeder extends Seeder
         Project::factory(25)->create();
         Activity::factory(500)->create();
         Partner::factory(25)->create();
+        ContactPerson::factory(50)->create();
     }
 }

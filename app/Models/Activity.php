@@ -2,16 +2,30 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\ActivityPartnerContactPerson;
 use App\Models\Pivots\ActivityPartner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Activity extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::saved(static function (Activity $activity) {
+            $partnerIds = $activity->activityPartnerContactPerson->pluck('partner_id')->unique();
+            foreach ($activity->activityPartner as $record) {
+                if (!$partnerIds->contains($record->partner_id)) {
+                    $activity->activityPartner()->delete($record->getKey());
+                }
+            }
+        });
+    }
 
     /* Relations */
     public function activityPartner(): HasMany
@@ -19,9 +33,9 @@ class Activity extends Model
         return $this->hasMany(ActivityPartner::class);
     }
 
-    public function contactPeople(): BelongsToMany
+    public function activityPartnerContactPerson(): HasMany
     {
-        return $this->belongsToMany(Partner::class)->with('contactPeople');
+        return $this->hasMany(ActivityPartnerContactPerson::class);
     }
 
     public function coordinators(): BelongsToMany
@@ -39,6 +53,11 @@ class Activity extends Model
         return $this->belongsTo(Neighbourhood::class);
     }
 
+    public function partnerContactPeople(): HasManyThrough
+    {
+        return $this->hasManyThrough(Partner::class, ActivityPartner::class)->with('contactPeople');
+    }
+
     public function partners(): BelongsToMany
     {
         return $this->belongsToMany(Partner::class);
@@ -47,6 +66,12 @@ class Activity extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function relatedActivities(): HasMany
+    {
+        return $this->hasMany(self::class, 'project_id', 'project_id')
+            ->whereNot('id', $this->getKey());
     }
 
     public function task(): BelongsTo
