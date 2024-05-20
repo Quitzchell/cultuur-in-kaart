@@ -19,4 +19,4 @@ jobs:
         run: composer install -n --prefer-dist
 
       - name: Run Static Analysis
-        run: ./vendor/bin/phpstan --error-format=github --memory-limit=512M
+        run: ./vendor/bin/phpstan analyse app --error-format=github --memory-limit=512M
