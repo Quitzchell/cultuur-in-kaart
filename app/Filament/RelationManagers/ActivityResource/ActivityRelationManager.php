@@ -12,7 +12,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class ActivitiesRelationManager extends RelationManager
+class ActivityRelationManager extends RelationManager
 {
     protected static string $relationship = 'relatedActivities';
     protected static ?string $title = 'Gerelateerde activiteiten';
