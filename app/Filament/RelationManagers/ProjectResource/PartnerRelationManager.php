@@ -27,8 +27,8 @@ class PartnerRelationManager extends RelationManager
                     ->placeholder('-'),
                 TextColumn::make('partners.primaryContactPerson.name')
                     ->label('Primaire contactpersoon')
-                    ->searchable()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->searchable(),
             ])
             ->filters([
                 SelectFilter::make('neighbourhood')
