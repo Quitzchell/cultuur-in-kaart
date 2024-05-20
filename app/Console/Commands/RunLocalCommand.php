@@ -36,7 +36,7 @@ class RunLocalCommand extends Command
 
         $executableFinder = new PhpExecutableFinder();
         $phpExecutable = $executableFinder->find();
-        $process = new Process([$phpExecutable, 'artisan', 'serve', '--host=' . $host, '--port=' . $port, '--tries=1']);
+        $process = new Process([$phpExecutable, 'artisan', 'serve', '--host='.$host, '--port='.$port, '--tries=1']);
         $process->setTimeout(null)->run(function ($type, $line) {
             $this->output->write($line);
         });

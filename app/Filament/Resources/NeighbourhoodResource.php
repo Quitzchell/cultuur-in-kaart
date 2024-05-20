@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 class NeighbourhoodResource extends Resource
 {
     protected static ?string $model = Neighbourhood::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+
     protected static ?string $navigationLabel = 'Wijken';
+
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
@@ -25,7 +28,7 @@ class NeighbourhoodResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->label('Naam')
                         ->required()
-                        ->maxLength(255)
+                        ->maxLength(255),
                 ]),
             ]);
     }
@@ -36,7 +39,7 @@ class NeighbourhoodResource extends Resource
             ->defaultSort('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Naam')
+                    ->label('Naam'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

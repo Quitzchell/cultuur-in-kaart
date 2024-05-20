@@ -5,6 +5,7 @@ use App\Filament\Resources\PartnerResource\Pages\CreatePartner;
 use App\Models\ContactPerson;
 use App\Models\Neighbourhood;
 use App\Models\Partner;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -32,7 +33,7 @@ it('can create a Partner', function () {
             'zip' => $partner->zip,
             'city' => $partner->city,
             'neighbourhood_id' => $neighbourhood->getKey(),
-            'contact_person_id' => $contactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
+            'contact_person_id' => $contactPeople->map(fn (ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
             'primary_contact_person_id' => $contactPeople->first()->getKey(),
         ])->call('create')
         ->assertHasNoFormErrors();
@@ -93,7 +94,7 @@ it('can edit a Partner', function () {
             'zip' => $newPartner->zip,
             'city' => $newPartner->city,
             'neighbourhood_id' => $newNeighbourhood->getKey(),
-            'contact_person_id' => $newContactPeople->map(fn(ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
+            'contact_person_id' => $newContactPeople->map(fn (ContactPerson $contactPerson) => $contactPerson->getKey())->toArray(),
             'primary_contact_person_id' => $newContactPerson->getKey(),
         ])->call('save')
         ->assertHasNoFormErrors();

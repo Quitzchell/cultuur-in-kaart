@@ -8,6 +8,7 @@ class ListHelper
     {
         $explode = explode(', ', $string);
         sort($explode);
+
         return implode(', ', $explode);
     }
 }

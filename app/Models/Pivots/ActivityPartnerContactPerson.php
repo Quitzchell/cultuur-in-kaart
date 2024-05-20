@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class ActivityPartnerContactPerson extends Pivot
 {
     public $table = 'activity_partner_contact_person';
+
     public $timestamps = false;
 
     /* Relations */

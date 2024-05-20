@@ -5,6 +5,7 @@ use App\Filament\Resources\DisciplineResource\Pages\CreateDiscipline;
 use App\Filament\Resources\DisciplineResource\Pages\EditDiscipline;
 use App\Models\Discipline;
 use Filament\Actions\DeleteAction;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -39,7 +40,7 @@ it('can validate Discipline form', function () {
             'name' => null,
         ])->call('create')
         ->assertHasFormErrors([
-            'name' => 'required'
+            'name' => 'required',
         ]);
 });
 
@@ -49,7 +50,7 @@ it('can update Discipline', function () {
     $newDiscipline = Discipline::factory()->make();
 
     livewire(EditDiscipline::class, [
-        'record' => $discipline->getKey()
+        'record' => $discipline->getKey(),
     ])->fillForm([
         'name' => $newDiscipline->name,
     ])->call('save')
@@ -64,7 +65,7 @@ it('can update Discipline', function () {
 it('can delete Discipline', function () {
     $discipline = Discipline::factory()->create();
     livewire(EditDiscipline::class, [
-        'record' => $discipline->getKey()
+        'record' => $discipline->getKey(),
     ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($discipline);

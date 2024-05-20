@@ -6,6 +6,7 @@ use App\Filament\Resources\ContactPersonResource\Pages\EditContactPerson;
 use App\Models\ContactPerson;
 use App\Models\Partner;
 use Filament\Actions\DeleteAction;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -17,7 +18,6 @@ it('can render ContactPerson edit form', function () {
     $contactPerson = ContactPerson::factory()->create();
     $this->get(ContactPersonResource::getUrl('edit', ['record' => $contactPerson->getKey()]))->assertSuccessful();
 });
-
 
 /** Create */
 it('can create ContactPerson', function () {
@@ -62,7 +62,7 @@ it('can validate create ContactPerson form', function () {
         ->call('create')
         ->assertHasFormErrors([
             'name' => 'required',
-            'phone' => 'Het telefoonnummer is ongeldig.'
+            'phone' => 'Het telefoonnummer is ongeldig.',
         ]);
 });
 
@@ -82,7 +82,7 @@ it('can edit ContactPerson', function () {
         'name' => $newContactPerson->name,
         'email' => $newContactPerson->email,
         'phone' => $newContactPerson->phone,
-        'partner_id' => $newPartners->map(fn(Partner $partner) => $partner->getKey())->toArray(),
+        'partner_id' => $newPartners->map(fn (Partner $partner) => $partner->getKey())->toArray(),
         'comment' => $newContactPerson->comment,
     ])->call('save')
         ->assertHasNoErrors();
@@ -104,7 +104,7 @@ it('can edit ContactPerson', function () {
 it('can delete ContactPerson', function () {
     $contactPerson = ContactPerson::factory()->create();
     livewire(EditContactPerson::class, [
-        'record' => $contactPerson->getRouteKey()
+        'record' => $contactPerson->getRouteKey(),
     ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($contactPerson);

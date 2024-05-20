@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Partner;
 use App\Models\Task;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -27,7 +28,7 @@ it('can list related Activities', function () {
         $activity->task()->associate($task);
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
-            'contact_person_id' => $contactPerson->getKey()
+            'contact_person_id' => $contactPerson->getKey(),
         ]);
     }
 
@@ -55,7 +56,7 @@ it('can sort related Activities by date', function () {
         $activity->task()->associate($task);
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
-            'contact_person_id' => $contactPerson->getKey()
+            'contact_person_id' => $contactPerson->getKey(),
         ]);
     }
 
@@ -79,7 +80,7 @@ it('can search related Activities by name', function () {
         $activity->task()->associate($task);
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
-            'contact_person_id' => $contactPerson->getKey()
+            'contact_person_id' => $contactPerson->getKey(),
         ]);
     }
 

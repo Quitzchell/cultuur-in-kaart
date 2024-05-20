@@ -37,8 +37,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ActivityResource extends Resource
 {
     protected static ?string $model = Activity::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     protected static ?string $navigationLabel = 'Activiteiten';
+
     protected static ?string $navigationGroup = 'Projecten';
 
     public static function form(Form $form): Form
@@ -89,6 +92,7 @@ class ActivityResource extends Resource
                                 function (Builder $query, Get $get) {
                                     $project = Project::find($get('project_id'));
                                     $coordinators = $project?->coordinators()->pluck('coordinators.id');
+
                                     return $query->whereKey($coordinators?->unique());
                                 })
                             ->label('Coördinatoren')
@@ -119,22 +123,25 @@ class ActivityResource extends Resource
                                         $partner = Partner::find($get('partner_id'));
                                         $contactPerson = $partner->contactPeople()->create($data)->getKey();
                                         $partner->contactPeople()->sync([$contactPerson]);
+
                                         return $contactPerson->getKey();
                                     })
-                                    ->options(fn($get) => ContactPerson::query()
+                                    ->options(fn ($get) => ContactPerson::query()
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))
                                         ->pluck('contact_people.name', 'contact_people.id'))
                                     ->required()
                                     ->preload()
-                                    ->disabled(fn(Get $get) => $get('partner_id') === null),
+                                    ->disabled(fn (Get $get) => $get('partner_id') === null),
                             ])
                             ->mutateRelationshipDataBeforeCreateUsing(function (?Activity $activity, array $data): array {
                                 $activity?->partners()->sync($data['partner_id']);
+
                                 return $data;
                             })
                             ->mutateRelationshipDataBeforeSaveUsing(function (?Activity $activity, array $data): array {
                                 $activity->partners()->sync($data['partner_id']);
+
                                 return $data;
                             })
                             ->columnSpanFull(),
@@ -143,7 +150,7 @@ class ActivityResource extends Resource
                 Section::make('Opmerkingen')
                     ->schema([
                         Textarea::make('comment')
-                            ->label('')
+                            ->label(''),
                     ]),
             ]);
     }
@@ -198,13 +205,13 @@ class ActivityResource extends Resource
                         return $query
                             ->when(
                                 $data['date_from'],
-                                fn(Builder $query, $date) => $query->whereDate('date', '>=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('date', '>=', $date)
                             )
                             ->when(
                                 $data['date_until'],
-                                fn(Builder $query, $date) => $query->whereDate('date', '<=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('date', '<=', $date)
                             );
-                    })
+                    }),
             ], FiltersLayout::Modal)
             ->actions([
                 ViewAction::make()
@@ -234,6 +241,7 @@ class ActivityResource extends Resource
                             ->formatStateUsing(function ($state) {
                                 $neighbourhoods = explode(', ', $state);
                                 sort($neighbourhoods);
+
                                 return implode(', ', $neighbourhoods);
                             })
                             ->inlineLabel(),
@@ -266,7 +274,7 @@ class ActivityResource extends Resource
     {
         return [
             ActivityRelationManager::class,
-            PartnerContactPersonRelationManager::class
+            PartnerContactPersonRelationManager::class,
         ];
     }
 

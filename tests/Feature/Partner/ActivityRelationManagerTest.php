@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\ContactPerson;
 use App\Models\Partner;
 use App\Models\Task;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -13,7 +14,7 @@ it('can render related Activities', function () {
     $partner = Partner::factory()->create();
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $partner,
-        'pageClass' => ViewPartner::class
+        'pageClass' => ViewPartner::class,
     ])->assertSuccessful();
 });
 
@@ -24,16 +25,16 @@ it('can list related Activities', function () {
     foreach ($activities as $activity) {
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
-            'contact_person_id' => $contactPerson->getKey()
+            'contact_person_id' => $contactPerson->getKey(),
         ]);
         $activity->partners()->attach($partner->getKey());
         $activity->task()->associate(Task::factory()->create());
         $activity->save();
-    };
+    }
 
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $partner,
-        'pageClass' => ViewPartner::class
+        'pageClass' => ViewPartner::class,
     ])->assertCanSeeTableRecords($activities)
         ->assertCountTableRecords(10)
         ->assertCanRenderTableColumn('date')
@@ -54,7 +55,7 @@ it('can sort related Activities by Date', function () {
 
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $partner,
-        'pageClass' => ViewPartner::class
+        'pageClass' => ViewPartner::class,
     ])->sortTable('date')
         ->assertCanSeeTableRecords($activities->sortBy('date'), inOrder: true)
         ->sortTable('date', 'desc')
@@ -69,17 +70,17 @@ it('can search related Activities by name', function () {
     foreach ($activities as $activity) {
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
-            'contact_person_id' => $contactPerson->getKey()
+            'contact_person_id' => $contactPerson->getKey(),
         ]);
         $activity->partners()->attach($partner->getKey());
         $activity->task()->associate(Task::factory()->create());
         $activity->save();
-    };
+    }
 
     $name = $activities->first()->name;
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $partner,
-        'pageClass' => ViewPartner::class
+        'pageClass' => ViewPartner::class,
     ])->searchTable($name)
         ->assertCanSeeTableRecords($activities->where('name', $name))
         ->assertCanNotSeeTableRecords($activities->where('name', '!==', $name));
@@ -94,12 +95,12 @@ it('can filter related Activities by tasks', function () {
     foreach ($activities as $key => $activity) {
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
-            'contact_person_id' => $contactPerson->getKey()
+            'contact_person_id' => $contactPerson->getKey(),
         ]);
         $activity->partners()->attach($partner->getKey());
         $activity->task()->associate($tasks[$key % 2]->getKey());
         $activity->save();
-    };
+    }
 
     $task = $tasks->first();
     $filteredActivities = $activities->filter(function ($activity) use ($task) {
@@ -107,7 +108,7 @@ it('can filter related Activities by tasks', function () {
     });
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $partner,
-        'pageClass' => ViewPartner::class
+        'pageClass' => ViewPartner::class,
     ])->assertCanSeeTableRecords($activities)
         ->filterTable('task', $task->getKey())
         ->assertCanSeeTableRecords($filteredActivities)

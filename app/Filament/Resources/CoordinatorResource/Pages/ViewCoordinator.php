@@ -20,7 +20,7 @@ class ViewCoordinator extends ViewRecord
     {
         return [
             Actions\EditAction::make()
-                ->label('Coördinator bewerken')
+                ->label('Coördinator bewerken'),
         ];
     }
 }

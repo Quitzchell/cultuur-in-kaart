@@ -41,17 +41,17 @@ class ActivityRelationManager extends RelationManager
                     ->preload()
                     ->multiple(),
             ], FiltersLayout::Modal)
-            ->filtersFormSchema(fn(array $filters): array => [
+            ->filtersFormSchema(fn (array $filters): array => [
                 Section::make()
                     ->schema([
-                        $filters['task']
+                        $filters['task'],
                     ]),
             ])
             ->filtersFormWidth(MaxWidth::ExtraLarge)
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => ActivityResource::getUrl('view', ['record' => $record])),
+                    ->url(fn ($record): string => ActivityResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }

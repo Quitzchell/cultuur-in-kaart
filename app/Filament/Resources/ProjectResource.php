@@ -32,8 +32,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-folder';
+
     protected static ?string $navigationLabel = 'Projecten';
+
     protected static ?string $navigationGroup = 'Projecten';
 
     public static function form(Form $form): Form
@@ -61,9 +64,9 @@ class ProjectResource extends Resource
                             ->required()
                             ->live(),
                         Select::make('primary_coordinator_id')
-                            ->relationship('coordinator', 'name', fn(Get $get) => Coordinator::whereIn('id', $get('coordinator_id')))
+                            ->relationship('coordinator', 'name', fn (Get $get) => Coordinator::whereIn('id', $get('coordinator_id')))
                             ->label('Primaire Coördinator')
-                            ->disabled(fn(Get $get) => empty($get('coordinator_id'))),
+                            ->disabled(fn (Get $get) => empty($get('coordinator_id'))),
                     ]),
 
                 Group::make()
@@ -86,9 +89,9 @@ class ProjectResource extends Resource
                                     ->label('Besteed budget')
                                     ->prefix('€')
                                     ->rules('decimal:0,2')
-                                    ->numeric()
-                            ])
-                    ])
+                                    ->numeric(),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -103,7 +106,7 @@ class ProjectResource extends Resource
                 TextColumn::make('neighbourhoods.neighbourhood.name')
                     ->label('Wijken')
                     ->distinctList()
-                    ->formatStateUsing(fn(string $state) => ListHelper::sortFilamentList($state))
+                    ->formatStateUsing(fn (string $state) => ListHelper::sortFilamentList($state))
                     ->placeholder('-'),
                 TextColumn::make('start_date')
                     ->label('Startdatum')
@@ -132,11 +135,11 @@ class ProjectResource extends Resource
                         return $query
                             ->when(
                                 $data['start_date_from'],
-                                fn(Builder $query, $date) => $query->whereDate('start_date', '>=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('start_date', '>=', $date)
                             )
                             ->when(
                                 $data['start_date_until'],
-                                fn(Builder $query, $date) => $query->whereDate('start_date', '<=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('start_date', '<=', $date)
                             );
                     }),
                 SelectFilter::make('end_date')
@@ -151,26 +154,26 @@ class ProjectResource extends Resource
                         return $query
                             ->when(
                                 $data['end_date_from'],
-                                fn(Builder $query, $date) => $query->whereDate('end_date', '>=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('end_date', '>=', $date)
                             )
                             ->when(
                                 $data['end_date_until'],
-                                fn(Builder $query, $date) => $query->whereDate('end_date', '<=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('end_date', '<=', $date)
                             );
-                    })
+                    }),
             ], layout: FiltersLayout::Modal)
-            ->filtersFormSchema(fn(array $filters): array => [
+            ->filtersFormSchema(fn (array $filters): array => [
                 Section::make('Wijken')
                     ->schema([
                         $filters['neighbourhoods'],
                     ]),
                 Section::make('Startdatum')
                     ->schema([
-                        $filters['start_date']
+                        $filters['start_date'],
                     ]),
                 Section::make('Einddatum')
                     ->schema([
-                        $filters['end_date']
+                        $filters['end_date'],
                     ]),
             ])->filtersFormWidth(MaxWidth::ThreeExtraLarge)
             ->actions([
@@ -222,9 +225,9 @@ class ProjectResource extends Resource
                                 TextEntry::make('neighbourhoods.neighbourhood.name')
                                     ->label('Wijken')
                                     ->distinctList()
-                                    ->formatStateUsing(fn(string $state) => ListHelper::sortFilamentList($state))
-                                    ->placeholder('-')
-                            ])
+                                    ->formatStateUsing(fn (string $state) => ListHelper::sortFilamentList($state))
+                                    ->placeholder('-'),
+                            ]),
                     ]),
             ]);
     }
@@ -233,7 +236,7 @@ class ProjectResource extends Resource
     {
         return [
             ActivityRelationManager::class,
-            PartnerRelationManager::class
+            PartnerRelationManager::class,
         ];
     }
 

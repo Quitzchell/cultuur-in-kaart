@@ -5,6 +5,7 @@ use App\Filament\Resources\TaskResource\Pages\CreateTask;
 use App\Filament\Resources\TaskResource\Pages\EditTask;
 use App\Models\Task;
 use Filament\Actions\DeleteAction;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -40,7 +41,7 @@ it('can validate Task form', function () {
             'emoji_unicode' => null,
         ])->call('create')
         ->assertHasFormErrors([
-            'name' => 'required'
+            'name' => 'required',
         ]);
 });
 
@@ -50,7 +51,7 @@ it('can update Task', function () {
     $newTask = Task::factory()->make();
 
     livewire(EditTask::class, [
-        'record' => $task->getKey()
+        'record' => $task->getKey(),
     ])->fillForm([
         'name' => $newTask->name,
     ])->call('save')
@@ -65,7 +66,7 @@ it('can update Task', function () {
 it('can delete Task', function () {
     $task = Task::factory()->create();
     livewire(EditTask::class, [
-        'record' => $task->getKey()
+        'record' => $task->getKey(),
     ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($task);

@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 class ActivityRelationManager extends RelationManager
 {
     protected static string $relationship = 'relatedActivities';
+
     protected static ?string $title = 'Gerelateerde activiteiten';
 
     public function table(Table $table): Table
@@ -39,17 +40,17 @@ class ActivityRelationManager extends RelationManager
                     ->preload()
                     ->multiple(),
             ], FiltersLayout::Modal)
-            ->filtersFormSchema(fn(array $filters): array => [
+            ->filtersFormSchema(fn (array $filters): array => [
                 Section::make()
                     ->schema([
-                        $filters['task']
+                        $filters['task'],
                     ]),
             ])
             ->filtersFormWidth(MaxWidth::ExtraLarge)
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => ActivityResource::getUrl('view', ['record' => $record])),
+                    ->url(fn ($record): string => ActivityResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }

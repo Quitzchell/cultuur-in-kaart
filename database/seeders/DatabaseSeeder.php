@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             NeighbourhoodSeeder::class,
             TaskSeeder::class,
-            DisciplineSeeder::class
+            DisciplineSeeder::class,
         ]);
 
         $this->createModels();
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             foreach ($partners as $partner) {
                 $activity->activityPartnerContactPerson()->create([
                     'partner_id' => $partner->getKey(),
-                    'contact_person_id' => $partner->contactPeople->random()->getKey()
+                    'contact_person_id' => $partner->contactPeople->random()->getKey(),
                 ]);
                 $activity->partners()->attach($partner->getKey());
             }

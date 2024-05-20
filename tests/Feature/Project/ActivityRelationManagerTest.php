@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Partner;
 use App\Models\Project;
 use App\Models\Task;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -13,7 +14,7 @@ it('can render related Activities', function () {
     $project = Project::factory()->create();
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $project,
-        'pageClass' => ViewProject::class
+        'pageClass' => ViewProject::class,
     ])->assertSuccessful();
 });
 
@@ -21,7 +22,7 @@ it('can list related Activities', function () {
     $project = Project::factory()->create();
     $tasks = Task::factory(10)->create();
     $activities = Activity::factory(10)->create([
-        'project_id' => $project->getKey()
+        'project_id' => $project->getKey(),
     ])->each(function (Activity $activity) use ($tasks) {
         $activity->task()->associate($tasks->random());
         $activity->save();
@@ -29,7 +30,7 @@ it('can list related Activities', function () {
 
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $project,
-        'pageClass' => ViewProject::class
+        'pageClass' => ViewProject::class,
     ])->assertCanSeeTableRecords($activities)
         ->assertCountTableRecords(10)
         ->assertCanRenderTableColumn('date')
@@ -49,7 +50,7 @@ it('can sort related Activities by date', function () {
 
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $project,
-        'pageClass' => ViewProject::class
+        'pageClass' => ViewProject::class,
     ])->sortTable('date')
         ->assertCanSeeTableRecords($activities->sortBy('date'), inOrder: true)
         ->sortTable('date', 'desc')
@@ -69,7 +70,7 @@ it('can filter related Activities by Task', function () {
     $activity = $activities->first();
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $project,
-        'pageClass' => ViewProject::class
+        'pageClass' => ViewProject::class,
     ])->assertCanSeeTableRecords($activities)
         ->filterTable('task', $activity->task_id)
         ->assertCanSeeTableRecords($activities->where('task_id', $activity->task_id))
@@ -92,7 +93,7 @@ it('can filter related Activities by Partners', function () {
 
     livewire(ActivityRelationManager::class, [
         'ownerRecord' => $project,
-        'pageClass' => ViewProject::class
+        'pageClass' => ViewProject::class,
     ])->assertCanSeeTableRecords($activities)
         ->filterTable('partner', $partner->getKey())
         ->assertCanSeeTableRecords($filteredActivities)

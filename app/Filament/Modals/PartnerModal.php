@@ -8,7 +8,6 @@ use Filament\Forms\Components\TextInput;
 
 class PartnerModal implements ModalForm
 {
-
     public static function getForm(): array
     {
         return [
@@ -43,7 +42,7 @@ class PartnerModal implements ModalForm
             Select::make('neighbourhood_id')
                 ->relationship('neighbourhood', 'name')
                 ->label('Wijk')
-                ->required()
+                ->required(),
         ];
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
 use App\Enums\Workday\Workday;
-use App\Filament\Resources\ContactPersonResource;
 use App\Filament\Resources\CoordinatorResource;
 use App\Filament\Resources\CoordinatorResource\Pages\CreateCoordinator;
 use App\Filament\Resources\CoordinatorResource\Pages\EditCoordinator;
 use App\Models\Coordinator;
 use App\Models\Neighbourhood;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -31,7 +31,7 @@ it('can create a Coordinator', function () {
             'phone' => $coordinator->phone,
             'role' => $coordinator->role,
             'password' => $coordinator->password,
-            'neighborhood_id' => $neighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey()),
+            'neighborhood_id' => $neighbourhoods->map(fn (Neighbourhood $neighbourhood) => $neighbourhood->getKey()),
             'workdays' => $coordinator->workdays,
         ])->call('create')
         ->assertHasNoErrors();
@@ -76,7 +76,7 @@ it('can edit a Coordinator', function () {
             'email' => $newCoordinator->email,
             'phone' => $newCoordinator->phone,
             'role' => $newCoordinator->role,
-            'neighbourhood_id' => $newNeighbourhoods->map(fn(Neighbourhood $neighbourhood) => $neighbourhood->getKey())->toArray(),
+            'neighbourhood_id' => $newNeighbourhoods->map(fn (Neighbourhood $neighbourhood) => $neighbourhood->getKey())->toArray(),
             'workdays' => $newWorkdays,
         ])->call('save')
         ->assertHasNoFormErrors();

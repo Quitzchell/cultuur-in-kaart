@@ -15,6 +15,7 @@ class ViewPartner extends ViewRecord
     {
         return __($this->record->name);
     }
+
     protected function getHeaderActions(): array
     {
         return [

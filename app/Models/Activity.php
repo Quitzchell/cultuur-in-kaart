@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Pivots\ActivityPartnerContactPerson;
 use App\Models\Pivots\ActivityPartner;
+use App\Models\Pivots\ActivityPartnerContactPerson;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +19,7 @@ class Activity extends Model
         static::saved(static function (Activity $activity) {
             $partnerIds = $activity->activityPartnerContactPerson->pluck('partner_id')->unique();
             foreach ($activity->activityPartner as $record) {
-                if (!$partnerIds->contains($record->partner_id)) {
+                if (! $partnerIds->contains($record->partner_id)) {
                     $activity->activityPartner()->delete($record->getKey());
                 }
             }

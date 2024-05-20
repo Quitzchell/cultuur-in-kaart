@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-wrench';
+
     protected static ?string $navigationLabel = 'Taken';
+
     protected static ?string $navigationGroup = 'Overig';
 
     public static function form(Form $form): Form
@@ -26,7 +29,7 @@ class TaskResource extends Resource
                         ->label('Naam')
                         ->required()
                         ->maxLength(120),
-                ])
+                ]),
             ]);
     }
 
@@ -36,7 +39,7 @@ class TaskResource extends Resource
             ->defaultSort('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                ->label('Naam'),
+                    ->label('Naam'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

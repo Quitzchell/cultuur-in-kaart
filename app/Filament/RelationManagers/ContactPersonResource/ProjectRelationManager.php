@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 class ProjectRelationManager extends RelationManager
 {
     protected static string $relationship = 'activities';
+
     protected static ?string $title = 'Projecten';
 
     public function table(Table $table): Table
@@ -35,7 +36,7 @@ class ProjectRelationManager extends RelationManager
             ->actions([
                 ViewAction::make()
                     ->label('')
-                    ->url(fn($record): string => ProjectResource::getUrl('view', ['record' => $record])),
+                    ->url(fn ($record): string => ProjectResource::getUrl('view', ['record' => $record])),
             ]);
     }
 }

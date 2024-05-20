@@ -5,6 +5,7 @@ use App\Filament\Resources\NeighbourhoodResource\Pages\CreateNeighbourhood;
 use App\Filament\Resources\NeighbourhoodResource\Pages\EditNeighbourhood;
 use App\Models\Neighbourhood;
 use Filament\Actions\DeleteAction;
+
 use function Pest\Livewire\livewire;
 
 /** Render */
@@ -39,7 +40,7 @@ it('can validate Neighbourhood form', function () {
             'name' => null,
         ])->call('create')
         ->assertHasFormErrors([
-            'name' => 'required'
+            'name' => 'required',
         ]);
 });
 
@@ -49,7 +50,7 @@ it('can update Neighbourhood', function () {
     $newNeighbourhood = Neighbourhood::factory()->make();
 
     livewire(EditNeighbourhood::class, [
-        'record' => $neighbourhood->getKey()
+        'record' => $neighbourhood->getKey(),
     ])->fillForm([
         'name' => $newNeighbourhood->name,
     ])->call('save')
@@ -64,7 +65,7 @@ it('can update Neighbourhood', function () {
 it('can delete Neighbourhood', function () {
     $neighbourhood = Neighbourhood::factory()->create();
     livewire(EditNeighbourhood::class, [
-        'record' => $neighbourhood->getKey()
+        'record' => $neighbourhood->getKey(),
     ])->callAction(DeleteAction::class);
 
     $this->assertModelMissing($neighbourhood);
