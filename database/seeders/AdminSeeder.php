@@ -12,26 +12,26 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        //        if (app()->environment() !== 'production') {
-        Coordinator::create([
-            'name' => 'Mitchell Quitz',
-            'role' => Role::Administrator->value,
-            'email' => 'mitchell@soc.nl',
-            'email_verified_at' => now(),
-            'phone' => '0628301804',
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ]);
-        //        }
+        if (app()->environment() !== 'production') {
+            Coordinator::create([
+                'name' => 'Mitchell Quitz',
+                'role' => Role::Administrator->value,
+                'email' => 'example@soc.nl',
+                'email_verified_at' => now(),
+                'phone' => '06987654321',
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ]);
 
-        Coordinator::create([
-            'name' => 'Melanie Leeflang',
-            'role' => Role::Administrator->value,
-            'email' => 'melanie@soc.nl',
-            'email_verified_at' => now(),
-            'phone' => '0638045527',
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ]);
+            Coordinator::create([
+                'name' => 'Melanie Leeflang',
+                'role' => Role::Administrator->value,
+                'email' => 'test@soc.nl',
+                'email_verified_at' => now(),
+                'phone' => '06123456789',
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
     }
 }
