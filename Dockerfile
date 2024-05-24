@@ -31,6 +31,15 @@ RUN apk add --no-cache \
     php82-zip \
     php82-bcmath
 
+# Create a non-root user
+RUN adduser -D user
+
+# Set ownership of application files to the non-root user
+RUN chown -R user:user /var/www/html
+
+# Switch to the non-root user
+USER user
+
 # Copy the rest of the application files
 COPY . .
 
