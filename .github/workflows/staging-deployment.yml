@@ -1,4 +1,4 @@
-name: 'cd: Deploy staging'
+name: 'cd: Deploy Staging'
 
 env:
   AZURE_WEBAPP_NAME: cultuur-in-kaart
