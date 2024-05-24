@@ -17,7 +17,7 @@ RUN apk add --no-cache curl \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Stage 2: Create image for application
-FROM base AS app
+FROM base AS build
 
 # Copy necessary files from the base stage including composer
 COPY --from=base /usr/local/bin/composer /usr/local/bin/composer
@@ -49,9 +49,11 @@ FROM php:8.3-fpm-alpine3.19
 WORKDIR /var/www/html
 
 # Copy necessary files from the previous stages
-COPY --from=app /usr/local/bin/composer /usr/local/bin/composer
-COPY --from=app /var/www/html /var/www/html
-COPY --from=app /usr/local/lib/php/extensions/no-debug-non-zts-20200930/* /usr/local/lib/php/extensions/no-debug-non-zts-20200930/
+COPY --from=build /usr/local/bin/composer /usr/local/bin/composer
+COPY --from=build /var/www/html /var/www/html
+
+# Copy PHP extensions
+COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20200930 /usr/local/lib/php/extensions/no-debug-non-zts-20200930
 
 # Ensure proper permissions
 RUN chown -R www-data:www-data /var/www/html
