@@ -24,12 +24,12 @@ COPY --from=base /usr/local/bin/composer /usr/local/bin/composer
 
 # Install dependencies
 RUN apk add --no-cache \
-    php8-pdo \
-    php8-pdo_mysql \
-    php8-mysqli \
-    php8-intl \
-    php8-zip \
-    php8-bcmath
+    php82-pdo \
+    php82-pdo_mysql \
+    php82-mysqli \
+    php82-intl \
+    php82-zip \
+    php82-bcmath
 
 # Copy the rest of the application files
 COPY . .
@@ -43,12 +43,12 @@ WORKDIR /var/www/html
 
 # Install necessary PHP extensions
 RUN apk add --no-cache \
-    php8-pdo \
-    php8-pdo_mysql \
-    php8-mysqli \
-    php8-intl \
-    php8-zip \
-    php8-bcmath
+    php82-pdo \
+    php82-pdo_mysql \
+    php82-mysqli \
+    php82-intl \
+    php82-zip \
+    php82-bcmath
 
 # Copy necessary files from the previous stages
 COPY --from=build /usr/local/bin/composer /usr/local/bin/composer
