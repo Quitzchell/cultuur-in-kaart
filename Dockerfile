@@ -22,21 +22,14 @@ FROM base AS build
 # Copy necessary files from the base stage including composer
 COPY --from=base /usr/local/bin/composer /usr/local/bin/composer
 
-# Install development libraries needed for PHP extensions
-RUN apk add --no-cache --virtual .build-deps \
-    icu-dev \
-    libzip-dev
-
-# Install required PHP extensions
-RUN docker-php-ext-install pdo \
-    pdo_mysql \
-    mysqli \
-    intl \
-    zip \
-    bcmath
-
-# Remove development libraries
-RUN apk del .build-deps
+# Install dependencies
+RUN apk add --no-cache \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-mysqli \
+    php8-intl \
+    php8-zip \
+    php8-bcmath
 
 # Copy the rest of the application files
 COPY . .
@@ -48,12 +41,18 @@ RUN composer install --no-dev --optimize-autoloader
 FROM php:8.3-fpm-alpine3.19
 WORKDIR /var/www/html
 
+# Install necessary PHP extensions
+RUN apk add --no-cache \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-mysqli \
+    php8-intl \
+    php8-zip \
+    php8-bcmath
+
 # Copy necessary files from the previous stages
 COPY --from=build /usr/local/bin/composer /usr/local/bin/composer
 COPY --from=build /var/www/html /var/www/html
-
-# Copy PHP extensions
-COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20200930 /usr/local/lib/php/extensions/no-debug-non-zts-20200930
 
 # Ensure proper permissions
 RUN chown -R www-data:www-data /var/www/html
