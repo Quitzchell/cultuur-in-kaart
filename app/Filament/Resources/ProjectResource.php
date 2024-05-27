@@ -103,8 +103,8 @@ class ProjectResource extends Resource
                 TextColumn::make('name')
                     ->label('Naam')
                     ->searchable(),
-                TextColumn::make('neighbourhoods.neighbourhood.name')
-                    ->label('Wijken')
+                TextColumn::make('neighbourhoods.name')
+                    ->label('Wijk')
                     ->distinctList()
                     ->formatStateUsing(fn (string $state) => ListHelper::sortFilamentList($state))
                     ->placeholder('-'),
@@ -120,7 +120,7 @@ class ProjectResource extends Resource
             ->filters([
                 SelectFilter::make('neighbourhoods')
                     ->relationship('neighbourhoods', 'name')
-                    ->label('')
+                    ->label('Wijken')
                     ->multiple()
                     ->preload(),
                 SelectFilter::make('start_date')
@@ -163,7 +163,7 @@ class ProjectResource extends Resource
                     }),
             ], layout: FiltersLayout::Modal)
             ->filtersFormSchema(fn (array $filters): array => [
-                Section::make('Wijken')
+                Section::make('')
                     ->schema([
                         $filters['neighbourhoods'],
                     ]),
@@ -222,7 +222,7 @@ class ProjectResource extends Resource
                                 TextEntry::make('partners.name')
                                     ->label('Samenwerkingspartners')
                                     ->placeholder('-'),
-                                TextEntry::make('neighbourhoods.neighbourhood.name')
+                                TextEntry::make('neighbourhoods.name')
                                     ->label('Wijken')
                                     ->distinctList()
                                     ->formatStateUsing(fn (string $state) => ListHelper::sortFilamentList($state))
