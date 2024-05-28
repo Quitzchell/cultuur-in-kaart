@@ -36,9 +36,16 @@ class Project extends Model
         return $this->belongsTo(Coordinator::class, 'primary_coordinator_id');
     }
 
-    public function neighbourhoods(): HasMany
+    public function neighbourhoods(): HasManyThrough
     {
-        return $this->hasMany(Activity::class)->with('neighbourhood');
+        return $this->hasManyThrough(
+            Neighbourhood::class,
+            Activity::class,
+            'project_id',
+            'id',
+            'id',
+            'neighbourhood_id'
+        )->distinct();
     }
 
     public function partners(): HasManyThrough

@@ -49,7 +49,6 @@ class DatabaseSeeder extends Seeder
         foreach (Activity::all() as $activity) {
             $activity->task()->associate(Task::all()->random());
             $activity->project()->associate(Project::all()->random());
-            $activity->neighbourhood()->associate(Neighbourhood::all()->random());
             $activity->discipline()->associate(Discipline::all()->random());
             $activity->coordinators()->attach($activity->project->coordinators()->first());
             $partners = Partner::all()->random(3);
@@ -61,6 +60,14 @@ class DatabaseSeeder extends Seeder
                 $activity->partners()->attach($partner->getKey());
             }
             $activity->save();
+        }
+
+        foreach (Project::all() as $project) {
+            $neighbourhood = Neighbourhood::all()->random();
+            foreach ($project->activities as $activity) {
+                $activity->neighbourhood()->associate($neighbourhood);
+                $activity->save();
+            }
         }
     }
 

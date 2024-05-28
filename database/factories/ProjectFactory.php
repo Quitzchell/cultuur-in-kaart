@@ -16,7 +16,7 @@ class ProjectFactory extends Factory
         $endDate = $this->faker->dateTimeBetween($startDate, '+1 month')->format('Y-m-d');
 
         return [
-            'name' => $this->faker->word(),
+            'name' => $this->faker->sentence(3),
             'project_number' => $this->faker->randomNumber(),
             'start_date' => $startDate,
             'end_date' => $endDate,
