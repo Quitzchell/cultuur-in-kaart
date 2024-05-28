@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:8000"
 
-  # Production service
+  # Staging service
   staging:
       build:
           context: .
