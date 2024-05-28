@@ -1,4 +1,7 @@
 .PHONY: dev
 dev:
-	docker compose build
-	docker compose up
+	docker compose up development --build
+
+.PHONY: stage
+stage:
+	docker compose up staging --build
