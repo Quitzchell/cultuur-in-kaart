@@ -63,6 +63,9 @@ RUN apk add --no-cache \
 COPY --from=build /usr/local/bin/composer /usr/local/bin/composer
 COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
 
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose the port the application runs on
 EXPOSE 80
 
