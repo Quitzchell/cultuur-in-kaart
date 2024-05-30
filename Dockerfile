@@ -64,7 +64,7 @@ COPY --from=build /usr/local/bin/composer /usr/local/bin/composer
 COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
 
 # Expose the port the application runs on
-EXPOSE 8080
+EXPOSE 80
 
 # Start the PHP-FPM service
 CMD ["php-fpm"]
