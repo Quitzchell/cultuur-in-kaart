@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     icu-dev \
     libintl \
     libzip-dev \
-    sqlite3 \
+    sqlite-dev \
     supervisor
 
 # Install Composer
@@ -36,11 +36,11 @@ FROM php:8.3-fpm-alpine3.19
 
 # Install necessary PHP extensions and other dependencies
 RUN apk add --no-cache \
-    php82-pdo_sqlite \
+    php82-pdo_sqlite3 \
     php82-intl \
     php82-zip \
     php82-bcmath \
-    sqlite3 \
+    sqlite \
     nginx \
     supervisor
 
