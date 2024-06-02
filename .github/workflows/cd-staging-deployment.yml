@@ -66,10 +66,6 @@ jobs:
         env:
           AZURE_WEBAPP_NAME: ${{ env.AZURE_WEBAPP_NAME }}
           AZURE_WEBAPP_RESOURCE_GROUP: ${{ secrets.AZURE_WEBAPP_RESOURCE_GROUP }}
-        uses: azure/CLI@2
-        with:
-          azureSubscription: '<Azure subscription>'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: 'az webapp exec -n $AZURE_WEBAPP_NAME -g $AZURE_WEBAPP_RESOURCE_GROUP -- php artisan migrate --seed --force'
-
+        run: |
+          az webapp create-remote-connection --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP
+          az webapp remote-connection run --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP --command "php artisan migrate --seed --force"
