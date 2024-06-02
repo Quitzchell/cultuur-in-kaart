@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     icu-dev \
     libintl \
     libzip-dev \
-    sqlite \
+    sqlite3 \
     supervisor
 
 # Install Composer
@@ -40,7 +40,7 @@ RUN apk add --no-cache \
     php82-intl \
     php82-zip \
     php82-bcmath \
-    sqlite \
+    sqlite3 \
     nginx \
     supervisor
 
