@@ -45,6 +45,7 @@ RUN apk add --no-cache \
     php82-bcmath \
     sqlite \
     nginx \
+    icu-dev \
     supervisor
 
 # Set working directory
@@ -70,6 +71,8 @@ RUN php artisan migrate:fresh --seed --force
 
 # Expose the port the application runs on
 EXPOSE 80
+
+RUN docker-php-ext-install intl
 
 # Start Supervisor
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
