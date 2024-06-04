@@ -13,7 +13,8 @@ RUN apk add --no-cache \
     icu-dev \
     libintl \
     libzip-dev \
-    mysql \
+    freetds \
+    unixodbc-dev \
     supervisor
 
 # Install Composer
@@ -24,6 +25,8 @@ FROM base AS build
 
 # Install additional PHP extensions
 RUN docker-php-ext-install intl zip pdo_mysql
+RUN pecl install sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # Copy the rest of the application files
 COPY . .
@@ -40,10 +43,12 @@ RUN apk add --no-cache \
     php82-intl \
     php82-zip \
     php82-bcmath \
-    mysql \
-    nginx \
-    icu-dev \
+    freetds \
+    unixodbc \
     supervisor
+
+RUN pecl install sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # Set working directory
 WORKDIR /var/www/html
@@ -66,12 +71,10 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Set environment variables for SQLsrv
-ENV DB_CONNECTION=mysql
+ENV DB_CONNECTION=sqlsrv
 
 # Expose the port the application runs on
 EXPOSE 80
-
-RUN docker-php-ext-install intl
 
 # Start Supervisor
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
