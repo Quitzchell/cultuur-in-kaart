@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     icu-dev \
     libintl \
     libzip-dev \
-    sqlite-dev \
+    mysql \
     supervisor
 
 # Install Composer
@@ -31,15 +31,12 @@ COPY . .
 # Install application dependencies using Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Install FakerPHP/Faker as a development dependency
-RUN composer require --dev fakerphp/faker
-
 # Stage 3: create smaller image size for deployment
 FROM php:8.3-fpm-alpine3.19
 
 # Install necessary PHP extensions and other dependencies
 RUN apk add --no-cache \
-    php82-pdo_sqlite \
+    php82-pdo_mysql \
     php82-intl \
     php82-zip \
     php82-bcmath \
@@ -61,9 +58,6 @@ COPY supervisord.conf /etc/supervisord.conf
 
 # Set environment variables for SQLsrv
 ENV DB_CONNECTION=sqlsrv
-
-# Ensure SQLite database file exists
-RUN touch /var/www/html/database/database.sqlite && chown -R www-data:www-data /var/www/html/database
 
 # Run php artisan migrate:fresh --seed --force
 RUN php artisan migrate:fresh --seed --force
