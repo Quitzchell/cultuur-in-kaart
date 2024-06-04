@@ -23,7 +23,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 FROM base AS build
 
 # Install additional PHP extensions
-RUN docker-php-ext-install intl zip pdo_sqlite
+RUN docker-php-ext-install intl zip pdo_mysql
 
 # Copy the rest of the application files
 COPY . .
