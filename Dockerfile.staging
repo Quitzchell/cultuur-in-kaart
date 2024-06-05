@@ -13,12 +13,8 @@ RUN apk add --no-cache \
     icu-dev \
     libintl \
     libzip-dev \
-    freetds \
-    unixodbc-dev \
-    supervisor \
-    autoconf \
-    g++ \
-    make
+    sqlite \
+    supervisor
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -28,33 +24,30 @@ FROM base AS build
 
 # Install additional PHP extensions
 RUN docker-php-ext-install intl zip pdo_mysql
-RUN pecl install sqlsrv pdo_sqlsrv \
-    && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # Copy the rest of the application files
 COPY . .
 
 # Install application dependencies using Composer
+RUN composer require fakerphp/faker
 RUN composer install --no-dev --optimize-autoloader
+
+# Create the SQLite database directory
+RUN mkdir -p /var/www/html/database
 
 # Stage 3: create smaller image size for deployment
 FROM php:8.3-fpm-alpine3.19
 
 # Install necessary PHP extensions and other dependencies
 RUN apk add --no-cache \
-    php82-pdo_mysql \
+    php82-pdo_sqlite \
     php82-intl \
     php82-zip \
     php82-bcmath \
-    freetds \
-    unixodbc \
-    supervisor \
-    autoconf \
-    g++ \
-    make
-
-RUN pecl install sqlsrv pdo_sqlsrv \
-    && docker-php-ext-enable sqlsrv pdo_sqlsrv
+    sqlite \
+    nginx \
+    icu-dev \
+    supervisor
 
 # Set working directory
 WORKDIR /var/www/html
@@ -63,24 +56,24 @@ WORKDIR /var/www/html
 COPY --from=build /usr/local/bin/composer /usr/local/bin/composer
 COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
 
+# Create the SQLite database directory
+RUN mkdir -p /var/www/html/database
+
 # Copy Nginx and Supervisor configuration files
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY supervisord.conf /etc/supervisord.conf
-
-# Copy the entrypoint script
-COPY entrypoint-staging.sh /entrypoint.sh
-
-# Make the entrypoint script executable
-RUN chmod +x /entrypoint.sh
-
-# Set the entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+COPY deployment/staging/nginx.conf /etc/nginx/nginx.conf
+COPY deployment/staging/supervisord.conf /etc/supervisord.conf
 
 # Set environment variables for SQLsrv
-ENV DB_CONNECTION=sqlsrv
+ENV DB_CONNECTION=sqlite
+ENV DB_DATABASE=/var/www/html/database/database.sqlite
+
+# Run php artisan migrate:fresh --seed --force
+RUN php artisan migrate:fresh --seed --force
 
 # Expose the port the application runs on
 EXPOSE 80
+
+RUN docker-php-ext-install intl
 
 # Start Supervisor
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
