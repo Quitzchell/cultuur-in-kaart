@@ -67,13 +67,19 @@ COPY deployment/staging/supervisord.conf /etc/supervisord.conf
 ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/var/www/html/database/database.sqlite
 
-# Run php artisan migrate:fresh --seed --force
-RUN php artisan migrate:fresh --seed --force
-
 # Expose the port the application runs on
 EXPOSE 80
 
 RUN docker-php-ext-install intl
+
+# Copy the entrypoint script
+COPY deployment/staging/entrypoint.sh /entrypoint.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Start Supervisor
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
