@@ -65,6 +65,7 @@ COPY deployment/staging/supervisord.conf /etc/supervisord.conf
 # Set environment variables for sqlite
 ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/var/www/html/database/database.sqlite
+ENV APP_ENV=staging
 
 # Expose the port the application runs on
 EXPOSE 80
