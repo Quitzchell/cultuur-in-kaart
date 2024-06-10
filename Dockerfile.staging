@@ -31,9 +31,6 @@ COPY . .
 # Install application dependencies using Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Install fakerphp/faker
-RUN composer require fakerphp/faker --dev
-
 # Create the SQLite database directory
 RUN mkdir -p /var/www/html/database
 
