@@ -26,47 +26,49 @@ class DatabaseSeeder extends Seeder
             DisciplineSeeder::class,
         ]);
 
-        $this->createModels();
+        if (app()->environment('local')) {
+            $this->createModels();
 
-        foreach (Coordinator::all() as $coordinator) {
-            $coordinator->neighbourhoods()->attach(Neighbourhood::all()->random(2));
-            $coordinator->save();
-        }
-
-        foreach (Project::all() as $project) {
-            $project->coordinators()->attach(Coordinator::all()->random(2));
-            $project->coordinator()->associate($project->coordinators()->first());
-            $project->save();
-        }
-
-        foreach (Partner::all() as $partner) {
-            $partner->neighbourhood()->associate(Neighbourhood::all()->random());
-            $partner->contactPeople()->attach(ContactPerson::all()->random(3));
-            $partner->contactPerson()->associate($partner->contactPeople()->first());
-            $partner->save();
-        }
-
-        foreach (Activity::all() as $activity) {
-            $activity->task()->associate(Task::all()->random());
-            $activity->project()->associate(Project::all()->random());
-            $activity->discipline()->associate(Discipline::all()->random());
-            $activity->coordinators()->attach($activity->project->coordinators()->first());
-            $partners = Partner::all()->random(3);
-            foreach ($partners as $partner) {
-                $activity->activityPartnerContactPerson()->create([
-                    'partner_id' => $partner->getKey(),
-                    'contact_person_id' => $partner->contactPeople->random()->getKey(),
-                ]);
-                $activity->partners()->attach($partner->getKey());
+            foreach (Coordinator::all() as $coordinator) {
+                $coordinator->neighbourhoods()->attach(Neighbourhood::all()->random(2));
+                $coordinator->save();
             }
-            $activity->save();
-        }
 
-        foreach (Project::all() as $project) {
-            $neighbourhood = Neighbourhood::all()->random();
-            foreach ($project->activities as $activity) {
-                $activity->neighbourhood()->associate($neighbourhood);
+            foreach (Project::all() as $project) {
+                $project->coordinators()->attach(Coordinator::all()->random(2));
+                $project->coordinator()->associate($project->coordinators()->first());
+                $project->save();
+            }
+
+            foreach (Partner::all() as $partner) {
+                $partner->neighbourhood()->associate(Neighbourhood::all()->random());
+                $partner->contactPeople()->attach(ContactPerson::all()->random(3));
+                $partner->contactPerson()->associate($partner->contactPeople()->first());
+                $partner->save();
+            }
+
+            foreach (Activity::all() as $activity) {
+                $activity->task()->associate(Task::all()->random());
+                $activity->project()->associate(Project::all()->random());
+                $activity->discipline()->associate(Discipline::all()->random());
+                $activity->coordinators()->attach($activity->project->coordinators()->first());
+                $partners = Partner::all()->random(3);
+                foreach ($partners as $partner) {
+                    $activity->activityPartnerContactPerson()->create([
+                        'partner_id' => $partner->getKey(),
+                        'contact_person_id' => $partner->contactPeople->random()->getKey(),
+                    ]);
+                    $activity->partners()->attach($partner->getKey());
+                }
                 $activity->save();
+            }
+
+            foreach (Project::all() as $project) {
+                $neighbourhood = Neighbourhood::all()->random();
+                foreach ($project->activities as $activity) {
+                    $activity->neighbourhood()->associate($neighbourhood);
+                    $activity->save();
+                }
             }
         }
     }
