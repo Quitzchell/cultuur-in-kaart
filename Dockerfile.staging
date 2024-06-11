@@ -34,6 +34,10 @@ RUN composer install --no-dev --optimize-autoloader
 # Create the SQLite database directory
 RUN mkdir -p /var/www/html/database
 
+# Install Node.js dependencies and build assets
+RUN npm install
+RUN npm run build
+
 # Stage 3: Create smaller image size for deployment
 FROM php:8.3-fpm-alpine3.19
 
