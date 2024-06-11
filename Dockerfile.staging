@@ -78,5 +78,5 @@ RUN chmod +x /entrypoint.sh
 # Set the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Start Supervisor
-CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+## Start Supervisor
+#CMD ["supervisord", "-c", "/etc/supervisord.conf"]
