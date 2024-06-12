@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             DisciplineSeeder::class,
         ]);
 
-        if (app()->environment('local')) {
+        if (!app()->environment('production')) {
             $this->createModels();
 
             foreach (Coordinator::all() as $coordinator) {
