@@ -1,10 +1,18 @@
-version: "3.9"
 services:
-  development:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - .:/var/www/html
-    ports:
-      - "8080:8000"
+    # Development service
+    development:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - .:/var/www/html
+        ports:
+            - "8080:8000"
+
+    # Staging service
+    staging:
+        build:
+            context: .
+            dockerfile: Dockerfile.staging
+        ports:
+            - "8080:80"

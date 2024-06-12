@@ -4,4 +4,5 @@ dev:
 
 .PHONY: stage
 stage:
-	docker compose up staging --build
+	docker compose build staging --no-cache
+	docker compose up staging
