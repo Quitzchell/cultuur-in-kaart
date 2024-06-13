@@ -12,7 +12,7 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        if (app()->environment() !== 'production') {
+        if (app()->environment() === 'local') {
             Coordinator::create([
                 'name' => 'Mitchell Quitz',
                 'role' => Role::Administrator->value,
