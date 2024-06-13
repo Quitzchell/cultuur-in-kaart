@@ -12,14 +12,26 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        Coordinator::create([
-            'name' => 'Mitchell Quitz',
-            'role' => Role::Administrator->value,
-            'email' => 'example@soc.nl',
-            'email_verified_at' => now(),
-            'phone' => '06987654321',
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ]);
+        if (app()->environment() !== 'production') {
+            Coordinator::create([
+                'name' => 'Mitchell Quitz',
+                'role' => Role::Administrator->value,
+                'email' => 'mitchell@soc.nl',
+                'email_verified_at' => now(),
+                'phone' => '06987654321',
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ]);
+        } else {
+            Coordinator::create([
+                'name' => 'Example Coordinator',
+                'role' => Role::Administrator->value,
+                'email' => 'example@soc.nl',
+                'email_verified_at' => now(),
+                'phone' => '06123456789',
+                'password' => Hash::make('TestCultuurInKaart'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
     }
 }
