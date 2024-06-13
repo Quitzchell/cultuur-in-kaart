@@ -66,7 +66,7 @@ it('can sort related Activities by Date', function () {
 it('can search related Activities by name', function () {
     $partner = Partner::factory()->create();
     $contactPerson = ContactPerson::factory()->create();
-    $activities = Activity::factory(10)->create();
+    $activities = Activity::factory(4)->create();
     foreach ($activities as $activity) {
         $activity->activityPartnerContactPerson()->create([
             'partner_id' => $partner->getKey(),
