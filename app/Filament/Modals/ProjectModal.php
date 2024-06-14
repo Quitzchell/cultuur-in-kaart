@@ -27,10 +27,10 @@ class ProjectModal implements ModalForm
                 ->label('Einddatum'),
             Select::make('coordinator_id')
                 ->relationship('coordinators', 'name')
+                ->label('Coördinator')
                 ->multiple()
                 ->preload()
-                ->required()
-                ->label('Coördinator'),
+                ->required(),
         ];
     }
 }

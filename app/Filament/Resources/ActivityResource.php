@@ -42,6 +42,10 @@ class ActivityResource extends Resource
 
     protected static ?string $navigationLabel = 'Activiteiten';
 
+    protected static ?string $modelLabel = 'Activiteit';
+
+    protected static ?string $pluralModelLabel = 'Activiteiten';
+
     protected static ?string $navigationGroup = 'Projecten';
 
     public static function form(Form $form): Form
@@ -172,8 +176,8 @@ class ActivityResource extends Resource
                     ->placeholder('-')
                     ->searchable(),
                 TextColumn::make('task.name')
-                    ->placeholder('-')
-                    ->label('Taak'),
+                    ->label('Taak')
+                    ->placeholder('-'),
                 TextColumn::make('neighbourhood.name')
                     ->label('Wijk')
                     ->placeholder('-')
@@ -192,7 +196,8 @@ class ActivityResource extends Resource
                     ->preload()
                     ->multiple(),
                 SelectFilter::make('task')
-                    ->relationship('task', 'name'),
+                    ->relationship('task', 'name')
+                    ->label('Taak'),
                 Tables\Filters\Filter::make('date')->form([
                     DatePicker::make('date_from')
                         ->label('Datum vanaf')
