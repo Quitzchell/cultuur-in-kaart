@@ -29,7 +29,7 @@ class AdminSeeder extends Seeder
                 'email' => 'example@soc.nl',
                 'email_verified_at' => now(),
                 'phone' => '06123456789',
-                'password' => Hash::make('TestCultuurInKaart'),
+                'password' => Hash::make(env('STAGING_PASSWORD')),
                 'remember_token' => Str::random(10),
             ]);
         }
