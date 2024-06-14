@@ -19,6 +19,7 @@ class TaskResource extends Resource
     protected static ?string $navigationLabel = 'Taken';
 
     protected static ?string $modelLabel = 'Taak';
+
     protected static ?string $pluralModelLabel = 'Taken';
 
     protected static ?string $navigationGroup = 'Overig';

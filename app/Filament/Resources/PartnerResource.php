@@ -31,8 +31,8 @@ class PartnerResource extends Resource
     protected static ?string $navigationLabel = 'Samenwerkingspartners';
 
     protected static ?string $modelLabel = 'Samenwerkingspartner';
-    protected static ?string $pluralModelLabel = 'Samenwerkingspartners';
 
+    protected static ?string $pluralModelLabel = 'Samenwerkingspartners';
 
     protected static ?string $navigationGroup = 'Contacten';
 

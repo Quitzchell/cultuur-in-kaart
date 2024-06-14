@@ -20,8 +20,8 @@ class DisciplineResource extends Resource
     protected static ?string $navigationLabel = 'Disciplines';
 
     protected static ?string $modelLabel = 'Discipline';
-    protected static ?string $pluralModelLabel = 'Disciplines';
 
+    protected static ?string $pluralModelLabel = 'Disciplines';
 
     protected static ?string $navigationGroup = 'Overig';
 

@@ -43,6 +43,7 @@ class ActivityResource extends Resource
     protected static ?string $navigationLabel = 'Activiteiten';
 
     protected static ?string $modelLabel = 'Activiteit';
+
     protected static ?string $pluralModelLabel = 'Activiteiten';
 
     protected static ?string $navigationGroup = 'Projecten';
@@ -129,13 +130,13 @@ class ActivityResource extends Resource
 
                                         return $contactPerson->getKey();
                                     })
-                                    ->options(fn($get) => ContactPerson::query()
+                                    ->options(fn ($get) => ContactPerson::query()
                                         ->join('contact_person_partner', 'contact_person_partner.contact_person_id', 'contact_people.id')
                                         ->where('contact_person_partner.partner_id', $get('partner_id'))
                                         ->pluck('contact_people.name', 'contact_people.id'))
                                     ->required()
                                     ->preload()
-                                    ->disabled(fn(Get $get) => $get('partner_id') === null),
+                                    ->disabled(fn (Get $get) => $get('partner_id') === null),
                             ])
                             ->mutateRelationshipDataBeforeCreateUsing(function (?Activity $activity, array $data): array {
                                 $activity?->partners()->sync($data['partner_id']);
@@ -209,11 +210,11 @@ class ActivityResource extends Resource
                         return $query
                             ->when(
                                 $data['date_from'],
-                                fn(Builder $query, $date) => $query->whereDate('date', '>=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('date', '>=', $date)
                             )
                             ->when(
                                 $data['date_until'],
-                                fn(Builder $query, $date) => $query->whereDate('date', '<=', $date)
+                                fn (Builder $query, $date) => $query->whereDate('date', '<=', $date)
                             );
                     }),
             ], FiltersLayout::Modal)

@@ -27,6 +27,7 @@ class CoordinatorResource extends Resource
     protected static ?string $navigationLabel = 'Coördinatoren';
 
     protected static ?string $modelLabel = 'Coördinator';
+
     protected static ?string $pluralModelLabel = 'Coördinatoren';
 
     protected static ?string $navigationGroup = 'Overig';

@@ -19,8 +19,8 @@ class NeighbourhoodResource extends Resource
     protected static ?string $navigationLabel = 'Wijken';
 
     protected static ?string $modelLabel = 'Wijk';
-    protected static ?string $pluralModelLabel = 'Wijken';
 
+    protected static ?string $pluralModelLabel = 'Wijken';
 
     protected static ?string $navigationGroup = 'Overig';
 

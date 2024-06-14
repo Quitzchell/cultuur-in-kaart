@@ -38,8 +38,8 @@ class ProjectResource extends Resource
     protected static ?string $navigationLabel = 'Projecten';
 
     protected static ?string $modelLabel = 'Project';
-    protected static ?string $pluralModelLabel = 'Projecten';
 
+    protected static ?string $pluralModelLabel = 'Projecten';
 
     protected static ?string $navigationGroup = 'Projecten';
 
