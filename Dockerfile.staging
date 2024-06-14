@@ -4,20 +4,18 @@ FROM php:8.3-fpm-alpine3.19 AS base
 # Set working directory
 WORKDIR /var/www/html
 
-# Install dependencies
+# Install dependencies and clean up
 RUN apk add --no-cache \
     curl \
     nodejs \
     npm \
     git \
     icu-dev \
-    libintl \
     libzip-dev \
     sqlite-dev \
-    supervisor
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    supervisor \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf /var/cache/apk/*
 
 # Stage 2: Create image for application
 FROM base AS build
@@ -25,21 +23,17 @@ FROM base AS build
 # Install additional PHP extensions
 RUN docker-php-ext-install intl zip pdo_sqlite bcmath
 
-# Copy the rest of the application files
+# Copy application files
 COPY . .
 
-# Install application dependencies using Composer
-RUN composer install --no-dev --optimize-autoloader
-
-# Install additional Composer packages
-RUN composer require fakerphp/faker
-
-# Create the SQLite database directory
-RUN mkdir -p /var/www/html/database
-
-# Install Node.js dependencies and build assets
-RUN npm install
-RUN npm run build
+# Install application dependencies using Composer and npm
+RUN composer install --no-dev --optimize-autoloader \
+    && composer require fakerphp/faker \
+    && mkdir -p /var/www/html/database \
+    && npm install \
+    && npm run build \
+    && rm -rf /root/.composer/cache \
+    && rm -rf /var/cache/apk/*
 
 # Stage 3: Create smaller image size for deployment
 FROM php:8.3-fpm-alpine3.19
@@ -50,10 +44,9 @@ RUN apk add --no-cache \
     libzip-dev \
     sqlite-dev \
     nginx \
-    supervisor
-
-# Install PHP extensions
-RUN docker-php-ext-install intl zip pdo_sqlite bcmath
+    supervisor \
+    && docker-php-ext-install intl zip pdo_sqlite bcmath \
+    && rm -rf /var/cache/apk/*
 
 # Set working directory
 WORKDIR /var/www/html
@@ -78,10 +71,8 @@ EXPOSE 80 443
 COPY deployment/staging/entrypoint.sh /entrypoint.sh
 
 # Ensure proper permissions for the working directory and database
-RUN chown -R www-data:www-data /var/www/html
-
-# Make the entrypoint script executable
-RUN chmod +x /entrypoint.sh
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod +x /entrypoint.sh
 
 # Set the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
