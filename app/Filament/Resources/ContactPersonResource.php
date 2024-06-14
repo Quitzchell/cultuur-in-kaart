@@ -26,6 +26,9 @@ class ContactPersonResource extends Resource
 
     protected static ?string $navigationLabel = 'Contactpersonen';
 
+    protected static ?string $modelLabel = 'Contactpersoon';
+    protected static ?string $pluralModelLabel = 'Contactpersonen';
+
     protected static ?string $navigationGroup = 'Contacten';
 
     public static function form(Form $form): Form
