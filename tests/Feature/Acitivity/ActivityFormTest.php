@@ -207,7 +207,7 @@ it('can delete Activity', function () {
     $this->assertModelMissing($activity);
 });
 
-///** Other */
+// /** Other */
 it('can disable contact_person_id field on Activity', function () {
     $project = Project::factory()->create();
     $task = Task::factory()->create();

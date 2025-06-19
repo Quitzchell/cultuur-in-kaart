@@ -34,7 +34,7 @@ class RunLocalCommand extends Command
 
         $this->line("<info>Laravel development server started:</info> http://{$host}:{$port}");
 
-        $executableFinder = new PhpExecutableFinder();
+        $executableFinder = new PhpExecutableFinder;
         $phpExecutable = $executableFinder->find();
         $process = new Process([$phpExecutable, 'artisan', 'serve', '--host='.$host, '--port='.$port, '--tries=1']);
         $process->setTimeout(null)->run(function ($type, $line) {

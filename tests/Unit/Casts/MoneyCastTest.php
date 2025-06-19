@@ -4,7 +4,7 @@ use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Model;
 
 beforeEach(function () {
-    $this->moneyCast = new MoneyCast();
+    $this->moneyCast = new MoneyCast;
     $this->model = Mockery::mock(Model::class);
 });
 
