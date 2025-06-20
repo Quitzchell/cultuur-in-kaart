@@ -8,11 +8,3 @@ services:
             - .:/var/www/html:delegated
         ports:
             - "8080:80"
-    
-    # Staging service
-    staging:
-        build:
-            context: .
-            dockerfile: Dockerfile.staging
-        ports:
-            - "8080:80"
