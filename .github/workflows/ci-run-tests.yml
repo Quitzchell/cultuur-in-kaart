@@ -1,5 +1,8 @@
 name: 'ci: Run Tests'
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
