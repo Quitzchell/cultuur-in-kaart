@@ -1,14 +1,14 @@
+
 services:
-    # Development service
     development:
         build:
             context: .
             dockerfile: Dockerfile.dev
         volumes:
-            - .:/var/www/html
+            - .:/var/www/html:delegated
         ports:
-            - "8080:8000"
-
+            - "8080:80"
+    
     # Staging service
     staging:
         build:
