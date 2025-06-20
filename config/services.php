@@ -31,4 +31,10 @@ return [
         ],
     ],
 
+    /* Filament */
+
+    'admin' => [
+        'password' => env('STAGING_PASSWORD'),
+    ],
+
 ];
