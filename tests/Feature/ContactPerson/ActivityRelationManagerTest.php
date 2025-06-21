@@ -90,5 +90,5 @@ it('can search related Activities by name', function () {
         'pageClass' => ViewContactPerson::class,
     ])->searchTable($name)
         ->assertCanSeeTableRecords($activities->where('name', $name))
-        ->assertCanNotSeeTableRecords($activities->where('name', '!==', $name));
+        ->assertCanNotSeeTableRecords($activities->where('name', '!=', $name));
 });

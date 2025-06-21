@@ -83,7 +83,7 @@ it('can search related Activities by name', function () {
         'pageClass' => ViewPartner::class,
     ])->searchTable($name)
         ->assertCanSeeTableRecords($activities->where('name', $name))
-        ->assertCanNotSeeTableRecords($activities->where('name', '!==', $name));
+        ->assertCanNotSeeTableRecords($activities->where('name', '!=', $name));
 });
 
 /** Filter */
