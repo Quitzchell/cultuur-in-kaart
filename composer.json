@@ -1,8 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "version": "2.7.2",
+    "name": "quitzchell/cultuur-in-kaart",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Cultuur in Kaart - A school project for managing cultural activities and events.",
     "keywords": [
         "laravel",
         "framework"
