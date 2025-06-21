@@ -5,20 +5,18 @@ FROM php:8.3-fpm-alpine3.19 AS base
 WORKDIR /var/www/html
 
 # Install dependencies
-RUN apk add --no-cache curl \
-    nodejs \
-    npm \
+RUN apk add --no-cache \
+    curl \
     git \
     icu-dev \
     libintl \
     libzip-dev \
     oniguruma-dev \
+    nodejs \
+    npm \
     nginx \
     supervisor \
     openssh
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install required PHP extensions
 RUN docker-php-ext-install \
@@ -29,6 +27,9 @@ RUN docker-php-ext-install \
     zip \
     bcmath \
     opcache
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy in application files
 COPY . .
