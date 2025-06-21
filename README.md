@@ -1,7 +1,7 @@
 # Cultuur in Kaart
 Cultuur in Kaart is a web application built with Laravel and Filament, designed to manage and visualize projects, activities, and partnerships for Samen Ontwikkelen door Cultuur. It provides tools for users to effectively track and organize contact persons, stakeholders, and cultural initiatives.
 
-> Note: This is an unfinished project, developed as part of a school assignment. It serves as a minimal proof of concept. Some features, such as authentication, detailed validation, and production asset compilation, may be incomplete or missing.
+> Note: This is an unfinished project, developed as part of a school assignment. It serves as a minimal proof of concept. Some features may be incomplete or missing.
 
 ## Features
 * Manage projects, activities, and tasks.
