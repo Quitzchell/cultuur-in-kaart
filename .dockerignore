@@ -1,8 +1,10 @@
+tmp
 .git
-.idea
-.vscode
-node_modules
-vendor
 .env
-Dockerfile
+.env.example
+.editorconfig
+.dockerignore
 docker-compose.yml
+dev.dockerfile
+Makefile
+README.md
